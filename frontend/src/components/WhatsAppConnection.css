@@ -1,0 +1,259 @@
+/* WhatsApp Connection Component */
+
+.whatsapp-connection-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 14px;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.whatsapp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.whatsapp-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.whatsapp-icon {
+  color: #25d366;
+  flex-shrink: 0;
+}
+
+.whatsapp-title-group h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: "Syne", sans-serif;
+}
+
+.whatsapp-title-group p {
+  display: none;
+}
+
+.connected-badge {
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+.whatsapp-content {
+  margin-top: 12px;
+}
+
+/* Messages */
+.error-message {
+  padding: 10px 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  border-radius: 4px;
+  color: #dc2626;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.success-message {
+  padding: 10px 12px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  border-radius: 4px;
+  color: #047857;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+/* Form */
+.whatsapp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  font-family: "Syne", sans-serif;
+}
+
+.form-input {
+  padding: 8px 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 12px;
+  font-family: system-ui, -apple-system, sans-serif;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--amber);
+  background: var(--surface);
+}
+
+.form-input:disabled {
+  background: var(--surface-2);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.form-hint {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.primary-btn {
+  padding: 10px 14px;
+  background: #25d366;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: "Syne", sans-serif;
+}
+
+.primary-btn:hover:not(:disabled) {
+  background: #1fa853;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+}
+
+.primary-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.primary-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Status Display */
+.whatsapp-status {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: var(--surface-2);
+  border-radius: 4px;
+}
+
+.status-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  font-family: "Syne", sans-serif;
+}
+
+.status-value {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.status-info {
+  padding: 10px 12px;
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid #10b981;
+  border-radius: 4px;
+}
+
+.status-info p {
+  margin: 0 0 3px 0;
+  font-size: 11px;
+  color: #047857;
+  line-height: 1.3;
+}
+
+.status-info p:last-child {
+  margin-bottom: 0;
+}
+
+.danger-btn {
+  padding: 10px 14px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: "Syne", sans-serif;
+}
+
+.danger-btn:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.danger-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.danger-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .whatsapp-connection-card {
+    padding: 12px 12px;
+    margin-bottom: 0;
+  }
+
+  .whatsapp-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .whatsapp-title-group {
+    width: 100%;
+  }
+
+  .connected-badge {
+    align-self: flex-end;
+    margin-top: -28px;
+  }
+
+  .status-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .primary-btn,
+  .danger-btn {
+    width: 100%;
+  }
+}

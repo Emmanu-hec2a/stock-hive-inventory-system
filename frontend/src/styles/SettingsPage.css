@@ -1,0 +1,127 @@
+/* Settings Page */
+
+.settings-page {
+  max-width: 800px;
+}
+
+.settings-container {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.settings-row {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.settings-heading {
+  font-family: "Syne", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.settings-description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.settings-content {
+  margin-top: 16px;
+  flex: 1;
+  display: flex;
+}
+
+/* Info Card */
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  gap: 16px;
+}
+
+.info-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.info-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  font-family: "DM Mono", monospace;
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--amber);
+  border-radius: 4px;
+  font-family: "Syne", sans-serif;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .settings-page {
+    max-width: 100%;
+  }
+
+  .settings-container {
+    gap: 24px;
+  }
+
+  .settings-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .settings-heading {
+    font-size: 14px;
+  }
+
+  .settings-description {
+    font-size: 12px;
+  }
+
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .info-label {
+    width: 100%;
+  }
+
+  .info-value {
+    width: 100%;
+  }
+}
