@@ -14,8 +14,9 @@ export default function StockPage() {
   const [entries, setEntries] = useState([]);
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(entryDefaults);
+  const [transferForm, setTransferForm] = useState({ product: '', to_shop: '', quantity: 1, reference: '' });
   const [error, setError] = useState("");
-  const { user, scopedQuery, selectedShopId } = useAuth();
+  const { user, scopedQuery, selectedShopId, subscription } = useAuth();
 
   const loadData = async () => {
     try {
@@ -47,10 +48,41 @@ export default function StockPage() {
     }
   };
 
+  const handleTransfer = async (event) => {
+    event.preventDefault();
+    if (subscription?.plan !== 'pro' && subscription?.plan !== 'enterprise') {
+      setError('Stock transfers require Pro or Enterprise plan.');
+      return;
+    }
+    try {
+      const data = {
+        product: transferForm.product,
+        to_shop: transferForm.to_shop,
+        quantity: Number(transferForm.quantity),
+        reference: transferForm.reference,
+        from_shop: selectedShopId
+      };
+      await api.post(`/stock/transfers/${scopedQuery}`, data);
+      alert('Stock transferred successfully!');
+      setTransferForm({ product: '', to_shop: '', quantity: 1, reference: '' });
+      loadData();
+    } catch (err) {
+      setError('Transfer failed: ' + (err.response?.data || err.message));
+    }
+  };
+
+  const loadShops = () => {
+    // Placeholder - load business shops for super_admin
+    return [{ id: '1', name: 'Main Shop' }, { id: '2', name: 'Branch 1' }];
+  };
+
+  const shops = loadShops();
+
   return (
     <section>
-      <h1 className="page-title">Stock Entries</h1>
+      <h1 className="page-title">Stock</h1>
 
+      {/* Stock Entry Form */}
       <form className="card form-grid" onSubmit={onSubmit}>
         <select
           value={form.product}
@@ -93,6 +125,59 @@ export default function StockPage() {
         />
         <button type="submit">Add Entry</button>
       </form>
+
+      {/* Stock Transfer Form */}
+      <div className="card" style={{ marginTop: '24px' }}>
+        <h3>Transfer Stock (Pro+)</h3>
+        <form className="form-grid" onSubmit={handleTransfer}>
+          <select
+            value={transferForm.from_shop}
+            onChange={(e) => setTransferForm(prev => ({ ...prev, from_shop: e.target.value }))}
+            required
+          >
+            <option value="">From Shop</option>
+            <option value={user.shop?.id}>{user.shop?.name}</option>
+          </select>
+          <select
+            value={transferForm.to_shop}
+            onChange={(e) => setTransferForm(prev => ({ ...prev, to_shop: e.target.value }))}
+            required
+          >
+            <option value="">To Shop</option>
+            {shops.map(shop => (
+              <option key={shop.id} value={shop.id}>
+                {shop.name}
+              </option>
+            ))}
+          </select>
+          <select
+            value={transferForm.product}
+            onChange={(e) => setTransferForm(prev => ({ ...prev, product: e.target.value }))}
+            required
+          >
+            <option value="">Select product</option>
+            {products.map((product) => (
+              <option key={product.id} value={product.id}>
+                {product.name} ({product.current_stock})
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            value={transferForm.quantity}
+            onChange={(e) => setTransferForm(prev => ({ ...prev, quantity: e.target.value }))}
+            placeholder="Quantity" 
+            required
+            min="1"
+          />
+          <input
+            value={transferForm.reference}
+            onChange={(e) => setTransferForm(prev => ({ ...prev, reference: e.target.value }))}
+            placeholder="Reference #"
+          />
+          <button type="submit" className="btn btn-secondary">Transfer Stock</button>
+        </form>
+      </div>
 
       {error && <div className="alert-bar">⚠ {error}</div>}
 

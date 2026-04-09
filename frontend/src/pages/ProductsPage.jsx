@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/client";
 import { PLAN_LIMITS } from "../constants/plans";
 import { useAuth } from "../state/AuthContext";
+import { downloadCsvExport } from "../utils/downloads";
 
 const initialForm = {
   name: "",
@@ -16,6 +17,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState("");
+  const [isExporting, setIsExporting] = useState(false);
   const { user, scopedQuery, selectedShopId, subscription } = useAuth();
 
   const loadProducts = async () => {
@@ -47,6 +49,21 @@ export default function ProductsPage() {
       setError("Failed to create product.");
     }
   };
+
+  const exportProducts = async () => {
+    setError("");
+    setIsExporting(true);
+
+    try {
+      await downloadCsvExport("products", scopedQuery, "products.csv");
+    } catch (err) {
+      setError("Failed to export products.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const exportDisabled = user?.role === "super_admin" && !selectedShopId;
 
   return (
     <section>
@@ -97,7 +114,17 @@ export default function ProductsPage() {
         <button type="submit">Add Product</button>
       </form>
       {error && <div className="alert-bar">⚠ {error}</div>}
-      <div className="card">
+      <div className="card" style={{ position: "relative" }}>
+        <div style={{ position: "absolute", top: "8px", right: "16px" }}>
+          <button
+            type="button"
+            className="btn btn-small"
+            onClick={exportProducts}
+            disabled={exportDisabled || isExporting}
+          >
+            {isExporting ? "Exporting..." : "Export CSV"}
+          </button>
+        </div>
         <table>
           <thead>
             <tr>

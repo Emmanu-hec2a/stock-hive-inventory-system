@@ -15,7 +15,9 @@ from inventory.models import (
     StockAdjustment,
     StockEntry,
 )
+from inventory.models import StockTransfer
 from inventory.utils import get_current_stock
+
 
 
 class BusinessSerializer(serializers.ModelSerializer):
@@ -160,6 +162,58 @@ class SaleItemSerializer(serializers.ModelSerializer):
         fields = ["id", "product", "product_name", "quantity", "unit_price", "subtotal"]
 
 
+class StockTransferSerializer(serializers.ModelSerializer):
+    from_shop_name = serializers.CharField(source="from_shop.name", read_only=True)
+    to_shop_name = serializers.CharField(source="to_shop.name", read_only=True)
+    product_name = serializers.CharField(source="product.name", read_only=True)
+    product_sku = serializers.CharField(source="product.sku", read_only=True)
+
+    class Meta:
+        model = StockTransfer
+        fields = [
+            "id",
+            "product",
+            "product_name",
+            "product_sku",
+            "from_shop",
+            "from_shop_name",
+            "to_shop",
+            "to_shop_name",
+            "quantity",
+            "reference",
+            "note",
+            "transferred_by",
+            "created_at",
+        ]
+        read_only_fields = ["id", "transferred_by", "created_at"]
+
+
+class ProductExportSerializer(serializers.ModelSerializer):
+    current_stock = serializers.SerializerMethodField()
+    shop_name = serializers.CharField(source="shop.name", read_only=True)
+    category_name = serializers.CharField(source="category.name", default="", allow_null=True)
+
+    class Meta:
+        model = Product
+        fields = ["sku", "name", "shop_name", "category_name", "buying_price", "selling_price", "unit", "current_stock", "low_stock_threshold"]
+
+    def get_current_stock(self, obj):
+        return get_current_stock(obj)
+
+
+class SaleExportSerializer(serializers.ModelSerializer):
+    shop_name = serializers.CharField(source="shop.name", read_only=True)
+    served_by_name = serializers.CharField(source="served_by.full_name", default="", allow_null=True)
+    items_data = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Sale
+        fields = ["id", "created_at", "shop_name", "total_amount", "payment_method", "served_by_name", "items_data"]
+
+    def get_items_data(self, obj):
+        return [{"name": item.product.name, "sku": item.product.sku, "qty": item.quantity, "price": item.unit_price, "subtotal": item.subtotal} for item in obj.items.all()]
+
+
 class SaleSerializer(serializers.ModelSerializer):
     items = SaleItemInputSerializer(many=True, write_only=True)
     line_items = SaleItemSerializer(many=True, source="items", read_only=True)
@@ -176,7 +230,7 @@ class SaleSerializer(serializers.ModelSerializer):
             "items",
             "line_items",
         ]
-        read_only_fields = ["id", "shop", "served_by", "total_amount", "created_at", "line_items"]
+        read_only_fields = ["id", "shop", "served_by", "total_amount", "created_at", "line_items"] 
 
     def validate_items(self, items):
         if not items:

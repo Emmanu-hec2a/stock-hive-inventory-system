@@ -1,7 +1,7 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
 from unfold.decorators import display
-from .models import StockAlert, InAppNotification, WhatsAppConnection
+from .models import StockAlert, InAppNotification, WhatsAppConnection, SupportTicket
 
 
 class StockAlertAdmin(ModelAdmin):
@@ -42,4 +42,32 @@ class WhatsAppConnectionAdmin(ModelAdmin):
     @display(description="Status", label=True)
     def display_active(self, obj):
         return ("ACTIVE", "green") if obj.is_active else ("INACTIVE", "red")
+
+
+class SupportTicketAdmin(ModelAdmin):
+    list_display = ["subject", "business", "display_priority", "display_status", "created_at", "updated_at"]
+    list_filter = ["priority", "status", "created_at", "business"]
+    search_fields = ["subject", "description", "business__name"]
+    readonly_fields = ["id", "created_at", "updated_at"]
+    ordering = ["-created_at"]
+
+    @display(description="Priority", label=True)
+    def display_priority(self, obj):
+        colors = {
+            "low": "gray",
+            "medium": "blue",
+            "high": "amber",
+            "critical": "red",
+        }
+        return obj.priority.replace("_", " ").upper(), colors.get(obj.priority, "gray")
+
+    @display(description="Status", label=True)
+    def display_status(self, obj):
+        colors = {
+            "open": "amber",
+            "in_progress": "blue",
+            "resolved": "green",
+            "closed": "gray",
+        }
+        return obj.status.replace("_", " ").upper(), colors.get(obj.status, "gray")
 

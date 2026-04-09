@@ -43,6 +43,9 @@ export default function Layout() {
         </button>
         <p className="meta-label nav-group-label">Main</p>
         <nav>
+          {user?.role === "super_admin" && (
+            <NavLink to="/overview" onClick={closeSidebar}><Building2 size={15} />Overview</NavLink>
+          )}
           <NavLink to="/" onClick={closeSidebar}><LayoutDashboard size={15} />Dashboard</NavLink>
           {canManageInventory && <NavLink to="/products" onClick={closeSidebar}><Package size={15} />Products</NavLink>}
           {canManageInventory && <NavLink to="/stock" onClick={closeSidebar}><Store size={15} />Stock</NavLink>}

@@ -4,6 +4,7 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'history', views.StockAlertHistoryViewSet, basename='alert-history')
+router.register(r'tickets', views.SupportTicketViewSet, basename='support-tickets')
 
 urlpatterns = [
     path('notifications/', views.NotificationListView.as_view(), name='notification-list'),

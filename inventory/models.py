@@ -146,6 +146,26 @@ class Sale(models.Model):
         ordering = ["-created_at"]
 
 
+class StockTransfer(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name="stock_transfers")
+    from_shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="outgoing_transfers")
+    to_shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="incoming_transfers")
+    quantity = models.PositiveIntegerField()
+    reference = models.CharField(max_length=100, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
+    transferred_by = models.ForeignKey(
+        "accounts.User", on_delete=models.SET_NULL, null=True, related_name="stock_transfers"
+    )
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.quantity} {self.product.name} from {self.from_shop.name} to {self.to_shop.name}"
+
+
 class SaleItem(models.Model):
     sale = models.ForeignKey(Sale, on_delete=models.CASCADE, related_name="items")
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name="sale_items")

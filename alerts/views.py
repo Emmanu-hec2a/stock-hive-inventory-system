@@ -4,31 +4,49 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
-from .models import InAppNotification, WhatsAppConnection, StockAlert
-from .serializers import InAppNotificationSerializer, WhatsAppConnectionSerializer, StockAlertSerializer
+from .models import InAppNotification, WhatsAppConnection, StockAlert, SupportTicket
+from .serializers import InAppNotificationSerializer, WhatsAppConnectionSerializer, StockAlertSerializer, SupportTicketSerializer
+from billing.permissions import require_feature
+from inventory.models import Business
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from billing.permissions import SubscriptionPermission
 from inventory.mixins import ShopScopedMixin
 
 
-class NotificationListView(ShopScopedMixin, generics.ListAPIView):
+class NotificationScopeMixin(ShopScopedMixin):
+    """
+    Super admins can read notifications across the whole business when no
+    shop_id is selected. Other users stay shop-scoped.
+    """
+
+    def get_notification_queryset(self):
+        user = self.request.user
+        shop_id = self.request.query_params.get("shop_id")
+
+        if user.role == "super_admin" and not shop_id:
+            return InAppNotification.objects.filter(shop__business=user.business)
+
+        return InAppNotification.objects.filter(shop=self.get_shop())
+
+
+class NotificationListView(NotificationScopeMixin, generics.ListAPIView):
     """List unread in-app notifications for the current shop."""
     serializer_class = InAppNotificationSerializer
     permission_classes = [IsAuthenticated, SubscriptionPermission]
 
     def get_queryset(self):
-        return InAppNotification.objects.filter(
-            shop=self.get_shop(),
-            is_read=False
-        )
+        return self.get_notification_queryset().filter(is_read=False)
 
 
-class NotificationDetailView(ShopScopedMixin, generics.RetrieveUpdateAPIView):
+class NotificationDetailView(NotificationScopeMixin, generics.RetrieveUpdateAPIView):
     """Mark a single notification as read."""
     serializer_class = InAppNotificationSerializer
     permission_classes = [IsAuthenticated, SubscriptionPermission]
 
     def get_queryset(self):
-        return InAppNotification.objects.filter(shop=self.get_shop())
+        return self.get_notification_queryset()
 
     def patch(self, request, *args, **kwargs):
         notification = self.get_object()
@@ -37,27 +55,21 @@ class NotificationDetailView(ShopScopedMixin, generics.RetrieveUpdateAPIView):
         return Response(self.get_serializer(notification).data)
 
 
-class MarkAllNotificationsReadView(ShopScopedMixin, generics.GenericAPIView):
+class MarkAllNotificationsReadView(NotificationScopeMixin, generics.GenericAPIView):
     """Mark all unread notifications as read."""
     permission_classes = [IsAuthenticated, SubscriptionPermission]
 
     def post(self, request):
-        InAppNotification.objects.filter(
-            shop=self.get_shop(),
-            is_read=False
-        ).update(is_read=True)
+        self.get_notification_queryset().filter(is_read=False).update(is_read=True)
         return Response({"message": "All notifications marked as read."})
 
 
-class UnreadNotificationCountView(ShopScopedMixin, generics.GenericAPIView):
+class UnreadNotificationCountView(NotificationScopeMixin, generics.GenericAPIView):
     """Get count of unread notifications."""
     permission_classes = [IsAuthenticated, SubscriptionPermission]
 
     def get(self, request):
-        count = InAppNotification.objects.filter(
-            shop=self.get_shop(),
-            is_read=False
-        ).count()
+        count = self.get_notification_queryset().filter(is_read=False).count()
         return Response({"unread_count": count})
 
 
@@ -135,3 +147,20 @@ class StockAlertHistoryViewSet(ShopScopedMixin, viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(status=alert_status)
 
         return queryset.order_by("-sent_at")
+
+
+class SupportTicketViewSet(viewsets.ModelViewSet):
+    serializer_class = SupportTicketSerializer
+    permission_classes = [IsAuthenticated, require_feature('priority_support')]
+
+    def get_queryset(self):
+        return SupportTicket.objects.filter(business=self.request.user.business)
+
+    def perform_create(self, serializer):
+        serializer.save(business=self.request.user.business)
+
+    @action(detail=False, methods=['get'])
+    def my_tickets(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

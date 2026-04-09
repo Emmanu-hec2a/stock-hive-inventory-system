@@ -1,31 +1,135 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "../api/client";
 import { useAuth } from "../state/AuthContext";
+import { downloadCsvExport } from "../utils/downloads";
 import { formatNumber } from "../utils/formatters";
+import { saveSaleOffline } from "../utils/offlineSales";
+
+const initialForm = {
+  payment_method: "cash",
+  items: [{ product_id: "", product_search: "", quantity: 1 }],
+};
+
+function formatProductOption(product) {
+  if (!product) return "";
+  return product.sku ? `${product.name} (${product.sku})` : product.name;
+}
+
+function matchesProduct(product, query) {
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return true;
+
+  return [product.name, product.sku, product.unit]
+    .filter(Boolean)
+    .some((value) => String(value).toLowerCase().includes(normalizedQuery));
+}
+
+function findExactProduct(products, query) {
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return null;
+
+  return (
+    products.find((product) => formatProductOption(product).toLowerCase() === normalizedQuery)
+    || products.find((product) => product.name.toLowerCase() === normalizedQuery)
+    || products.find((product) => String(product.sku || "").toLowerCase() === normalizedQuery)
+  );
+}
+
+function isNetworkFailure(error) {
+  return !error?.response || error?.code === "ERR_NETWORK" || !navigator.onLine;
+}
+
+function ProductSearchField({ products, query, onQueryChange, onProductSelect, disabled }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filteredProducts = products.filter((product) => matchesProduct(product, query)).slice(0, 8);
+
+  return (
+    <div className="sales-product-search" ref={wrapperRef}>
+      <input
+        type="text"
+        className="sales-product-input"
+        value={query}
+        onChange={(event) => {
+          onQueryChange(event.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => setIsOpen(true)}
+        placeholder="Search product by name or SKU"
+        autoComplete="off"
+        aria-expanded={isOpen}
+        aria-autocomplete="list"
+        role="combobox"
+        disabled={disabled}
+      />
+      {isOpen && !disabled && (
+        <div className="sales-product-menu">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <button
+                key={product.id}
+                type="button"
+                className="sales-product-option"
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                  onProductSelect(product);
+                  setIsOpen(false);
+                }}
+              >
+                <span className="sales-product-option-name">{product.name}</span>
+                <span className="sales-product-option-meta">
+                  {product.sku ? `SKU ${product.sku}` : product.unit || "Product"}
+                </span>
+              </button>
+            ))
+          ) : (
+            <div className="sales-product-empty">No matching products found.</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function SalesPage() {
   const [sales, setSales] = useState([]);
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [form, setForm] = useState({
-    payment_method: "cash",
-    items: [{ product_id: "", quantity: 1 }],
-  });
+  const [isExporting, setIsExporting] = useState(false);
+  const [form, setForm] = useState(initialForm);
   const { user, scopedQuery, selectedShopId } = useAuth();
 
   const loadData = async () => {
     try {
-      if (user?.role === "super_admin" && !selectedShopId) return;
+      if (user?.role === "super_admin" && !selectedShopId) {
+        setSales([]);
+        setProducts([]);
+        return;
+      }
+
       const [productsResponse, salesResponse] = await Promise.all([
         api.get(`/products/${scopedQuery}`),
         api.get(`/sales/${scopedQuery}`),
       ]);
+
       setProducts(productsResponse.data);
       setSales(salesResponse.data);
       setError("");
     } catch (err) {
-      setError("Could not load sales for selected shop.");
+      setError("Could not load sales for the current shop.");
     }
   };
 
@@ -33,27 +137,44 @@ export default function SalesPage() {
     loadData();
   }, [selectedShopId, user?.role, scopedQuery]);
 
-  const updateItem = (idx, key, value) => {
+  const updateItem = (idx, updates) => {
     setForm((prev) => {
       const items = [...prev.items];
-      items[idx] = { ...items[idx], [key]: value };
+      items[idx] = { ...items[idx], ...updates };
       return { ...prev, items };
     });
   };
 
-  const addItem = () => {
-    setForm((prev) => ({ ...prev, items: [...prev.items, { product_id: "", quantity: 1 }] }));
+  const handleProductQueryChange = (idx, query) => {
+    const exactMatch = findExactProduct(products, query);
+
+    updateItem(idx, {
+      product_search: query,
+      product_id: exactMatch ? exactMatch.id : "",
+    });
   };
 
-  const isFormValid = form.items.length > 0 && form.items.every(item => item.product_id);
+  const handleProductSelect = (idx, product) => {
+    updateItem(idx, {
+      product_search: formatProductOption(product),
+      product_id: product.id,
+    });
+  };
+
+  const isShopSelectionMissing = user?.role === "super_admin" && !selectedShopId;
+  const isFormValid = form.items.length > 0 && form.items.every((item) => item.product_id);
 
   const submitSale = async (event) => {
     event.preventDefault();
     setError("");
     setSuccess("");
 
-    // Validate all items have products selected
-    const invalidItems = form.items.filter(item => !item.product_id);
+    if (isShopSelectionMissing) {
+      setError("Select a shop before recording a sale.");
+      return;
+    }
+
+    const invalidItems = form.items.filter((item) => !item.product_id);
     if (invalidItems.length > 0) {
       setError("Please select a product for all items before submitting.");
       return;
@@ -64,67 +185,117 @@ export default function SalesPage() {
       return;
     }
 
+    const payload = {
+      payment_method: form.payment_method,
+      items: form.items.map(({ product_id, quantity }) => ({
+        product_id,
+        quantity,
+      })),
+    };
+
+    const queueSaleOffline = async () => {
+      await saveSaleOffline({
+        actorId: user?.id || user?.email || "default",
+        url: `/sales/${scopedQuery}`,
+        payload,
+        summary: `${payload.items.length} item${payload.items.length === 1 ? "" : "s"}`,
+      });
+
+      setForm(initialForm);
+      setSuccess("You are offline. Sale saved locally and will sync automatically once connected.");
+      window.setTimeout(() => setSuccess(""), 4000);
+    };
+
+    if (!navigator.onLine) {
+      await queueSaleOffline();
+      return;
+    }
+
     try {
-      const response = await api.post(`/sales/${scopedQuery}`, form);
-      console.log("Sale created successfully:", response.data);
-      setForm({ payment_method: "cash", items: [{ product_id: "", quantity: 1 }] });
+      const response = await api.post(`/sales/${scopedQuery}`, payload);
+      setForm(initialForm);
       setError("");
       setSuccess(`Sale recorded! Total: ${formatNumber(response.data.total_amount)}`);
-      setTimeout(() => setSuccess(""), 3000);
+      window.setTimeout(() => setSuccess(""), 3000);
       loadData();
     } catch (err) {
-      console.error("Sale creation error:", err.response?.data);
+      if (isNetworkFailure(err)) {
+        await queueSaleOffline();
+        return;
+      }
+
       setError(err?.response?.data?.detail || err?.response?.data?.items?.[0] || "Could not create sale.");
+    }
+  };
+
+  const exportSales = async () => {
+    setError("");
+    setIsExporting(true);
+
+    try {
+      await downloadCsvExport("sales", scopedQuery, "sales.csv");
+    } catch (err) {
+      setError("Failed to export sales.");
+    } finally {
+      setIsExporting(false);
     }
   };
 
   return (
     <section>
       <h1 className="page-title">Sales</h1>
-      <form className="card" onSubmit={submitSale}>
+      <form className="card sales-entry-card" onSubmit={submitSale}>
         <select
+          className="sales-entry-payment"
           value={form.payment_method}
           onChange={(event) => setForm((prev) => ({ ...prev, payment_method: event.target.value }))}
+          disabled={isShopSelectionMissing}
         >
           <option value="cash">Cash</option>
           <option value="mpesa">Mpesa</option>
           <option value="credit">Credit</option>
         </select>
+
         {form.items.map((item, idx) => (
-          <div className="row" key={`${idx}-${item.product_id}`}>
-            <select
-              value={item.product_id}
-              onChange={(event) => updateItem(idx, "product_id", event.target.value)}
-              required
-            >
-              <option value="">Select product</option>
-              {products.map((product) => (
-                <option key={product.id} value={product.id}>
-                  {product.name}
-                </option>
-              ))}
-            </select>
+          <div className="sales-entry-row" key={idx}>
+            <ProductSearchField
+              products={products}
+              query={item.product_search}
+              onQueryChange={(query) => handleProductQueryChange(idx, query)}
+              onProductSelect={(product) => handleProductSelect(idx, product)}
+              disabled={isShopSelectionMissing}
+            />
             <input
               type="number"
               min="1"
+              className="sales-entry-quantity"
               value={item.quantity}
-              onChange={(event) => updateItem(idx, "quantity", Number(event.target.value))}
+              onChange={(event) => updateItem(idx, { quantity: Number(event.target.value) })}
               required
+              disabled={isShopSelectionMissing}
             />
           </div>
         ))}
-        <div className="row">
-          <button type="button" onClick={addItem}>
-            Add Item
-          </button>
-          <button type="submit" disabled={!isFormValid}>
+
+        <div className="sales-entry-actions">
+          <button type="submit" disabled={!isFormValid || isShopSelectionMissing}>
             Record Sale
           </button>
         </div>
       </form>
-      {error && <div className="alert-bar">⚠ {error}</div>}
-      {success && <div style={{ background: "#1a5c1a", color: "#4ade80", padding: "12px", borderRadius: "4px", marginBottom: "16px" }}>✓ {success}</div>}
-      <div className="card">
+      {error && <div className="alert-bar">{error}</div>}
+      {success && <div className="success-bar">{success}</div>}
+      <div className="card" style={{ position: "relative" }}>
+        <div style={{ position: "absolute", top: "8px", right: "16px" }}>
+          <button
+            type="button"
+            className="btn btn-small"
+            onClick={exportSales}
+            disabled={isShopSelectionMissing || isExporting}
+          >
+            {isExporting ? "Exporting..." : "Export CSV"}
+          </button>
+        </div>
         <table>
           <thead>
             <tr>

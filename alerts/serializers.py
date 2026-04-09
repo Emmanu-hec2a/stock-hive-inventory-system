@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import InAppNotification, WhatsAppConnection, StockAlert
+from .models import InAppNotification, WhatsAppConnection, StockAlert, SupportTicket
 
 
 class InAppNotificationSerializer(serializers.ModelSerializer):
@@ -33,3 +33,12 @@ class StockAlertSerializer(serializers.ModelSerializer):
         fields = ["id", "product", "product_name", "shop", "shop_name", "channel", "status", 
                   "stock_level", "threshold", "error_msg", "sent_at"]
         read_only_fields = ["sent_at"]
+
+
+class SupportTicketSerializer(serializers.ModelSerializer):
+    business_name = serializers.CharField(source="business.name", read_only=True)
+
+    class Meta:
+        model = SupportTicket
+        fields = ["id", "subject", "description", "priority", "status", "business", "business_name", "created_at", "updated_at"]
+        read_only_fields = ["business", "business_name", "status", "created_at", "updated_at"]

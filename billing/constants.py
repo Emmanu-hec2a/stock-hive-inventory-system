@@ -1,6 +1,6 @@
 PLAN_LIMITS = {
     "free": {"products": 30, "staff": 2, "shops": 1},
-    "basic": {"products": 200, "staff": 5, "shops": 1},
+    "basic": {"products": 200, "staff": 5, "shops": 2},
     "pro": {"products": None, "staff": 15, "shops": 3},
     "enterprise": {"products": None, "staff": None, "shops": None},
 }

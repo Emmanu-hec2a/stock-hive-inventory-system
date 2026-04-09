@@ -28,17 +28,24 @@ from inventory.models import (
     StockEntry,
 )
 from inventory.permissions import CanRecordSales, IsSuperAdmin, IsSuperOrShopAdmin
+from inventory.models import StockTransfer
 from inventory.serializers import (
     BusinessSerializer,
     CategorySerializer,
     ProductSerializer,
+    ProductExportSerializer,
     SaleSerializer,
+    SaleExportSerializer,
     ShopSerializer,
     StaffSerializer,
     StockAdjustmentSerializer,
     StockEntrySerializer,
+    StockTransferSerializer,
 )
 from inventory.utils import get_current_stock
+from billing.permissions import require_feature, SubscriptionPermission
+# from rest_framework_csv.renderers import CSVRenderer  # Native CSV impl below
+
 
 
 class BusinessView(APIView):
@@ -224,16 +231,43 @@ class DashboardReportView(APIView, ShopScopedMixin):
         )
         stock_value = Decimal("0.00")
         low_stock_count = 0
-        for product in Product.objects.filter(shop=shop, is_active=True):
+        stock_levels = []
+        products = Product.objects.filter(shop=shop, is_active=True)
+        for product in products:
             current = get_current_stock(product)
             stock_value += product.buying_price * current
             if current <= product.low_stock_threshold:
                 low_stock_count += 1
+            stock_levels.append(
+                {
+                    "id": str(product.id),
+                    "name": product.name,
+                    "sku": product.sku,
+                    "unit": product.unit,
+                    "current_stock": current,
+                    "low_stock_threshold": product.low_stock_threshold,
+                }
+            )
+
+        stock_levels.sort(key=lambda item: (-item["current_stock"], item["name"].lower()))
+        recent_sales = [
+            {
+                "id": str(sale.id),
+                "created_at": sale.created_at,
+                "cashier_name": sale.served_by.full_name if sale.served_by and sale.served_by.full_name else "Unknown staff",
+                "total_amount": sale.total_amount,
+                "payment_method": sale.payment_method,
+            }
+            for sale in Sale.objects.filter(shop=shop).select_related("served_by").order_by("-created_at")[:5]
+        ]
         return Response(
             {
                 "total_sales_today": total_sales_today,
                 "stock_value": stock_value,
                 "low_stock_count": low_stock_count,
+                "product_count": products.count(),
+                "recent_sales": recent_sales,
+                "stock_levels": stock_levels[:4],
             }
         )
 
@@ -285,6 +319,118 @@ class StockValueReportView(APIView):
                 total += product.buying_price * get_current_stock(product)
             response.append({"shop_id": str(shop.id), "shop_name": shop.name, "stock_value": total})
         return Response(response)
+
+
+class ExportMixin:
+    def get_export_queryset(self):
+        shop = self.get_shop() if hasattr(self, 'get_shop') else None
+        queryset = self.get_queryset()
+        if shop:
+            queryset = queryset.filter(shop=shop)
+        return queryset
+
+    @action(detail=False, methods=['get'])
+    def export(self, request, *args, **kwargs):
+        if not can_use_feature(request.user.business, 'export_csv'):
+            raise PermissionDenied("Export available on Basic plan and above.")
+        
+        export_format = request.query_params.get('export_format', kwargs.get('format', 'csv')).lower()
+        if export_format not in ('csv', 'json'):
+            return Response({'error': 'Format must be csv or json'}, status=400)
+        
+        queryset = self.get_export_queryset()
+        serializer = self.export_serializer_class(queryset, many=True)
+        
+        if export_format == 'csv':
+            from django.http import HttpResponse
+            import csv
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = f'attachment; filename="{self.model.__name__.lower()}_{timezone.now().strftime("%Y%m%d")}.csv"'
+            
+            writer = csv.DictWriter(response, fieldnames=serializer.child.fields.keys())
+            writer.writeheader()
+            for row in serializer.data:
+                writer.writerow(row)
+            return response
+        
+        response = Response(serializer.data)
+        response['Content-Disposition'] = f'attachment; filename="{self.model.__name__.lower()}_{timezone.now().strftime("%Y%m%d")}.json"'
+        return response
+
+
+class StockTransferViewSet(ShopScopedMixin, mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = StockTransferSerializer
+    permission_classes = [IsAuthenticated, IsSuperOrShopAdmin, require_feature('stock_transfers'), SubscriptionPermission]
+    queryset = StockTransfer.objects.select_related('product', 'from_shop', 'to_shop', 'transferred_by')
+
+    def get_queryset(self):
+        user = self.request.user
+        shop_ids = [user.shop.id] if user.shop else []
+        if user.role in ('super_admin', 'shop_admin'):
+            shop_ids += list(Shop.objects.filter(business=user.business).values_list('id', flat=True))
+        return self.queryset.filter(from_shop_id__in=shop_ids)
+
+    def perform_create(self, serializer):
+        business = self.request.user.business
+        if not can_use_feature(business, 'stock_transfers'):
+            raise PermissionDenied("Stock transfers available on Pro plan and above.")
+        transfer = serializer.save(transferred_by=self.request.user, from_shop=self.get_shop())
+        # TODO: Implement actual stock movement logic here (StockEntry to to_shop, StockAdjustment on from_shop)
+
+
+class ProductViewSet(ExportMixin, ShopScopedMixin, viewsets.ModelViewSet):
+    serializer_class = ProductSerializer
+    export_serializer_class = ProductExportSerializer
+    model = Product
+    permission_classes = [IsAuthenticated, IsSuperOrShopAdmin, SubscriptionPermission]
+    queryset = Product.objects.filter(is_active=True)
+
+    def perform_create(self, serializer):
+        check_limit(self.request.user.business, "products")
+        serializer.save(shop=self.get_shop())
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.is_active = False
+        instance.save(update_fields=["is_active"])
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=["get"])
+    def stock(self, request, pk=None):
+        product = self.get_object()
+        return Response({"product_id": str(product.id), "current_stock": get_current_stock(product)})
+
+
+class SaleViewSet(ExportMixin, ShopScopedMixin, viewsets.ModelViewSet):
+    serializer_class = SaleSerializer
+    export_serializer_class = SaleExportSerializer
+    model = Sale
+    permission_classes = [IsAuthenticated, CanRecordSales, SubscriptionPermission]
+    queryset = Sale.objects.prefetch_related("items__product")
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["shop"] = self.get_shop()
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        date_from = self.request.query_params.get("date_from")
+        date_to = self.request.query_params.get("date_to")
+        if date_from:
+            queryset = queryset.filter(created_at__date__gte=date_from)
+        if date_to:
+            queryset = queryset.filter(created_at__date__lte=date_to)
+        return queryset
+
+    def perform_create(self, serializer):
+        """Record sale and trigger low stock alerts for products sold."""
+        sale = serializer.save(shop=self.get_shop(), served_by=self.request.user)
+        
+        # Trigger low stock alerts for each product sold
+        from alerts.services import trigger_low_stock_alerts
+        for item in sale.items.all():
+            trigger_low_stock_alerts(item.product)
 
 
 class OverviewReportView(APIView):

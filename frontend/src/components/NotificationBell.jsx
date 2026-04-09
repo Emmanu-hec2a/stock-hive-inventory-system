@@ -1,27 +1,41 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Bell, X } from "lucide-react";
-import { useAuth } from "../state/AuthContext";
 import axiosInstance from "../api/client";
+import { useAuth } from "../state/AuthContext";
+import { clearNativeAppBadge, setNativeAppBadge } from "../utils/appBadge";
 import "./NotificationBell.css";
 
+function getNotificationIcon(type) {
+  switch (type) {
+    case "low_stock":
+    case "out_of_stock":
+      return "[!]";
+    case "subscription_expiring":
+      return "[plan]";
+    case "payment_success":
+      return "[ok]";
+    case "payment_failed":
+      return "[x]";
+    default:
+      return "[bell]";
+  }
+}
+
 export default function NotificationBell() {
-  const { token } = useAuth();
+  const { token, scopedQuery } = useAuth();
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Poll unread count every 60 seconds
-  useEffect(() => {
-    fetchUnreadCount();
-    const interval = setInterval(fetchUnreadCount, 60000);
-    return () => clearInterval(interval);
-  }, [token]);
+  const withScope = (path) => `${path}${scopedQuery}`;
 
   const fetchUnreadCount = async () => {
     try {
-      const response = await axiosInstance.get("/alerts/notifications/unread-count/");
-      setUnreadCount(response.data.unread_count || 0);
+      const response = await axiosInstance.get(withScope("/alerts/notifications/unread-count/"));
+      const count = Number(response.data?.unread_count || 0);
+      setUnreadCount(count);
+      await setNativeAppBadge(count);
     } catch (error) {
       console.error("Failed to fetch unread count:", error);
     }
@@ -29,11 +43,11 @@ export default function NotificationBell() {
 
   const fetchNotifications = async () => {
     if (!isOpen) return;
-    
+
     setLoading(true);
+
     try {
-      const response = await axiosInstance.get("/alerts/notifications/");
-      // Get latest 5
+      const response = await axiosInstance.get(withScope("/alerts/notifications/"));
       setNotifications(response.data.slice(0, 5));
     } catch (error) {
       console.error("Failed to fetch notifications:", error);
@@ -43,16 +57,32 @@ export default function NotificationBell() {
   };
 
   useEffect(() => {
-    if (isOpen) {
-      fetchNotifications();
+    if (!token) {
+      setUnreadCount(0);
+      return undefined;
     }
-  }, [isOpen]);
+
+    fetchUnreadCount();
+    const intervalId = window.setInterval(fetchUnreadCount, 60_000);
+    return () => window.clearInterval(intervalId);
+  }, [token, scopedQuery]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    fetchNotifications();
+    clearNativeAppBadge();
+  }, [isOpen, scopedQuery]);
 
   const markAsRead = async (notificationId) => {
     try {
-      await axiosInstance.patch(`/alerts/notifications/${notificationId}/`);
-      setNotifications(notifications.filter(n => n.id !== notificationId));
-      setUnreadCount(Math.max(0, unreadCount - 1));
+      await axiosInstance.patch(withScope(`/alerts/notifications/${notificationId}/`));
+      setNotifications((current) => current.filter((notification) => notification.id !== notificationId));
+      setUnreadCount((current) => {
+        const nextCount = Math.max(0, current - 1);
+        setNativeAppBadge(nextCount);
+        return nextCount;
+      });
     } catch (error) {
       console.error("Failed to mark as read:", error);
     }
@@ -60,27 +90,12 @@ export default function NotificationBell() {
 
   const markAllAsRead = async () => {
     try {
-      await axiosInstance.post("/alerts/notifications/mark-all-read/");
+      await axiosInstance.post(withScope("/alerts/notifications/mark-all-read/"));
       setNotifications([]);
       setUnreadCount(0);
+      await clearNativeAppBadge();
     } catch (error) {
       console.error("Failed to mark all as read:", error);
-    }
-  };
-
-  const getNotificationIcon = (type) => {
-    switch (type) {
-      case "low_stock":
-      case "out_of_stock":
-        return "⚠️";
-      case "subscription_expiring":
-        return "📅";
-      case "payment_success":
-        return "✅";
-      case "payment_failed":
-        return "❌";
-      default:
-        return "🔔";
     }
   };
 
@@ -88,7 +103,7 @@ export default function NotificationBell() {
     <div className="notification-bell-wrapper">
       <button
         className="notification-bell-btn"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((prev) => !prev)}
         title="Notifications"
       >
         <Bell size={20} />
@@ -120,9 +135,7 @@ export default function NotificationBell() {
               ) : (
                 notifications.map((notification) => (
                   <div key={notification.id} className="notification-card">
-                    <div className="notification-icon">
-                      {getNotificationIcon(notification.type)}
-                    </div>
+                    <div className="notification-icon">{getNotificationIcon(notification.type)}</div>
                     <div className="notification-content">
                       <h4>{notification.title}</h4>
                       <p>{notification.message}</p>
