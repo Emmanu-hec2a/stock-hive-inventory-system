@@ -1,1 +1,5 @@
 .env
+# Database dumps
+*.json
+# If you want to keep specific config files but ignore the data:
+
