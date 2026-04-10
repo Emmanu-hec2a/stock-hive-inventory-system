@@ -165,6 +165,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://stockhive.up.railway.app",
 ]
 
+CORS_ALLOW_CREDENTIALS = True
 
 MPESA_CONSUMER_KEY = os.getenv("MPESA_CONSUMER_KEY", "")
 MPESA_CONSUMER_SECRET = os.getenv("MPESA_CONSUMER_SECRET", "")
