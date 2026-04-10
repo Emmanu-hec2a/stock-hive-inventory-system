@@ -154,12 +154,17 @@ SIMPLE_JWT = {
 
 # Allow Railway domains and localhost
 ALLOWED_HOSTS = [
-    ".railway.app", 
+    ".railway.app",
     "localhost", 
-    "127.0.0.1"
+    "127.0.0.1",
+    "::1",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    "https://stockhive-backend.up.railway.app",
+    "https://stockhive.up.railway.app",
+]
+
 
 MPESA_CONSUMER_KEY = os.getenv("MPESA_CONSUMER_KEY", "")
 MPESA_CONSUMER_SECRET = os.getenv("MPESA_CONSUMER_SECRET", "")
