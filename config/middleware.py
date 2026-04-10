@@ -7,7 +7,7 @@ class AdminIPRestrictionMiddleware:
     
     def __init__(self, get_response):
         self.get_response = get_response
-        self.allowed_ips = getattr(settings, 'ADMIN_ALLOWED_IPS', ['127.0.0.1'])
+        self.allowed_ips = getattr(settings, 'ADMIN_ALLOWED_IPS', ['127.0.0.1', 'https://stockhive-backend.up.railway.app/'])
 
     def __call__(self, request):
         if request.path.startswith('/system-admin/'):
