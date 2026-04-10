@@ -54,10 +54,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'config.middleware.AdminIPRestrictionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -164,6 +164,12 @@ CSRF_TRUSTED_ORIGINS = [
     "https://stockhive-backend.up.railway.app",
     "https://stockhive.up.railway.app",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://stockhive.up.railway.app",
+    "http://localhost:3000", # If you do local development
+]
+
 
 CORS_ALLOW_CREDENTIALS = True
 
