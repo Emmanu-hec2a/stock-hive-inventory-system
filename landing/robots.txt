@@ -9,4 +9,4 @@ Disallow: /admin/
 Disallow: /dashboard/
 
 # Allow crawlers to find sitemap
-Sitemap: https://stockhive.co.ke/sitemap.xml
+Sitemap: https://home.stockhive.up.railway.app/sitemap.xml
