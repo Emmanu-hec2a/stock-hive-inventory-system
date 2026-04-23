@@ -30,7 +30,7 @@ export default function LoginPage() {
   return (
     <div className="login-wrap">
       <form className="card" onSubmit={onSubmit}>
-        <h1 className="page-title">StockHive Login</h1>
+        <h1 className="page-title">StočkHive Login</h1>
         <input
           type="email"
           value={email}

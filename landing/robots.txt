@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Block API endpoints from being indexed
+User-agent: *
+Disallow: /api/
+Disallow: /system-admin/
+Disallow: /admin/
+Disallow: /dashboard/
+
+# Allow crawlers to find sitemap
+Sitemap: https://stockhive.co.ke/sitemap.xml

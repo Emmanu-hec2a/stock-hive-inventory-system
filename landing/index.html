@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StočkHive — Inventory Management for Kenyan Shops</title>
+  <meta name="description" content="StočkHive is a free inventory management system built for Kenyan retail and wholesale shops. Track stock, record sales, manage multiple branches, and get low stock alerts on WhatsApp." />
+  <meta name="keywords" content="inventory management Kenya, stock management app Kenya, duka inventory software, wholesale inventory Kenya, shop stock tracker Kenya, multi-branch inventory system" />
+  <meta name="author" content="StočkHive" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://home.stockhive.up.railway.app" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="StočkHive — Inventory Management for Kenyan Shops" />
+  <meta property="og:description" content="Free inventory management for Kenyan retail & wholesale shops." />
+  <meta property="og:url" content="https://home.stockhive.up.railway.app" />
+  <meta name="theme-color" content="#f59e0b" />
+  <meta name="geo.region" content="KE" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Epilogue:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png" />
+  <link rel="shortcut icon" href="./favicon.ico" />
+  <link rel="mask-icon" href="./masked-icon.svg" color="#f59e0b" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "StočkHive",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web, Android, iOS",
+    "description": "Inventory management system for Kenyan retail and wholesale shops.",
+    "url": "https://stockhive.up.railway.app",
+    "offers": [
+      { "@type": "Offer", "name": "Free Plan", "price": "0", "priceCurrency": "KES" },
+      { "@type": "Offer", "name": "Basic Plan", "price": "1999", "priceCurrency": "KES" },
+      { "@type": "Offer", "name": "Pro Plan", "price": "2499", "priceCurrency": "KES" },
+      { "@type": "Offer", "name": "Enterprise Plan", "price": "3499", "priceCurrency": "KES" }
+    ],
+    "areaServed": { "@type": "Country", "name": "Kenya" }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #0A0A08;
+      --paper: #F5F0E8;
+      --orange: #f59e0b;
+      --orange-light: #fbbf24;
+      --orange-pale: #FEF9EC;
+      --green: #0D6B3C;
+      --green-pale: #EAF5EF;
+      --muted: #6B6458;
+      --rule: #D4CCC0;
+      --surface: #FDFBF7;
+      --dark: #1A1714;
+      --dark2: #252118;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Epilogue', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .display {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    h3 {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 2rem; }
+    .container--narrow { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #333;
+    }
+
+    nav { display: flex; justify-content: space-between; align-items: center; }
+
+    .logo {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--paper);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      letter-spacing: -0.04em;
+    }
+
+    .logo span.accent { color: var(--orange); }
+
+    .nav-links { display: flex; gap: 0; list-style: none; align-items: center; }
+
+    .nav-links a {
+      color: #A09890;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 0.5rem 1.1rem;
+      border-radius: 4px;
+      transition: color 0.2s;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links a:hover { color: var(--paper); }
+
+    .nav-cta {
+      background: var(--orange) !important;
+      color: white !important;
+      padding: 0.5rem 1.25rem !important;
+      border-radius: 6px !important;
+      font-weight: 600 !important;
+      transition: background 0.2s, transform 0.15s !important;
+      letter-spacing: 0 !important;
+    }
+
+    .nav-cta:hover { background: var(--orange-light) !important; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--ink);
+      padding: 3.5rem 0 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-left { padding-bottom: 2rem; }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 100px;
+      padding: 0.35rem 0.9rem;
+      margin-bottom: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fbbf24;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.8); }
+    }
+
+    .hero-title {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--paper);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title .line-accent { color: var(--orange); }
+    .hero-title .line-ghost {
+      color: transparent;
+      -webkit-text-stroke: 1.5px #333;
+    }
+
+    .hero-sub {
+      color: #9A9085;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 420px;
+      font-weight: 300;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--orange);
+      color: white;
+      padding: 0.9rem 1.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #8A8178;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 0.9rem 0.5rem;
+    }
+
+    .btn-ghost:hover { color: var(--paper); }
+
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #2A2520;
+    }
+
+    .hero-stat-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--paper);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      color: #6B6055;
+      display: block;
+      margin-top: 0.15rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ── HERO VISUAL ── */
+    .hero-right {
+      position: relative;
+      padding-top: 0;
+    }
+
+    .hero-dashboard {
+      background: #1C1916;
+      border: 1px solid #2E2A25;
+      border-radius: 12px 12px 0 0;
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .dash-topbar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .dash-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .dash-dot.r { background: #FF5F57; }
+    .dash-dot.y { background: #FFBD2E; }
+    .dash-dot.g { background: #28C840; }
+
+    .dash-tab {
+      margin-left: 1rem;
+      font-size: 0.7rem;
+      color: #5A5248;
+      letter-spacing: 0.05em;
+    }
+
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .dash-stat {
+      background: #252118;
+      border: 1px solid #302C26;
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+    }
+
+    .dash-stat-label {
+      font-size: 0.65rem;
+      color: #5A5248;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dash-stat-value {
+      font-size: 1.1rem;
+      color: var(--paper);
+      font-weight: 500;
+    }
+
+    .dash-stat-value.up { color: #22C55E; }
+    .dash-stat-value.warn { color: #F59E0B; }
+
+    .dash-table { width: 100%; border-collapse: collapse; }
+    .dash-table th {
+      font-size: 0.62rem;
+      color: #4A4640;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0 0.5rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #252118;
+    }
+
+    .dash-table td {
+      padding: 0.6rem 0.5rem;
+      font-size: 0.75rem;
+      color: #9A9080;
+      border-bottom: 1px solid #1E1C18;
+    }
+
+    .dash-table tr:hover td { background: rgba(255,255,255,0.02); color: var(--paper); }
+
+    .stock-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stock-track {
+      flex: 1;
+      height: 4px;
+      background: #2A2620;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .stock-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    .badge-low {
+      font-size: 0.6rem;
+      padding: 0.15rem 0.4rem;
+      background: rgba(239, 68, 68, 0.15);
+      color: #EF4444;
+      border-radius: 3px;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      letter-spacing: 0.04em;
+    }
+
+    .badge-ok {
+      font-size: 0.6rem;
+      padding: 0.15rem 0.4rem;
+      background: rgba(34, 197, 94, 0.1);
+      color: #22C55E;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-strip {
+      background: var(--orange);
+      padding: 0.75rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-inner {
+      display: inline-flex;
+      animation: marquee 30s linear infinite;
+      gap: 0;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .marquee-sep { color: rgba(255,255,255,0.3); }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 0; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 2px;
+      background: var(--orange);
+    }
+
+    /* ── PROBLEM/SOLUTION ── */
+    .problem-section { background: var(--surface); }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .problem-col h2 { margin-bottom: 0.5rem; }
+
+    .problem-intro {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .pain-list { display: flex; flex-direction: column; gap: 0; }
+
+    .pain-item {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.2s;
+    }
+
+    .pain-item:first-child { border-top: 1px solid var(--rule); }
+
+    .pain-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #C4BDB2;
+      letter-spacing: 0.05em;
+      padding-top: 0.15rem;
+      flex-shrink: 0;
+      width: 1.5rem;
+    }
+
+    .pain-content strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .pain-content p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .solution-col {
+      background: var(--ink);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: sticky;
+      top: 6rem;
+    }
+
+    .solution-col h2 { color: var(--paper); margin-bottom: 0.5rem; }
+    .solution-col .problem-intro { color: #6B6055; margin-bottom: 2rem; }
+
+    .fix-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .fix-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .fix-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(245,158,11,0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .fix-icon svg { width: 16px; height: 16px; color: var(--orange); }
+
+    .fix-content strong {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--paper);
+      margin-bottom: 0.2rem;
+    }
+
+    .fix-content p {
+      font-size: 0.8rem;
+      color: #6B6055;
+      margin: 0;
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    /* ── FEATURES ── */
+    .features-section { background: var(--paper); }
+
+    .features-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 4rem;
+    }
+
+    .features-intro p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .feat-card {
+      background: var(--surface);
+      padding: 2rem;
+      transition: background 0.25s;
+    }
+
+    .feat-card:hover { background: var(--paper); }
+
+    .feat-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--orange-pale);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .feat-icon svg { width: 20px; height: 20px; color: var(--orange); stroke-width: 2; }
+
+    .feat-card h3 { margin-bottom: 0.6rem; }
+
+    .feat-card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── PRICING ── */
+    .pricing-section { background: var(--ink); }
+
+    .pricing-section h2 { color: var(--paper); }
+    .pricing-section .section-label { color: var(--orange); }
+    .pricing-section .section-label::before { background: var(--orange); }
+
+    .pricing-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+    }
+
+    .pricing-sub {
+      color: #5A5248;
+      font-size: 0.9rem;
+      font-weight: 300;
+      max-width: 280px;
+      line-height: 1.6;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #2A2520;
+      border: 1px solid #2A2520;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .price-card {
+      background: #1A1714;
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.2s;
+    }
+
+    .price-card:hover { background: #1E1C18; }
+
+    .price-card.featured {
+      background: #f59e0b;
+    }
+
+    .price-card.featured:hover { background: #fbbf24; }
+
+    .price-plan {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5A5248;
+      margin-bottom: 1.25rem;
+    }
+
+    .price-card.featured .price-plan { color: rgba(255,255,255,0.6); }
+
+    .price-amount {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 900;
+      font-size: 1.75rem;
+      color: var(--paper);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.25rem;
+    }
+
+    .price-card.featured .price-amount { color: white; }
+
+    .price-per {
+      font-size: 0.75rem;
+      color: #4A4640;
+      margin-bottom: 1.75rem;
+      font-weight: 300;
+    }
+
+    .price-card.featured .price-per { color: rgba(255,255,255,0.5); }
+
+    .price-features {
+      list-style: none;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .price-features li {
+      font-size: 0.82rem;
+      color: #6A6055;
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      font-weight: 300;
+    }
+
+    .price-features li::before {
+      content: '';
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #2A2520;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 7l3 3 6-6' stroke='%234A4640' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: contain;
+    }
+
+    .price-card.featured .price-features li { color: rgba(255,255,255,0.75); }
+    .price-card.featured .price-features li::before {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 7l3 3 6-6' stroke='rgba(255,255,255,0.9)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-color: rgba(255,255,255,0.15);
+    }
+
+    .price-cta {
+      display: block;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid #2A2520;
+      color: #6A6055;
+      transition: all 0.2s;
+    }
+
+    .price-cta:hover { border-color: #444; color: var(--paper); background: rgba(255,255,255,0.04); }
+
+    .price-card.featured .price-cta {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.3);
+      color: white;
+    }
+
+    .price-card.featured .price-cta:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section { background: var(--paper); }
+
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    .steps-row::before {
+      content: '';
+      position: absolute;
+      top: 2rem;
+      left: calc(33.333% - 1px);
+      right: calc(33.333% - 1px);
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .step-item { padding: 0 2.5rem 0 0; }
+    .step-item:last-child { padding-right: 0; }
+
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--orange);
+      letter-spacing: 0.05em;
+      margin-bottom: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .step-num::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .step-item:last-child .step-num::after { display: none; }
+
+    .step-item h3 { margin-bottom: 0.75rem; font-size: 0.95rem; }
+
+    .step-item p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── FAQ ── */
+    .faq-section { background: var(--surface); }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      padding: 1.75rem 2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .faq-item:hover { background: var(--paper); }
+
+    .faq-item summary {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-toggle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+      transition: all 0.2s;
+      margin-top: 0.1rem;
+    }
+
+    details[open] .faq-toggle {
+      background: var(--orange);
+      color: white;
+    }
+
+    .faq-answer {
+      font-size: 0.875rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.65;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--orange);
+      padding: 5rem 0;
+    }
+
+    .cta-inner { text-align: center; }
+
+    .cta-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-inner h2 {
+      color: white;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-inner p {
+      color: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      color: var(--orange);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    }
+
+    .cta-note {
+      margin-top: 1.25rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── CITIES ── */
+    .cities-strip {
+      background: rgba(255,255,255,0.1);
+      padding: 1.5rem 0;
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .cities-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .city-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.6);
+      padding: 0.35rem 0.75rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+    }
+
+    .cities-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      padding: 2.5rem 0;
+      border-top: 1px solid #1E1C18;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .footer-logo {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--paper);
+      letter-spacing: -0.02em;
+    }
+
+    .footer-logo span { color: var(--orange); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: #5A5248;
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--paper); }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: #3A3630;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: 1px solid #2A2520;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .hamburger:hover { border-color: #444; }
+
+    .hamburger span {
+      display: block;
+      height: 1.5px;
+      background: #A09890;
+      border-radius: 2px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 57px;
+      left: 0;
+      right: 0;
+      background: #111009;
+      border-bottom: 1px solid #1E1B16;
+      z-index: 99;
+      padding: 1rem 0;
+      transform: translateY(-8px);
+      opacity: 0;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .mobile-menu.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.85rem 2rem;
+      color: #A09890;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-bottom: 1px solid #1A1714;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--paper); background: rgba(255,255,255,0.02); }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+      color: var(--orange);
+      font-weight: 600;
+      margin: 0.5rem 1.5rem;
+      padding: 0.75rem 1.25rem;
+      border: 1px solid var(--orange);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .mobile-menu a:last-child:hover { background: rgba(245,158,11,0.08); }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .split-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .solution-col { position: static; }
+      .features-intro { grid-template-columns: 1fr; gap: 1.5rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-row { grid-template-columns: 1fr; }
+      .steps-row::before { display: none; }
+      .step-item { padding: 0; margin-bottom: 2.5rem; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; text-align: center; gap: 1.25rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: block; }
+      section { padding: 4rem 0; }
+    }
+
+    @media (max-width: 600px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-wrap: wrap; gap: 1.25rem; }
+      .hero-title { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <nav class="container">
+      <a href="/" class="logo">Stočk<span class="accent">Hive</span></a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://stockhive.up.railway.app/login">Login</a></li>
+        <li><a href="https://stockhive.up.railway.app/register" class="nav-cta">Start free</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <nav class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <a href="#features" class="mobile-link">Features</a>
+    <a href="#pricing" class="mobile-link">Pricing</a>
+    <a href="#faq" class="mobile-link">FAQ</a>
+    <a href="https://stockhive.up.railway.app/login" class="mobile-link">Login</a>
+    <a href="https://stockhive.up.railway.app/register">Start free →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="hero-kicker">Built for Kenya</div>
+          <h1 class="hero-title">
+            Your stock.<br>
+            <span class="line-accent">Always in check.</span><br>
+            <span class="line-ghost">Always on track.</span>
+          </h1>
+          <p class="hero-sub">Inventory management built for Kenyan retail and wholesale shops — track stock, record sales, manage branches. No notebooks needed.</p>
+          <div class="hero-actions">
+            <a href="https://stockhive.up.railway.app/register" class="btn-primary">
+              Start for free
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a href="#features" class="btn-ghost">
+              See features
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M4 9l4 4 4-4"/></svg>
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <span class="hero-stat-num">KES 0</span>
+              <span class="hero-stat-label">To start</span>
+            </div>
+            <div>
+              <span class="hero-stat-num">&lt; 2min</span>
+              <span class="hero-stat-label">Setup time</span>
+            </div>
+            <div>
+              <span class="hero-stat-num">M-PESA</span>
+              <span class="hero-stat-label">Payments</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAKE DASHBOARD UI -->
+        <div class="hero-right">
+          <div class="hero-dashboard">
+            <div class="dash-topbar">
+              <div class="dash-dot r"></div>
+              <div class="dash-dot y"></div>
+              <div class="dash-dot g"></div>
+              <span class="dash-tab">stockhive.co.ke · Dashboard</span>
+            </div>
+            <div class="dash-stats">
+              <div class="dash-stat">
+                <div class="dash-stat-label">Today's Sales</div>
+                <div class="dash-stat-value up">KES 12,450</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-label">Products</div>
+                <div class="dash-stat-value">147</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-label">Low Stock</div>
+                <div class="dash-stat-value warn">3 items</div>
+              </div>
+            </div>
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Unga Jogoo 2kg</td>
+                  <td>
+                    <div class="stock-bar">
+                      <div class="stock-track"><div class="stock-fill" style="width:72%;background:#22C55E;"></div></div>
+                      72
+                    </div>
+                  </td>
+                  <td><span class="badge-ok">OK</span></td>
+                </tr>
+                <tr>
+                  <td>Cement 50kg</td>
+                  <td>
+                    <div class="stock-bar">
+                      <div class="stock-track"><div class="stock-fill" style="width:18%;background:#EF4444;"></div></div>
+                      4
+                    </div>
+                  </td>
+                  <td><span class="badge-low">LOW</span></td>
+                </tr>
+                <tr>
+                  <td>Cooking Oil 20L</td>
+                  <td>
+                    <div class="stock-bar">
+                      <div class="stock-track"><div class="stock-fill" style="width:55%;background:#22C55E;"></div></div>
+                      31
+                    </div>
+                  </td>
+                  <td><span class="badge-ok">OK</span></td>
+                </tr>
+                <tr>
+                  <td>Pembe Flour 2kg</td>
+                  <td>
+                    <div class="stock-bar">
+                      <div class="stock-track"><div class="stock-fill" style="width:8%;background:#EF4444;"></div></div>
+                      2
+                    </div>
+                  </td>
+                  <td><span class="badge-low">LOW</span></td>
+                </tr>
+                <tr>
+                  <td>Kimbo 2kg</td>
+                  <td>
+                    <div class="stock-bar">
+                      <div class="stock-track"><div class="stock-fill" style="width:90%;background:#22C55E;"></div></div>
+                      88
+                    </div>
+                  </td>
+                  <td><span class="badge-ok">OK</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      <!-- Duplicated for seamless loop -->
+      <span class="marquee-item">Real-time stock tracking <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">WhatsApp low stock alerts <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Multi-branch management <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">M-PESA payments <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Works offline <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Sales & profit reports <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">CSV export <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Installs on Android & iPhone <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Real-time stock tracking <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">WhatsApp low stock alerts <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Multi-branch management <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">M-PESA payments <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Works offline <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Sales & profit reports <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">CSV export <span class="marquee-sep">·</span></span>
+      <span class="marquee-item">Installs on Android & iPhone <span class="marquee-sep">·</span></span>
+    </div>
+  </div>
+
+  <!-- PROBLEM / SOLUTION -->
+  <section class="problem-section" id="problem">
+    <div class="container">
+      <div class="split-grid">
+        <div class="problem-col reveal">
+          <div class="section-label">The problem</div>
+          <h2>Running a shop on notebooks and WhatsApp?</h2>
+          <p class="problem-intro">Most Kenyan shop owners are still managing stock manually. It costs time, money, and mistakes.</p>
+
+          <div class="pain-list">
+            <div class="pain-item">
+              <span class="pain-num">01</span>
+              <div class="pain-content">
+                <strong>Losing track of stock levels</strong>
+                <p>Selling more than you have because you don't know what's left.</p>
+              </div>
+            </div>
+            <div class="pain-item">
+              <span class="pain-num">02</span>
+              <div class="pain-content">
+                <strong>Hours on notebooks every day</strong>
+                <p>Manual recording that should take seconds is eating your day.</p>
+              </div>
+            </div>
+            <div class="pain-item">
+              <span class="pain-num">03</span>
+              <div class="pain-content">
+                <strong>Zero visibility across branches</strong>
+                <p>No way to know what's happening at your other shop without calling.</p>
+              </div>
+            </div>
+            <div class="pain-item">
+              <span class="pain-num">04</span>
+              <div class="pain-content">
+                <strong>Running out of stock with no warning</strong>
+                <p>Discovering you're empty only when a customer can't find the product.</p>
+              </div>
+            </div>
+            <div class="pain-item">
+              <span class="pain-num">05</span>
+              <div class="pain-content">
+                <strong>No idea what's actually profitable</strong>
+                <p>No reports means no clarity on which products to push, which to cut.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="solution-col reveal">
+          <div class="section-label" style="color: #fbbf24;">The fix</div>
+          <h2>StočkHive handles it for you</h2>
+          <p class="problem-intro">One system, all your stock — works on any phone, even offline.</p>
+
+          <div class="fix-list">
+            <div class="fix-item">
+              <div class="fix-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 12l-4-4-4 4-2-2"/></svg>
+              </div>
+              <div class="fix-content">
+                <strong>Real-time stock tracking</strong>
+                <p>Every sale instantly updates your stock. See exact levels anytime.</p>
+              </div>
+            </div>
+            <div class="fix-item">
+              <div class="fix-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>
+              </div>
+              <div class="fix-content">
+                <strong>Record a sale in 3 taps</strong>
+                <p>Tap product, enter quantity, confirm. Stock updates instantly.</p>
+              </div>
+            </div>
+            <div class="fix-item">
+              <div class="fix-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div class="fix-content">
+                <strong>All branches, one dashboard</strong>
+                <p>See stock and sales across every location from your owner account.</p>
+              </div>
+            </div>
+            <div class="fix-item">
+              <div class="fix-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              </div>
+              <div class="fix-content">
+                <strong>WhatsApp alerts when stock dips</strong>
+                <p>Set a threshold per product. Get notified before you run out.</p>
+              </div>
+            </div>
+            <div class="fix-item">
+              <div class="fix-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </div>
+              <div class="fix-content">
+                <strong>Profit reports that make sense</strong>
+                <p>See which products are earning, which are dead weight.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="features-intro reveal">
+        <div>
+          <div class="section-label">Features</div>
+          <h2>Everything your shop needs, nothing it doesn't</h2>
+        </div>
+        <p>StočkHive is built specifically for Kenyan retail and wholesale shops — no bloated ERP, no confusing settings, no training required.</p>
+      </div>
+
+      <div class="features-grid reveal">
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6.89 3h10.22a2 2 0 011.84 1.11l2.5 5.29c.31.66.04 1.44-.64 1.73l-.9.37V19a2 2 0 01-2 2H7a2 2 0 01-2-2v-7.5l-.9-.37c-.68-.29-.95-1.07-.64-1.73l2.5-5.29A2 2 0 016.89 3z" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Stock management</h3>
+          <p>Track every product in real time. Quantities update instantly the moment you record a sale or receive new stock.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke-width="1.5"/><polyline points="9 22 9 12 15 12 15 22" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Multi-branch support</h3>
+          <p>One owner account, all your branches. View stock, sales, and staff performance across every location at once.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Sales & profit reports</h3>
+          <p>Record sales in seconds. See profit margins, top-selling products, and revenue trends over any date range.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-width="1.5"/></svg>
+          </div>
+          <h3>WhatsApp alerts</h3>
+          <p>Set custom stock thresholds per product. Get a WhatsApp message automatically before you run out.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="5" y="2" width="14" height="20" rx="2" stroke-width="1.5"/><path d="M12 18h.01" stroke-width="2"/></svg>
+          </div>
+          <h3>Works on any device</h3>
+          <p>Install as an app on Android or iPhone directly from your browser. Access from desktop too. Works offline.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 1v6M6 3v4M18 3v4M4 9h16a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V10a1 1 0 011-1zm0 5h16" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Pay via M-PESA</h3>
+          <p>Subscribe with M-PESA STK Push. No credit card, no international billing. Cancel anytime, no questions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="pricing-header reveal">
+        <div>
+          <div class="section-label">Pricing</div>
+          <h2>Simple, honest pricing</h2>
+        </div>
+        <p class="pricing-sub">All plans include WhatsApp alerts and M-PESA payments. Upgrade or cancel anytime.</p>
+      </div>
+
+      <div class="pricing-grid reveal">
+        <!-- Free -->
+        <div class="price-card">
+          <div class="price-plan">Free forever</div>
+          <div class="price-amount">KES 0</div>
+          <div class="price-per">No credit card required</div>
+          <ul class="price-features">
+            <li>1 shop</li>
+            <li>30 products</li>
+            <li>2 staff accounts</li>
+            <li>Basic reports</li>
+            <li>WhatsApp alerts</li>
+          </ul>
+          <a href="https://stockhive.up.railway.app/register" class="price-cta">Get started</a>
+        </div>
+
+        <!-- Basic (featured) -->
+        <div class="price-card featured">
+          <div class="price-plan">Most popular</div>
+          <div class="price-amount">KES 1,999</div>
+          <div class="price-per">/month · pay via M-PESA</div>
+          <ul class="price-features">
+            <li>2 shop</li>
+            <li>200 products</li>
+            <li>5 staff accounts</li>
+            <li>Advanced reports</li>
+            <li>WhatsApp alerts</li>
+            <li>Export CSV</li>
+            <li>Priority support</li>
+          </ul>
+          <a href="https://stockhive.up.railway.app/register" class="price-cta">Choose Basic</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="price-card">
+          <div class="price-plan">Multi-branch</div>
+          <div class="price-amount">KES 2,499</div>
+          <div class="price-per">/month · pay via M-PESA</div>
+          <ul class="price-features">
+            <li>Up to 3 branches</li>
+            <li>Unlimited products</li>
+            <li>15 staff accounts</li>
+            <li>All reports & analytics</li>
+            <li>Stock transfers</li>
+            <li>WhatsApp alerts</li>
+            <li>24/7 support</li>
+          </ul>
+          <a href="https://stockhive.up.railway.app/register" class="price-cta">Choose Pro</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="price-card">
+          <div class="price-plan">Scale up</div>
+          <div class="price-amount">KES 3,499</div>
+          <div class="price-per">/month · pay via M-PESA</div>
+          <ul class="price-features">
+            <li>Unlimited branches</li>
+            <li>Unlimited products</li>
+            <li>Unlimited staff</li>
+            <li>All reports & analytics</li>
+            <li>Stock transfers</li>
+            <li>WhatsApp alerts</li>
+            <li>24/7 dedicated support</li>
+          </ul>
+          <a href="https://stockhive.up.railway.app/register" class="price-cta">Choose Enterprise</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="container reveal">
+      <div class="section-label">How it works</div>
+      <h2 style="margin-bottom: 3.5rem;">Up and running in under 2 minutes</h2>
+
+      <div class="steps-row">
+        <div class="step-item">
+          <div class="step-num">01 ────────────────</div>
+          <h3>Create your account</h3>
+          <p>Sign up free, no card needed. Enter your shop name and you're in. Takes less than 2 minutes.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02 ────────────────</div>
+          <h3>Add your shop & stock</h3>
+          <p>Add products, set starting quantities, and configure staff access. Import from CSV if you have a lot.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03 ────────────────</div>
+          <h3>Start recording sales</h3>
+          <p>Every sale updates stock in real time. Set alert thresholds and get WhatsApp notifications automatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="container reveal">
+      <div class="section-label">FAQ</div>
+      <h2 style="margin-bottom: 2.5rem;">Common questions</h2>
+
+      <div class="faq-grid">
+        <details class="faq-item">
+          <summary>Is StočkHive really free? <span class="faq-toggle">+</span></summary>
+          <div class="faq-answer">Yes. The Free plan is free forever — up to 30 products, 1 shop, and 2 staff accounts. No credit card required. Upgrade anytime if you grow past those limits.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I manage multiple shop branches? <span class="faq-toggle">+</span></summary>
+          <div class="faq-answer">Yes. The Pro plan supports up to 3 branches and the Enterprise plan supports unlimited branches. Each branch can have its own staff and inventory, all visible from your owner account.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How do WhatsApp alerts work? <span class="faq-toggle">+</span></summary>
+          <div class="faq-answer">Set a minimum stock threshold for each product. When stock drops below that threshold, StočkHive sends a WhatsApp message automatically. Available on all plans including Free.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use it on my phone? <span class="faq-toggle">+</span></summary>
+          <div class="faq-answer">Yes. StočkHive is a Progressive Web App — install it on Android or iPhone from your browser, no App Store needed. Works offline and syncs when you're back online.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How do I pay for a subscription? <span class="faq-toggle">+</span></summary>
+          <div class="faq-answer">All payments go through M-PESA STK Push. No credit card, no international billing hassle. Select your plan, confirm the M-PESA prompt, and you're upgraded immediately.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data safe and private? <span class="faq-toggle">+</span></summary>
+          <div class="faq-answer">Yes. Each business's data is completely isolated — no other business can see your stock, sales, or staff data. We use industry-standard encryption and secure servers.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Does it work for wholesale shops? <span class="faq-toggle">+</span></summary>
+          <div class="faq-answer">Yes. StočkHive is designed for both retail and wholesale shops in Kenya. Whether you're tracking 10 products or 1,000, the system scales with you.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I export my sales data? <span class="faq-toggle">+</span></summary>
+          <div class="faq-answer">Yes. On the Basic, Pro, and Enterprise plans you can export your sales and inventory data as CSV files anytime. Your data always belongs to you.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <div class="cta-eyebrow">Free forever · No card needed · M-PESA payments</div>
+        <h2>Ready to take control of your stock?</h2>
+        <p>Join Kenyan shop owners already running smarter with StočkHive.</p>
+        <a href="https://stockhive.up.railway.app/register" class="btn-white">
+          Create free account
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <p class="cta-note">Takes 2 minutes to set up. Cancel anytime.</p>
+      </div>
+      <div class="cities-strip">
+        <div class="cities-inner">
+          <span class="cities-label">Trusted by shops in</span>
+          <span class="city-tag">Nairobi</span>
+          <span class="city-tag">Mombasa</span>
+          <span class="city-tag">Kisumu</span>
+          <span class="city-tag">Nakuru</span>
+          <span class="city-tag">Eldoret</span>
+          <span class="city-tag">Thika</span>
+          <span class="city-tag">Nyeri</span>
+          <span class="city-tag">Kitale</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">Stock<span>Hive</span> <span style="color:#3A3630">🇰🇪</span></div>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="https://stockhive.up.railway.app/login">Login</a></li>
+          <li><a href="https://stockhive.up.railway.app/register">Register</a></li>
+        </ul>
+        <div class="footer-copy">© 2026 StočkHive · Built in Kenya</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 60);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+    reveals.forEach(el => io.observe(el));
+
+    // FAQ toggle symbol
+    document.querySelectorAll('.faq-item').forEach(details => {
+      details.addEventListener('toggle', () => {
+        const toggle = details.querySelector('.faq-toggle');
+        toggle.textContent = details.open ? '−' : '+';
+      });
+    });
+
+    // Sticky nav shadow
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      header.style.boxShadow = window.scrollY > 10 ? '0 1px 0 #111' : 'none';
+    }, { passive: true });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          // Close mobile menu if open
+          hamburgerBtn.classList.remove('open');
+          mobileMenu.classList.remove('open');
+          hamburgerBtn.setAttribute('aria-expanded', 'false');
+          mobileMenu.setAttribute('aria-hidden', 'true');
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Hamburger toggle
+    const hamburgerBtn = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburgerBtn.addEventListener('click', () => {
+      const isOpen = hamburgerBtn.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+      mobileMenu.setAttribute('aria-hidden', !isOpen);
+    });
+
+    // Close menu on outside click
+    document.addEventListener('click', (e) => {
+      if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        hamburgerBtn.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      }
+    });
+  </script>
+</body>
+</html>

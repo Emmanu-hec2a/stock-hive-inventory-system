@@ -27,8 +27,8 @@ export default defineConfig(({ mode }) => {
         ],
         manifest: {
           id: "/",
-          name: "StockHive",
-          short_name: "StockHive",
+          name: "StočkHive",
+          short_name: "StočkHive",
           description: "Multi-branch inventory management for retail & wholesale shops",
           theme_color: "#f59e0b",
           background_color: "#0d0f12",

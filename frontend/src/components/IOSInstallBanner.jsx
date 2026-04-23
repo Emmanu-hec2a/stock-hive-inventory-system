@@ -30,13 +30,13 @@ export default function IOSInstallBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="pwa-sheet pwa-sheet-ios" role="dialog" aria-label="Install StockHive on iPhone or iPad">
+    <div className="pwa-sheet pwa-sheet-ios" role="dialog" aria-label="Install StočkHive on iPhone or iPad">
       <button type="button" className="pwa-sheet-close" onClick={dismissBanner} aria-label="Dismiss install instructions">
         x
       </button>
       <div className="pwa-sheet-copy">
         <p className="pwa-sheet-eyebrow">Install on iPhone</p>
-        <h2 className="pwa-sheet-title">Add StockHive to Home Screen</h2>
+        <h2 className="pwa-sheet-title">Add StočkHive to Home Screen</h2>
         <p className="pwa-sheet-text">
           In Safari, tap <strong>Share</strong> and then choose <strong>Add to Home Screen</strong>.
         </p>

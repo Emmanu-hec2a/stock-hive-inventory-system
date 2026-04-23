@@ -30,7 +30,7 @@ PLAN_FEATURES = {
 }
 
 PLAN_PRICES = {
-    "basic": 2999,
-    "pro": 4999,
-    "enterprise": 6999,
+    "basic": 1999,
+    "pro": 2499,
+    "enterprise": 3499,
 }

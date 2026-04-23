@@ -13,11 +13,11 @@ from django.shortcuts import render
 from django.urls import path, reverse
 from django.db.models import Q
 
-class StockHiveAdminSite(AdminSite):
-    """Custom admin site for StockHive system owner panel."""
+class StočkHiveAdminSite(AdminSite):
+    """Custom admin site for StočkHive system owner panel."""
     
-    site_header = "StockHive"
-    site_title = "StockHive Admin"
+    site_header = "StočkHive"
+    site_title = "StočkHive Admin"
     index_title = "System Overview"
     site_url = None
 
@@ -167,7 +167,7 @@ class StockHiveAdminSite(AdminSite):
     
     
 # Create the custom admin site instance
-admin_site = StockHiveAdminSite(name="stockhive_admin")
+admin_site = StočkHiveAdminSite(name="stockhive_admin")
 
 # Import admin classes (without site=None registration)
 from accounts.admin import UserAdmin

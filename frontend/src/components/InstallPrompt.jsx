@@ -47,11 +47,11 @@ export default function InstallPrompt() {
   if (!isVisible) return null;
 
   return (
-    <div className="pwa-sheet pwa-sheet-install" role="dialog" aria-label="Install StockHive">
+    <div className="pwa-sheet pwa-sheet-install" role="dialog" aria-label="Install StočkHive">
       <div className="pwa-sheet-copy">
         <p className="pwa-sheet-eyebrow">Install app</p>
-        <h2 className="pwa-sheet-title">Install StockHive</h2>
-        <p className="pwa-sheet-text">Add StockHive to your home screen for the fastest full-screen experience.</p>
+        <h2 className="pwa-sheet-title">Install StočkHive</h2>
+        <p className="pwa-sheet-text">Add StočkHive to your home screen for the fastest full-screen experience.</p>
       </div>
       <div className="pwa-sheet-actions">
         <button type="button" className="ghost-btn" onClick={() => setIsVisible(false)}>

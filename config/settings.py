@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-&700j52@&)24eljk)@i9u%(7juxur0fm2=59pv2lc-e8@ts8+5')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -167,7 +167,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://stockhive.up.railway.app",
-    "http://localhost:3000", # If you do local development
+    "http://localhost:5173", # If you do local development
 ]
 
 
@@ -195,8 +195,8 @@ ADMIN_ALLOWED_IPS = [ip.strip() for ip in ADMIN_ALLOWED_IPS]
 from django.urls import reverse_lazy
 
 UNFOLD = {
-    "SITE_TITLE": "StockHive Admin",
-    "SITE_HEADER": "StockHive",
+    "SITE_TITLE": "StočkHive Admin",
+    "SITE_HEADER": "StočkHive",
     "SITE_SUBHEADER": "System Owner Panel",
     "SITE_URL": "/",
     "COLORS": {
@@ -206,7 +206,7 @@ UNFOLD = {
             "200": "253 230 138",
             "300": "252 211 77",
             "400": "251 191 36",
-            "500": "245 158 11",   # amber — matches StockHive brand
+            "500": "245 158 11",   # amber — matches StočkHive brand
             "600": "217 119 6",
             "700": "180 83 9",
             "800": "146 64 14",

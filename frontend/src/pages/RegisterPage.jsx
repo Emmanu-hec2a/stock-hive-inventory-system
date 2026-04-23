@@ -55,7 +55,7 @@ export default function RegisterPage() {
   return (
     <div className="login-wrap">
       <form className="card" onSubmit={onSubmit}>
-        <h1 className="page-title">Create StockHive Account</h1>
+        <h1 className="page-title">Create StočkHive Account</h1>
 
         <input
           type="email"

@@ -36,7 +36,7 @@ class InitiateSubscriptionView(APIView):
             phone_number=phone,
             amount=amount,
             account_ref=f"STOCKHIVE-{business.id}",
-            description=f"StockHive {plan.title()} Plan",
+            description=f"StočkHive {plan.title()} Plan",
         )
         if response.get("ResponseCode") != "0":
             return Response({"error": "Failed to initiate payment."}, status=status.HTTP_400_BAD_REQUEST)

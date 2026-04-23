@@ -14,7 +14,7 @@ const planCards = [
     key: "basic",
     title: "Basic",
     price: PLAN_PRICES.basic,
-    features: ["1 shop", "200 products", "5 staff", "Advanced reports, exports, low-stock alerts"],
+    features: ["2 shop", "200 products", "5 staff", "Advanced reports, exports, low-stock alerts"],
   },
   {
     key: "pro",
