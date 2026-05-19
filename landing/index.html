@@ -1123,6 +1123,84 @@
 
     .mobile-menu a:last-child:hover { background: rgba(245,158,11,0.08); }
 
+    /* ── FLOATING SUPPORT BUTTON ── */
+    .floating-support-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #25d366 0%, #1fa855 100%);
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 98;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: white;
+      font-size: 0;
+    }
+
+    .floating-support-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+    }
+
+    .floating-support-btn:active {
+      transform: scale(0.95);
+    }
+
+    .floating-support-btn svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+    }
+
+    .support-tooltip {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background: var(--dark2);
+      color: var(--paper);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      border: 1px solid #333;
+    }
+
+    .floating-support-btn:hover .support-tooltip {
+      opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      .floating-support-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 50px;
+        height: 50px;
+      }
+
+      .floating-support-btn svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .support-tooltip {
+        font-size: 0.75rem;
+        padding: 0.6rem 0.8rem;
+      }
+    }
+
     /* ── SCROLL ANIMATIONS ── */
     .reveal {
       opacity: 0;
@@ -1700,6 +1778,14 @@
       </div>
     </div>
   </footer>
+
+  <!-- FLOATING SUPPORT BUTTON -->
+  <a href="https://wa.me/254718258821?text=Hello%20StočkHive%20Support!%20I%20need%20help." target="_blank" rel="noopener noreferrer" class="floating-support-btn" title="Chat with us on WhatsApp" aria-label="WhatsApp Support">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.125 0-2.235.356-3.156 1.031l-.227.144-.235-.04c-.637-.108-1.261-.137-1.858-.088l.748-2.729c.532-1.941 2.371-3.311 4.482-3.311 1.208 0 2.339.408 3.272 1.153l.19.16.286-.046c.665-.108 1.31-.084 1.922.072l-1.245-1.32c-.89-1.055-2.176-1.702-3.589-1.702-1.552 0-2.977.717-3.916 1.95l-1.043 1.357c-.089.118-.184.234-.283.346l-2.121 5.046c-.252.6-.384 1.247-.384 1.901 0 2.494 2.027 4.521 4.521 4.521 1.209 0 2.341-.408 3.274-1.153l1.31-1.097c.094-.079.194-.154.299-.224l2.12-5.046c.252-.6.384-1.247.384-1.901z"/>
+    </svg>
+    <span class="support-tooltip">Chat with us</span>
+  </a>
 
   <script>
     // Scroll reveal

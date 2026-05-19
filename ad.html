@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockHive Ad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+    <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+        –bg:#0d0f12;
+        –s1:#13161b;
+        –s2:#1a1e25;
+        –br:#232830;
+        –am:#f59e0b;
+        –gn:#10b981;
+        –rd:#ef4444;
+        –bl:#60a5fa;
+        –tx:#e8eaed;
+        –mt:#6b7280;
+    }
+
+    body{
+        background:#000;
+        min-height:100vh;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:16px;
+        font-family:‘DM Mono’,monospace;
+    }
+
+    /* API KEY INPUT */
+    #api-panel{
+    background:#ffffff;
+    border:1px solid #232830;
+    border-radius:12px;
+    padding:14px 16px;
+    width:400px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+    }
+    #api-panel label{font-size:10px;color:var(–mt);text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
+    #api-key-input{
+    flex:1;background:#0d0f12;border:1px solid #232830;border-radius:6px;
+    padding:7px 10px;font-size:11px;color:var(–tx);font-family:‘DM Mono’,monospace;outline:none;
+    }
+    #api-key-input:focus{border-color:var(–am)}
+    #api-key-input::placeholder{color:#3a3f48}
+    .api-hint{font-size:9px;color:var(–mt);margin-top:6px;text-align:center;width:400px}
+    .api-hint a{color:var(–am);text-decoration:none}
+
+    /* STAGE */
+    #stage{
+    width:390px;height:694px;
+    background: #3a3f48;
+    position:relative;overflow:hidden;
+    border-radius:20px;
+    box-shadow:0 0 0 1px rgba(245,158,11,0.12), 0 30px 80px rgba(0,0,0,0.7);
+    }
+
+    /* PROGRESS */
+    #prog{
+    position:absolute;bottom:0;left:0;height:2px;
+    background:var(–am);width:0%;z-index:90;
+    box-shadow:0 0 8px var(–am);
+    transition:width 0.1s linear;
+    }
+
+    /* DOTS */
+    #dots{
+    position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+    display:flex;gap:5px;z-index:80;
+    }
+    .dot{width:4px;height:4px;border-radius:50%;background:var(–br);transition:all 0.3s}
+    .dot.on{background:var(–am);width:14px;border-radius:2px;box-shadow:0 0 5px var(–am)}
+
+    /* SCENES */
+    .sc{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;
+    padding:44px 32px 48px;
+    opacity:0;pointer-events:none;
+    transition:opacity 0.5s ease;
+    }
+    .sc.on{opacity:1;pointer-events:auto}
+
+    /* ── PLAY OVERLAY ── */
+    #overlay{
+    position:absolute;inset:0;
+    background:rgba(13,15,18,0.92);
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:16px;z-index:70;
+    transition:opacity 0.4s ease;
+    }
+    #overlay.gone{opacity:0;pointer-events:none}
+
+    .overlay-logo{
+    font-family:‘Syne’,sans-serif;font-size:28px;font-weight:800;
+    letter-spacing:-0.5px;
+    }
+    .overlay-logo span{color:var(–am)}
+
+    .play-btn{
+    background:var(–am);color:#000;border:none;
+    border-radius:50px;padding:14px 36px;
+    font-family:‘Syne’,sans-serif;font-size:15px;font-weight:800;
+    cursor:pointer;letter-spacing:-0.3px;
+    box-shadow:0 0 40px rgba(245,158,11,0.35);
+    transition:all 0.2s;
+    }
+    .play-btn:hover{background:#fbbf24;transform:scale(1.04)}
+    .play-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+
+    #loading-msg{
+    font-size:11px;color:var(–mt);letter-spacing:0.5px;
+    display:none;
+    }
+
+    /* CONTROLS */
+    #ctrls{
+    position:absolute;top:14px;right:14px;
+    display:flex;gap:8px;z-index:80;
+    opacity:0;transition:opacity 0.3s;
+    }
+    #stage:hover #ctrls,#stage.playing #ctrls{opacity:1}
+    .ctrl{
+    background:rgba(13,15,18,0.8);border:1px solid var(–br);
+    border-radius:6px;padding:6px 10px;
+    font-size:10px;color:var(–mt);font-family:‘DM Mono’,monospace;
+    cursor:pointer;transition:all 0.15s;backdrop-filter:blur(6px);
+    display:flex;align-items:center;gap:5px;
+    }
+    .ctrl:hover{border-color:var(–am);color:var(–am)}
+    .ctrl svg{width:12px;height:12px}
+
+    /* ══════════════════════════════
+    SCENE 1 — PROBLEM
+    ══════════════════════════════ */
+    #s1{justify-content:flex-end;gap:0}
+
+    .s1-eyebrow{
+    font-size:10px;color:var(–rd);letter-spacing:2px;
+    text-transform:uppercase;margin-bottom:20px;
+    display:flex;align-items:center;gap:8px;
+    opacity:0;transform:translateY(8px);
+    transition:all 0.5s ease 0.1s;
+    }
+    #s1.on .s1-eyebrow{opacity:1;transform:translateY(0)}
+    .s1-eyebrow::before{content:’’;display:block;width:20px;height:1px;background:var(–rd)}
+
+    .s1-headline{
+    font-family:‘Syne’,sans-serif;font-size:40px;font-weight:800;
+    letter-spacing:-1.5px;line-height:1.05;
+    margin-bottom:32px;
+    opacity:0;transform:translateY(16px);
+    transition:all 0.7s ease 0.2s;
+    }
+    #s1.on .s1-headline{opacity:1;transform:translateY(0)}
+    .s1-headline em{color:var(–rd);font-style:normal}
+
+    .s1-pain-list{
+    display:flex;flex-direction:column;gap:10px;
+    margin-bottom:32px;
+    }
+    .pain-item{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 14px;
+    background:var(–s1);border:1px solid var(–br);border-radius:10px;
+    opacity:0;transform:translateX(-16px);
+    }
+    .pain-item:nth-child(1){transition:all 0.5s ease 0.4s}
+    .pain-item:nth-child(2){transition:all 0.5s ease 0.55s}
+    .pain-item:nth-child(3){transition:all 0.5s ease 0.7s}
+    #s1.on .pain-item{opacity:1;transform:translateX(0)}
+
+    .pain-icon{
+    width:32px;height:32px;border-radius:8px;
+    background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    color:var(–rd);
+    }
+    .pain-icon svg{width:15px;height:15px}
+    .pain-text{font-size:12px;color:var(–tx);line-height:1.4}
+    .pain-sub{font-size:10px;color:var(–mt);margin-top:2px}
+
+    /* ══════════════════════════════
+    SCENE 2 — LOGO
+    ══════════════════════════════ */
+    #s2{
+    align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at 50% 45%,#1c1507 0%,var(–bg) 65%);
+    }
+
+    .logo-mark{
+    width:72px;height:72px;background:var(–am);border-radius:18px;
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:20px;
+    opacity:0;transform:scale(0.6) rotate(-8deg);
+    transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s;
+    box-shadow:0 0 50px rgba(245,158,11,0.4);
+    }
+    #s2.on .logo-mark{opacity:1;transform:scale(1) rotate(0)}
+    .logo-mark svg{width:36px;height:36px;color:#000}
+
+    .logo-word{
+    font-family:‘Syne’,sans-serif;font-size:46px;font-weight:800;
+    letter-spacing:-2px;margin-bottom:10px;
+    opacity:0;transform:translateY(12px);
+    transition:all 0.6s ease 0.7s;
+    }
+    #s2.on .logo-word{opacity:1;transform:translateY(0)}
+    .logo-word span{color:var(–am)}
+
+    .logo-desc{
+    font-size:12px;color:var(–mt);letter-spacing:2px;text-transform:uppercase;
+    text-align:center;margin-bottom:24px;
+    opacity:0;transition:opacity 0.5s ease 1s;
+    }
+    #s2.on .logo-desc{opacity:1}
+
+    .logo-pill{
+    background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);
+    border-radius:50px;padding:8px 20px;
+    font-size:12px;color:var(–am);
+    display:flex;align-items:center;gap:8px;
+    opacity:0;transform:translateY(8px);
+    transition:all 0.5s ease 1.2s;
+    }
+    #s2.on .logo-pill{opacity:1;transform:translateY(0)}
+    .logo-pill svg{width:14px;height:14px}
+
+    /* ══════════════════════════════
+    SCENE 3 — BRANCHES
+    ══════════════════════════════ */
+    #s3{}
+
+    .sc-label{
+    font-size:10px;letter-spacing:2px;text-transform:uppercase;
+    display:flex;align-items:center;gap:8px;margin-bottom:16px;
+    opacity:0;transform:translateY(8px);
+    transition:all 0.4s ease 0.15s;
+    }
+    .sc.on .sc-label{opacity:1;transform:translateY(0)}
+    .sc-label-line{width:16px;height:1px;background:currentColor}
+
+    .sc-title{
+    font-family:‘Syne’,sans-serif;font-size:36px;font-weight:800;
+    letter-spacing:-1px;line-height:1.1;margin-bottom:6px;
+    opacity:0;transform:translateY(14px);
+    transition:all 0.6s ease 0.3s;
+    }
+    .sc.on .sc-title{opacity:1;transform:translateY(0)}
+    .sc-title b{color:var(–am)}
+
+    .sc-desc{
+    font-size:12px;color:var(–mt);margin-bottom:28px;line-height:1.6;
+    opacity:0;transition:opacity 0.5s ease 0.5s;
+    }
+    .sc.on .sc-desc{opacity:1}
+
+    /* Branch rows */
+    .branch-row{
+    display:grid;grid-template-columns:auto 1fr auto;
+    align-items:center;gap:14px;
+    padding:14px 0;border-bottom:1px solid var(–br);
+    opacity:0;transform:translateY(10px);
+    }
+    .branch-row:last-child{border-bottom:none}
+    .branch-row:nth-child(1){transition:all 0.5s ease 0.6s}
+    .branch-row:nth-child(2){transition:all 0.5s ease 0.75s}
+    .branch-row:nth-child(3){transition:all 0.5s ease 0.9s}
+    .sc.on .branch-row{opacity:1;transform:translateY(0)}
+
+    .branch-num{
+    font-family:‘Syne’,sans-serif;font-size:11px;font-weight:700;
+    color:var(–am);width:20px;text-align:center;
+    }
+    .branch-info .bn{font-size:13px;color:var(–tx);font-weight:500}
+    .branch-info .bl{font-size:10px;color:var(–mt);margin-top:2px;display:flex;align-items:center;gap:4px}
+    .branch-info .bl svg{width:10px;height:10px}
+    .branch-kpi{text-align:right}
+    .branch-kpi .bv{font-family:‘Syne’,sans-serif;font-size:15px;font-weight:700;color:var(–tx)}
+    .branch-kpi .bs{
+    display:inline-flex;align-items:center;gap:3px;
+    font-size:9px;color:var(–gn);margin-top:2px;
+    }
+    .branch-kpi .bs svg{width:9px;height:9px}
+
+    .branch-totals{
+    margin-top:20px;background:var(–s1);border:1px solid var(–br);
+    border-radius:10px;padding:14px 16px;
+    display:flex;justify-content:space-between;align-items:center;
+    opacity:0;transition:all 0.5s ease 1s;
+    }
+    .sc.on .branch-totals{opacity:1}
+    .bt-label{font-size:10px;color:var(–mt);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+    .bt-val{font-family:‘Syne’,sans-serif;font-size:20px;font-weight:800;color:var(–am)}
+    .bt-divider{width:1px;height:32px;background:var(–br)}
+
+    /* ══════════════════════════════
+    SCENE 4 — WHATSAPP
+    ══════════════════════════════ */
+    #s4{}
+
+    .phone-wrap{
+    margin-top:4px;
+    background:var(–s1);border:1px solid var(–br);
+    border-radius:16px;overflow:hidden;
+    opacity:0;transform:translateY(24px) scale(0.97);
+    transition:all 0.6s cubic-bezier(0.34,1.1,0.64,1) 0.55s;
+    box-shadow:0 16px 48px rgba(0,0,0,0.4);
+    }
+    .sc.on .phone-wrap{opacity:1;transform:translateY(0) scale(1)}
+
+    .wa-bar{
+    background:#1f2c34;padding:12px 16px;
+    display:flex;align-items:center;gap:10px;
+    }
+    .wa-ava{
+    width:34px;height:34px;background:var(–am);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:‘Syne’,sans-serif;font-size:13px;font-weight:800;color:#000;flex-shrink:0;
+    }
+    .wa-name{font-size:13px;color:#e9edef;font-weight:500;line-height:1}
+    .wa-online{font-size:10px;color:#8696a0;margin-top:2px}
+    .wa-icons{margin-left:auto;display:flex;gap:14px;color:#8696a0}
+    .wa-icons svg{width:18px;height:18px}
+
+    .wa-msgs{padding:14px 12px;display:flex;flex-direction:column;gap:8px;background:#0b141a}
+
+    .msg-bubble{
+    max-width:86%;background:#202c33;border-radius:8px 8px 8px 0;
+    padding:10px 12px;
+    opacity:0;transform:translateY(8px);
+    }
+    .msg-bubble:nth-child(1){transition:all 0.4s ease 0.9s}
+    .msg-bubble:nth-child(2){transition:all 0.4s ease 1.15s;border-radius:8px 8px 8px 0}
+    .sc.on .msg-bubble{opacity:1;transform:translateY(0)}
+
+    .msg-top{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+    .msg-top svg{width:13px;height:13px;color:var(–rd)}
+    .msg-sender{font-size:11px;font-weight:600;color:var(–am)}
+    .msg-body{font-size:11px;color:#e9edef;line-height:1.55}
+    .msg-item{display:flex;align-items:center;gap:6px;margin-top:4px}
+    .msg-item svg{width:11px;height:11px;color:var(–rd);flex-shrink:0}
+    .msg-time{font-size:9px;color:#8696a0;text-align:right;margin-top:5px;display:flex;align-items:center;justify-content:flex-end;gap:3px}
+    .msg-time svg{width:12px;height:12px;color:#53bdeb}
+
+    /* ══════════════════════════════
+    SCENE 5 — FEATURES
+    ══════════════════════════════ */
+    #s5{}
+
+    .feat-list{
+    display:flex;flex-direction:column;gap:0;
+    margin-top:4px;
+    }
+    .feat-row{
+    display:flex;align-items:center;gap:16px;
+    padding:15px 0;border-bottom:1px solid var(–br);
+    opacity:0;transform:translateX(-12px);
+    }
+    .feat-row:last-child{border-bottom:none}
+    .feat-row:nth-child(1){transition:all 0.45s ease 0.5s}
+    .feat-row:nth-child(2){transition:all 0.45s ease 0.63s}
+    .feat-row:nth-child(3){transition:all 0.45s ease 0.76s}
+    .feat-row:nth-child(4){transition:all 0.45s ease 0.89s}
+    .sc.on .feat-row{opacity:1;transform:translateX(0)}
+
+    .feat-ico{
+    width:38px;height:38px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .feat-ico svg{width:18px;height:18px}
+    .feat-ico.am{background:rgba(245,158,11,0.1);color:var(–am)}
+    .feat-ico.gn{background:rgba(16,185,129,0.1);color:var(–gn)}
+    .feat-ico.bl{background:rgba(96,165,250,0.1);color:var(–bl)}
+    .feat-ico.wh{background:rgba(232,234,237,0.08);color:var(–tx)}
+
+    .feat-copy{flex:1}
+    .feat-copy .ft{font-size:13px;font-weight:500;color:var(–tx)}
+    .feat-copy .fd{font-size:11px;color:var(–mt);margin-top:2px;line-height:1.4}
+
+    .feat-badge{
+    font-size:9px;padding:3px 8px;border-radius:12px;
+    letter-spacing:0.5px;white-space:nowrap;font-weight:500;
+    }
+    .feat-badge.free{background:rgba(16,185,129,0.1);color:var(–gn);border:1px solid rgba(16,185,129,0.2)}
+    .feat-badge.pro{background:rgba(245,158,11,0.1);color:var(–am);border:1px solid rgba(245,158,11,0.2)}
+
+    /* ══════════════════════════════
+    SCENE 6 — PRICING
+    ══════════════════════════════ */
+    #s6{}
+
+    .price-stack{
+    margin-top:8px;display:flex;flex-direction:column;gap:10px;
+    }
+    .price-row{
+    background:var(–s1);border:1px solid var(–br);border-radius:12px;
+    padding:16px;
+    opacity:0;transform:translateY(14px);
+    position:relative;overflow:hidden;
+    }
+    .price-row::before{content:’’;position:absolute;left:0;top:0;bottom:0;width:3px}
+    .price-row.free::before{background:var(–mt)}
+    .price-row.basic::before{background:var(–bl)}
+    .price-row.pro::before{background:var(–am)}
+    .price-row:nth-child(1){transition:all 0.45s ease 0.5s}
+    .price-row:nth-child(2){transition:all 0.45s ease 0.65s}
+    .price-row:nth-child(3){transition:all 0.45s ease 0.8s;border-color:rgba(245,158,11,0.3)}
+    .sc.on .price-row{opacity:1;transform:translateY(0)}
+
+    .pr-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .pr-name{font-family:‘Syne’,sans-serif;font-size:15px;font-weight:700}
+    .pr-tag{font-size:9px;padding:3px 8px;border-radius:10px;letter-spacing:0.5px}
+    .pr-tag.pop{background:var(–am);color:#000;font-weight:600}
+    .pr-price{font-family:‘Syne’,sans-serif;font-size:24px;font-weight:800}
+    .pr-price span{font-size:11px;font-weight:400;color:var(–mt)}
+    .pr-desc{font-size:10px;color:var(–mt);line-height:1.5}
+    .pr-feats{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .pr-feat{font-size:9px;color:var(–mt);display:flex;align-items:center;gap:4px}
+    .pr-feat svg{width:10px;height:10px;color:var(–gn)}
+
+    /* ══════════════════════════════
+    SCENE 7 — CTA
+    ══════════════════════════════ */
+    #s7{
+    align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at 50% 40%,#1c1507 0%,var(–bg) 65%);
+    }
+
+    .cta-eyebrow{
+    font-size:10px;color:var(–gn);letter-spacing:2px;text-transform:uppercase;
+    display:flex;align-items:center;gap:8px;margin-bottom:24px;
+    opacity:0;transition:all 0.5s ease 0.2s;
+    }
+    #s7.on .cta-eyebrow{opacity:1}
+    .cta-eyebrow svg{width:12px;height:12px}
+
+    .cta-h{
+    font-family:‘Syne’,sans-serif;font-size:42px;font-weight:800;
+    letter-spacing:-2px;line-height:1.0;text-align:center;
+    margin-bottom:14px;
+    opacity:0;transform:scale(0.92);
+    transition:all 0.7s cubic-bezier(0.34,1.2,0.64,1) 0.35s;
+    }
+    #s7.on .cta-h{opacity:1;transform:scale(1)}
+    .cta-h b{color:var(–am)}
+
+    .cta-sub{
+    font-size:12px;color:var(–mt);text-align:center;
+    line-height:1.7;margin-bottom:28px;
+    opacity:0;transition:opacity 0.5s ease 0.7s;
+    }
+    #s7.on .cta-sub{opacity:1}
+
+    .cta-action{
+    background:var(–am);color:#000;border:none;
+    border-radius:50px;padding:16px 44px;
+    font-family:‘Syne’,sans-serif;font-size:16px;font-weight:800;
+    cursor:pointer;letter-spacing:-0.5px;
+    box-shadow:0 0 50px rgba(245,158,11,0.35);
+    opacity:0;transform:translateY(14px);
+    transition:all 0.6s ease 0.9s;
+    margin-bottom:20px;
+    }
+    #s7.on .cta-action{opacity:1;transform:translateY(0)}
+
+    .cta-link{
+    font-size:13px;color:var(–mt);
+    opacity:0;transition:opacity 0.5s ease 1.1s;
+    display:flex;align-items:center;gap:6px;
+    }
+    #s7.on .cta-link{opacity:1}
+    .cta-link svg{width:13px;height:13px;color:var(–am)}
+    .cta-link strong{color:var(–am)}
+
+    </style>
+</head>
+<body>
+
+<!-- API Key Input -->
+
+<div id="api-panel">
+  <label>ElevenLabs Key</label>
+  <input id="api-key-input" type="password" placeholder="sk_... (optional — for natural voice)" />
+</div>
+<div class="api-hint">
+  Get a free key at <a href="https://elevenlabs.io" target="_blank">elevenlabs.io</a> — 10,000 free chars/month &nbsp;·&nbsp; Leave blank to use browser voice
+</div>
+
+<!-- Stage -->
+
+<div id="stage">
+
+  <!-- Scene 1 — Problem -->
+
+  <section class="sc" id="s1">
+    <div style="flex:1"></div>
+    <div class="s1-eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Sound familiar?
+    </div>
+    <div class="s1-headline">Managing stock<br>the <em>wrong way.</em></div>
+    <div class="s1-pain-list">
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div>
+          <div class="pain-text">Notebooks & spreadsheets</div>
+          <div class="pain-sub">Outdated the moment you write them</div>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div>
+          <div class="pain-text">Stockouts you didn't see coming</div>
+          <div class="pain-sub">Losing sales every time</div>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div>
+          <div class="pain-text">Zero visibility across branches</div>
+          <div class="pain-sub">Guessing instead of knowing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 2 — Logo -->
+
+  <section class="sc" id="s2">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    </div>
+    <div class="logo-word">Stock<span>Hive</span></div>
+    <div class="logo-desc">Inventory · Built for Kenya</div>
+    <div class="logo-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Free to start — no card needed
+    </div>
+  </section>
+
+  <!-- Scene 3 — Branches -->
+
+  <section class="sc" id="s3">
+    <div class="sc-label" style="color:var(--am)">
+      <div class="sc-label-line"></div>
+      Multi-Branch
+    </div>
+    <div class="sc-title">All shops.<br>One <b>view.</b></div>
+    <div class="sc-desc">Each branch is fully independent.<br>You see everything as the owner.</div>
+
+<div class="branch-row">
+  <div class="branch-num">01</div>
+  <div class="branch-info">
+    <div class="bn">Nairobi CBD</div>
+    <div class="bl">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Tom Mboya St
+    </div>
+  </div>
+  <div class="branch-kpi">
+    <div class="bv">KES 284K</div>
+    <div class="bs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      +12%
+    </div>
+  </div>
+</div>
+<div class="branch-row">
+  <div class="branch-num">02</div>
+  <div class="branch-info">
+    <div class="bn">Westlands</div>
+    <div class="bl">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Westlands, Nairobi
+    </div>
+  </div>
+  <div class="branch-kpi">
+    <div class="bv">KES 198K</div>
+    <div class="bs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      +8%
+    </div>
+  </div>
+</div>
+<div class="branch-row">
+  <div class="branch-num">03</div>
+  <div class="branch-info">
+    <div class="bn">Mombasa</div>
+    <div class="bl">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Digo Rd, Mombasa
+    </div>
+  </div>
+  <div class="branch-kpi">
+    <div class="bv">KES 157K</div>
+    <div class="bs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      +5%
+    </div>
+  </div>
+</div>
+
+<div class="branch-totals">
+  <div>
+    <div class="bt-label">Total Revenue</div>
+    <div class="bt-val">KES 639K</div>
+  </div>
+  <div class="bt-divider"></div>
+  <div>
+    <div class="bt-label">Active Branches</div>
+    <div class="bt-val">3</div>
+  </div>
+  <div class="bt-divider"></div>
+  <div>
+    <div class="bt-label">Products</div>
+    <div class="bt-val">355</div>
+  </div>
+</div>
+
+
+  </section>
+
+  <!-- Scene 4 — WhatsApp -->
+
+  <section class="sc" id="s4">
+    <div class="sc-label" style="color:var(--gn)">
+      <div class="sc-label-line"></div>
+      WhatsApp Alerts
+    </div>
+    <div class="sc-title">Know before<br>you <b>run out.</b></div>
+    <div class="sc-desc">Automatic alerts sent to your WhatsApp the moment stock runs low.</div>
+    <div class="phone-wrap">
+      <div class="wa-bar">
+        <div class="wa-ava">S</div>
+        <div>
+          <div class="wa-name">StockHive Alerts</div>
+          <div class="wa-online">online</div>
+        </div>
+        <div class="wa-icons">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.12 6.12l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        </div>
+      </div>
+      <div class="wa-msgs">
+        <div class="msg-bubble">
+          <div class="msg-top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span class="msg-sender">Low Stock — Nairobi CBD</span>
+          </div>
+          <div class="msg-body">
+            <div class="msg-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Sugar 1kg — only 9 bags remaining
+            </div>
+            <div class="msg-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Milk 500ml — only 5 packets remaining
+            </div>
+          </div>
+          <div class="msg-time">
+            10:32 AM
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/><polyline points="20 6 9 17 4 12" transform="translate(4,0)"/></svg>
+          </div>
+        </div>
+        <div class="msg-bubble">
+          <div class="msg-body" style="color:#8696a0;font-size:10px">Restock soon to avoid stockouts — stockhive.co.ke</div>
+          <div class="msg-time">10:32 AM
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 5 — Features -->
+
+  <section class="sc" id="s5">
+    <div class="sc-label" style="color:var(--bl)">
+      <div class="sc-label-line"></div>
+      Features
+    </div>
+    <div class="sc-title">Everything<br>your shop <b>needs.</b></div>
+    <div class="feat-list">
+      <div class="feat-row">
+        <div class="feat-ico am">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <div class="feat-copy">
+          <div class="ft">Stock Management</div>
+          <div class="fd">Real-time levels, entries, adjustments</div>
+        </div>
+        <span class="feat-badge free">Free</span>
+      </div>
+      <div class="feat-row">
+        <div class="feat-ico gn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="feat-copy">
+          <div class="ft">Sales Recording</div>
+          <div class="fd">Fast checkout — works offline too</div>
+        </div>
+        <span class="feat-badge free">Free</span>
+      </div>
+      <div class="feat-row">
+        <div class="feat-ico bl">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div class="feat-copy">
+          <div class="ft">Reports & Analytics</div>
+          <div class="fd">Sales, profit margins, top products</div>
+        </div>
+        <span class="feat-badge pro">Basic+</span>
+      </div>
+      <div class="feat-row">
+        <div class="feat-ico wh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div class="feat-copy">
+          <div class="ft">M-PESA Billing</div>
+          <div class="fd">Subscribe and pay via STK Push</div>
+        </div>
+        <span class="feat-badge pro">All plans</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 6 — Pricing -->
+
+  <section class="sc" id="s6">
+    <div class="sc-label" style="color:var(--gn)">
+      <div class="sc-label-line"></div>
+      Pricing
+    </div>
+    <div class="sc-title">Start free.<br><b>Scale up.</b></div>
+    <div class="price-stack">
+      <div class="price-row free">
+        <div class="pr-head">
+          <div class="pr-name">Free</div>
+          <div class="pr-price" style="color:var(--gn)">KES 0</div>
+        </div>
+        <div class="pr-desc">1 shop · 30 products · 2 staff accounts</div>
+        <div class="pr-feats">
+          <div class="pr-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Stock tracking</div>
+          <div class="pr-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Sales recording</div>
+        </div>
+      </div>
+      <div class="price-row basic">
+        <div class="pr-head">
+          <div class="pr-name">Basic</div>
+          <div class="pr-price" style="color:var(--bl)">999 <span>KES/mo</span></div>
+        </div>
+        <div class="pr-desc">1 shop · 200 products · 5 staff</div>
+        <div class="pr-feats">
+          <div class="pr-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>WhatsApp alerts</div>
+          <div class="pr-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Advanced reports</div>
+        </div>
+      </div>
+      <div class="price-row pro">
+        <div class="pr-head">
+          <div class="pr-name">Pro</div>
+          <span class="pr-tag pop">POPULAR</span>
+          <div class="pr-price" style="color:var(--am)">2,499 <span>KES/mo</span></div>
+        </div>
+        <div class="pr-desc">3 branches · Unlimited products · 15 staff</div>
+        <div class="pr-feats">
+          <div class="pr-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Multi-branch</div>
+          <div class="pr-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Stock transfers</div>
+          <div class="pr-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Priority support</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scene 7 — CTA -->
+
+  <section class="sc" id="s7">
+    <div class="cta-eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Free · No card needed · Cancel anytime
+    </div>
+    <div class="cta-h">Take control<br>of your <b>stock.</b></div>
+    <div class="cta-sub">Join Kenyan shop owners already<br>using StockHive to run their business.</div>
+    <button class="cta-action">Start for Free →</button>
+    <div class="cta-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      <strong>stockhive.co.ke</strong>
+    </div>
+  </section>
+
+  <!-- Progress -->
+
+  <div id="prog"></div>
+  <!-- Dots -->
+  <div id="dots"></div>
+  <!-- Controls -->
+  <div id="ctrls">
+    <button class="ctrl" id="restartBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+      Restart
+    </button>
+    <button class="ctrl" id="muteBtn">
+      <svg id="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+      Voice
+    </button>
+  </div>
+  <!-- Overlay -->
+  <div id="overlay">
+    <div class="overlay-logo">Stock<span>Hive</span></div>
+    <button class="play-btn" id="playBtn">▶ &nbsp; Play Ad</button>
+    <div id="loading-msg">Generating voice...</div>
+  </div>
+
+</div>
+
+<script>
+const SCENES_DATA = [
+  { id:'s1', start:0,     dur:4500, text:"Tired of managing stock with notebooks and spreadsheets? Missing stockouts. Zero visibility across your branches. There has to be a better way." },
+  { id:'s2', start:4500,  dur:3500, text:"Introducing StockHive. Inventory management built specifically for Kenyan retail and wholesale shops." },
+  { id:'s3', start:8000,  dur:4500, text:"Manage all your branches from a single dashboard. Each shop stays fully independent — you see everything as the owner." },
+  { id:'s4', start:12500, dur:4000, text:"Get instant WhatsApp alerts the moment any product runs low. Know before you run out." },
+  { id:'s5', start:16500, dur:4000, text:"Track stock in real time, record sales fast — even offline — generate reports, and pay via M-PESA." },
+  { id:'s6', start:20500, dur:4000, text:"Start completely free. No card needed. Upgrade to Basic for nine ninety nine a month, or go Pro for full multi-branch support at two thousand four ninety nine." },
+  { id:'s7', start:24500, dur:4000, text:"Take control of your stock today. Visit stockhive dot co dot ke and start for free." },
+];
+const TOTAL = 28500;
+
+let playing=false, muted=false, startTime=null, raf=null, curScene=-1;
+let audioBuffers=[], audioCtx=null, scheduledNodes=[];
+let timeouts=[];
+
+// Build dots
+const dotsEl = document.getElementById('dots');
+SCENES_DATA.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot';d.id='dt'+i;dotsEl.appendChild(d);
+});
+
+function showScene(i){
+  if(i===curScene)return;
+  curScene=i;
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  const el=document.getElementById(SCENES_DATA[i].id);
+  if(el)el.classList.add('on');
+  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('on',j===i));
+}
+
+// ── ELEVENLABS VOICE ──────────────────────────────
+async function fetchElevenLabsAudio(text, apiKey){
+  const voiceId = 'pNInz6obpgDQGcFmaJgB'; // Adam — natural male
+  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+    method:'POST',
+    headers:{
+      'xi-api-key': apiKey,
+      'Content-Type':'application/json',
+      'Accept':'audio/mpeg'
+    },
+    body: JSON.stringify({
+      text,
+      model_id:'eleven_monolingual_v1',
+      voice_settings:{ stability:0.45, similarity_boost:0.78, style:0.2, use_speaker_boost:true }
+    })
+  });
+  if(!res.ok) throw new Error('ElevenLabs error: '+res.status);
+  return await res.arrayBuffer();
+}
+
+async function generateAllAudio(apiKey){
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const buffers = [];
+  for(const scene of SCENES_DATA){
+    const ab = await fetchElevenLabsAudio(scene.text, apiKey);
+    const decoded = await audioCtx.decodeAudioData(ab);
+    buffers.push(decoded);
+  }
+  return buffers;
+}
+
+// ── WEB SPEECH FALLBACK ───────────────────────────
+function speakFallback(text, delay){
+  if(muted || !('speechSynthesis' in window)) return;
+  const t = setTimeout(()=>{
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate=0.92; u.pitch=0.95; u.volume=1;
+    const voices = window.speechSynthesis.getVoices();
+    const v = voices.find(v=>v.lang.startsWith('en')&&(v.name.includes('Google UK')||v.name.includes('Daniel')||v.name.includes('Google')))
+           || voices.find(v=>v.lang.startsWith('en')) || voices[0];
+    if(v) u.voice=v;
+    window.speechSynthesis.speak(u);
+  }, delay);
+  timeouts.push(t);
+}
+
+// ── PLAY AUDIO (ElevenLabs) ───────────────────────
+function playAudioBuffers(buffers){
+  scheduledNodes.forEach(n=>{try{n.stop()}catch(e){}});
+  scheduledNodes=[];
+  if(!audioCtx || muted) return;
+  const now = audioCtx.currentTime;
+  buffers.forEach((buf, i)=>{
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    src.connect(audioCtx.destination);
+    const offsetSecs = SCENES_DATA[i].start / 1000;
+    src.start(now + offsetSecs);
+    scheduledNodes.push(src);
+  });
+}
+
+// ── TICK ──────────────────────────────────────────
+function tick(now){
+  if(!playing) return;
+  const elapsed = now - startTime;
+  document.getElementById('prog').style.width = Math.min(elapsed/TOTAL*100,100)+'%';
+  let ai = SCENES_DATA.length-1;
+  for(let i=0;i<SCENES_DATA.length;i++){
+    if(elapsed < SCENES_DATA[i].start + SCENES_DATA[i].dur){ ai=i; break; }
+  }
+  showScene(ai);
+  if(elapsed >= TOTAL){
+    playing=false;
+    document.getElementById('overlay').classList.remove('gone');
+    document.getElementById('playBtn').textContent='↺  Watch Again';
+    document.getElementById('playBtn').disabled=false;
+    document.getElementById('stage').classList.remove('playing');
+    return;
+  }
+  raf = requestAnimationFrame(tick);
+}
+
+// ── START ─────────────────────────────────────────
+async function startAd(){
+  const apiKey = document.getElementById('api-key-input').value.trim();
+  const playBtn = document.getElementById('playBtn');
+  const loadMsg = document.getElementById('loading-msg');
+
+  // Reset state
+  playing=false;
+  curScene=-1;
+  timeouts.forEach(clearTimeout); timeouts=[];
+  scheduledNodes.forEach(n=>{try{n.stop()}catch(e){}});
+  scheduledNodes=[];
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  raf && cancelAnimationFrame(raf);
+  document.getElementById('prog').style.width='0%';
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.dot').forEach(d=>d.classList.remove('on'));
+
+  if(apiKey){
+    // ElevenLabs path
+    playBtn.disabled=true;
+    playBtn.textContent='Loading...';
+    loadMsg.style.display='block';
+    try{
+      audioBuffers = await generateAllAudio(apiKey);
+    } catch(e){
+      loadMsg.textContent='Voice failed — using browser voice instead.';
+      setTimeout(()=>{ loadMsg.style.display='none'; loadMsg.textContent='Generating voice...'; }, 2500);
+      // fall through to browser speech
+      audioBuffers=[];
+    }
+    loadMsg.style.display='none';
+    playBtn.textContent='▶  Play Ad';
+    playBtn.disabled=false;
+  }
+
+  // Start animation
+  playing=true;
+  document.getElementById('overlay').classList.add('gone');
+  document.getElementById('stage').classList.add('playing');
+  startTime = performance.now();
+
+  if(apiKey && audioBuffers.length){
+    if(audioCtx.state==='suspended') await audioCtx.resume();
+    playAudioBuffers(audioBuffers);
+  } else {
+    // Web speech fallback
+    SCENES_DATA.forEach(s => speakFallback(s.text, s.start + 150));
+  }
+
+  raf = requestAnimationFrame(tick);
+}
+
+// ── MUTE ─────────────────────────────────────────
+document.getElementById('muteBtn').addEventListener('click',()=>{
+  muted=!muted;
+  const btn=document.getElementById('muteBtn');
+  btn.innerHTML = muted
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg> Muted`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg> Voice`;
+  if(muted){
+    window.speechSynthesis && window.speechSynthesis.cancel();
+    scheduledNodes.forEach(n=>{try{n.stop()}catch(e){}});
+  }
+});
+
+document.getElementById('playBtn').addEventListener('click', startAd);
+document.getElementById('restartBtn').addEventListener('click', startAd);
+
+// Preload voices
+if('speechSynthesis' in window){
+  speechSynthesis.getVoices();
+  speechSynthesis.onvoiceschanged = ()=>speechSynthesis.getVoices();
+}
+
+// Preview scene 1
+showScene(0);
+</script>
+
+</body>
+</html>
