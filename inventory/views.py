@@ -216,9 +216,11 @@ class ProductViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.Model
 
     @action(detail=False, methods=['post'])
     def clone_catalog(self, request):
-        from .models import Shop, Product
+        from .models import Shop, Product, StockEntry
+        from .utils import get_current_stock
         business = request.user.business
         to_shop_id = request.data.get('to_shop_id')
+        include_stock = request.data.get('include_stock', False)
         from_shop = self.get_shop() # From ShopScopedMixin
         
         if not to_shop_id:
@@ -233,29 +235,49 @@ class ProductViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.Model
             return Response({"error": "Source and destination shops must be different."}, status=400)
 
         cloned_count = 0
+        stock_entries_count = 0
         with transaction.atomic():
             source_products = Product.objects.filter(shop=from_shop, is_active=True)
             for sp in source_products:
-                # Check if SKU already exists in destination
-                if not Product.objects.filter(shop=to_shop, sku=sp.sku).exists():
-                    Product.objects.create(
-                        shop=to_shop,
-                        name=sp.name,
-                        sku=sp.sku,
-                        barcode=sp.barcode,
-                        buying_price=sp.buying_price,
-                        selling_price=sp.selling_price,
-                        unit=sp.unit,
-                        # Note: Category is reset as categories are shop-specific
-                    )
-                    cloned_count += 1
+                # 1. Skip if the product already exists in the receiving branch
+                if Product.objects.filter(shop=to_shop, sku=sp.sku).exists():
+                    continue
+                
+                # 2. Copy only products that are NOT already in the receiving branch
+                dest_product = Product.objects.create(
+                    shop=to_shop,
+                    sku=sp.sku,
+                    name=sp.name,
+                    barcode=sp.barcode,
+                    buying_price=sp.buying_price,
+                    selling_price=sp.selling_price,
+                    unit=sp.unit,
+                    low_stock_threshold=sp.low_stock_threshold
+                )
+                cloned_count += 1
+                
+                # 3. If include_stock is True, copy the quantity for these NEW items
+                if include_stock:
+                    current_qty = get_current_stock(sp)
+                    if current_qty > 0:
+                        StockEntry.objects.create(
+                            product=dest_product,
+                            shop=to_shop,
+                            quantity=current_qty,
+                            buying_price_at_entry=sp.buying_price,
+                            note=f"Inventory clone from {from_shop.name}",
+                            entered_by=request.user
+                        )
+                        stock_entries_count += 1
             
             # Invalidate dashboard cache
             cache.delete(f"dashboard_data_{to_shop.id}")
 
-        return Response({
-            "message": f"Successfully cloned {cloned_count} product definitions to {to_shop.name}."
-        })
+        msg = f"Successfully cloned {cloned_count} product definitions to {to_shop.name}."
+        if include_stock:
+            msg += f" Copied stock levels for {stock_entries_count} products."
+            
+        return Response({"message": msg})
 
     def get_queryset(self):
         queryset = super().get_queryset()

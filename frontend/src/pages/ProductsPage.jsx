@@ -21,6 +21,7 @@ export default function ProductsPage() {
   const [error, setError] = useState("");
   const [isExporting, setIsExporting] = useState(false);
   const [cloneTo, setCloneTo] = useState("");
+  const [includeStock, setIncludeStock] = useState(false);
   const [isCloning, setIsCloning] = useState(false);
   const { user, scopedQuery, selectedShopId, subscription, shops: allShops } = useAuth();
 
@@ -77,7 +78,8 @@ export default function ProductsPage() {
     const destShopName = allShops.find(s => s.id === cloneTo)?.name || 'destination shop';
 
     const confirm = window.confirm(
-      `Sync catalog from "${sourceShopName}" to "${destShopName}"?\n\nThis will copy all product names, SKUs, and prices. Stock levels in the new shop will remain at 0.`
+      `Sync catalog from "${sourceShopName}" to "${destShopName}"?` +
+      (includeStock ? `\n\nWARNING: This will also COPY current stock levels. Quantities will NOT be subtracted from "${sourceShopName}".` : `\n\nStock levels in the new shop will remain at 0.`)
     );
 
     if (!confirm) return;
@@ -87,10 +89,12 @@ export default function ProductsPage() {
 
     try {
       const response = await api.post(`/products/clone_catalog/${scopedQuery}`, {
-        to_shop_id: cloneTo
+        to_shop_id: cloneTo,
+        include_stock: includeStock
       });
       alert(response.data.message);
       setCloneTo("");
+      setIncludeStock(false);
     } catch (err) {
       setError("Catalog sync failed: " + (err.response?.data?.error || err.message));
     } finally {
@@ -156,8 +160,20 @@ export default function ProductsPage() {
       <div className="card" style={{ marginBottom: '24px' }}>
           <h3 className="section-title">Catalog Sync (Rapid Branch Setup)</h3>
           <p className="muted" style={{ fontSize: '12px', marginBottom: '16px' }}>
-              Push your entire product list (Names, SKUs, Prices) to another branch. <strong>Stock will not be moved.</strong>
+              Push your entire product list (Names, SKUs, Prices) to another branch.
           </p>
+          <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <input
+                type="checkbox"
+                id="includeStock"
+                checked={includeStock}
+                onChange={(e) => setIncludeStock(e.target.checked)}
+                style={{ width: 'auto' }}
+              />
+              <label htmlFor="includeStock" style={{ fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>
+                  Include current stock levels (New items only)
+              </label>
+          </div>
           <div className="row" style={{ alignItems: 'center' }}>
               <select
                   value={cloneTo}
