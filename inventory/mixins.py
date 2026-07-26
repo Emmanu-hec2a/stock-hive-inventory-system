@@ -51,3 +51,45 @@ class ShopScopedMixin:
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(shop=self.get_shop())
+
+
+class AuditLogMixin:
+    """
+    Automatically records Create, Update, and Delete actions to AuditLog.
+    """
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        self._log_action("create", instance)
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        self._log_action("update", instance)
+
+    def perform_destroy(self, instance):
+        instance_id = str(instance.id)
+        self._log_action("delete", instance)
+        instance.delete()
+
+    def _log_action(self, action, instance):
+        from inventory.models import AuditLog
+        
+        # Get business and shop
+        business = self.request.user.business
+        shop = getattr(instance, 'shop', None)
+        
+        # Calculate changes for updates
+        changes = None
+        if action == "update":
+            # This is a simplified version; for complex models, 
+            # we'd compare serializer.initial_data with model_to_dict(instance)
+            changes = {"info": "Record updated"}
+
+        AuditLog.objects.create(
+            user=self.request.user,
+            business=business,
+            shop=shop,
+            action=action,
+            model_name=instance.__class__.__name__,
+            target_id=str(instance.id),
+            changes=changes
+        )

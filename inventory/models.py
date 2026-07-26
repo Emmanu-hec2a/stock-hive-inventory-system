@@ -24,6 +24,24 @@ class Business(models.Model):
         return self.name
 
 
+class Supplier(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name="suppliers")
+    name = models.CharField(max_length=255)
+    email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=30, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ["name"]
+        unique_together = ("business", "name")
+
+    def __str__(self):
+        return self.name
+
+
 class Shop(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name="shops")
@@ -61,6 +79,7 @@ class Product(models.Model):
     )
     name = models.CharField(max_length=255)
     sku = models.CharField(max_length=120)
+    barcode = models.CharField(max_length=255, null=True, blank=True)
     buying_price = models.DecimalField(max_digits=12, decimal_places=2)
     selling_price = models.DecimalField(max_digits=12, decimal_places=2)
     unit = models.CharField(max_length=50)
@@ -82,6 +101,9 @@ class StockEntry(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="stock_entries")
     quantity = models.PositiveIntegerField()
     buying_price_at_entry = models.DecimalField(max_digits=12, decimal_places=2)
+    supplier = models.ForeignKey(
+        Supplier, on_delete=models.SET_NULL, null=True, blank=True, related_name="stock_entries"
+    )
     supplier_name = models.CharField(max_length=255, null=True, blank=True)
     note = models.TextField(null=True, blank=True)
     entered_by = models.ForeignKey(
@@ -175,3 +197,30 @@ class SaleItem(models.Model):
 
     class Meta:
         ordering = ["id"]
+
+
+class AuditLog(models.Model):
+    ACTION_CREATE = "create"
+    ACTION_UPDATE = "update"
+    ACTION_DELETE = "delete"
+    ACTION_CHOICES = [
+        (ACTION_CREATE, "Create"),
+        (ACTION_UPDATE, "Update"),
+        (ACTION_DELETE, "Delete"),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey("accounts.User", on_delete=models.SET_NULL, null=True, related_name="audit_logs")
+    business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name="audit_logs")
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null=True, blank=True, related_name="audit_logs")
+    action = models.CharField(max_length=20, choices=ACTION_CHOICES)
+    model_name = models.CharField(max_length=100)
+    target_id = models.CharField(max_length=255)  # ID of the object being logged
+    changes = models.JSONField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user} - {self.action} - {self.model_name}"

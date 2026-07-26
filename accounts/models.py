@@ -10,10 +10,12 @@ from .managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     ROLE_SUPER_ADMIN = "super_admin"
     ROLE_SHOP_ADMIN = "shop_admin"
+    ROLE_INVENTORY_MANAGER = "inventory_manager"
     ROLE_CASHIER = "cashier"
     ROLE_CHOICES = [
         (ROLE_SUPER_ADMIN, "Super Admin"),
         (ROLE_SHOP_ADMIN, "Shop Admin"),
+        (ROLE_INVENTORY_MANAGER, "Inventory Manager"),
         (ROLE_CASHIER, "Cashier"),
     ]
 

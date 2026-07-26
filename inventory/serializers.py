@@ -14,6 +14,8 @@ from inventory.models import (
     Shop,
     StockAdjustment,
     StockEntry,
+    Supplier,
+    AuditLog,
 )
 from inventory.models import StockTransfer
 from inventory.utils import get_current_stock
@@ -94,6 +96,33 @@ class CategorySerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "shop"]
 
 
+class SupplierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supplier
+        fields = ["id", "business", "name", "email", "phone", "address", "is_active", "created_at"]
+        read_only_fields = ["id", "business", "created_at"]
+
+
+class AuditLogSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source="user.full_name", read_only=True)
+    shop_name = serializers.CharField(source="shop.name", read_only=True)
+
+    class Meta:
+        model = AuditLog
+        fields = [
+            "id",
+            "user",
+            "user_name",
+            "shop",
+            "shop_name",
+            "action",
+            "model_name",
+            "target_id",
+            "changes",
+            "created_at",
+        ]
+
+
 class ProductSerializer(serializers.ModelSerializer):
     current_stock = serializers.SerializerMethodField()
 
@@ -105,6 +134,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "category",
             "name",
             "sku",
+            "barcode",
             "buying_price",
             "selling_price",
             "unit",
@@ -121,6 +151,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class StockEntrySerializer(serializers.ModelSerializer):
+    supplier_display_name = serializers.CharField(source="supplier.name", read_only=True)
+
     class Meta:
         model = StockEntry
         fields = [
@@ -129,6 +161,8 @@ class StockEntrySerializer(serializers.ModelSerializer):
             "shop",
             "quantity",
             "buying_price_at_entry",
+            "supplier",
+            "supplier_display_name",
             "supplier_name",
             "note",
             "entered_by",
@@ -195,7 +229,7 @@ class ProductExportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ["sku", "name", "shop_name", "category_name", "buying_price", "selling_price", "unit", "current_stock", "low_stock_threshold"]
+        fields = ["sku", "barcode", "name", "shop_name", "category_name", "buying_price", "selling_price", "unit", "current_stock", "low_stock_threshold"]
 
     def get_current_stock(self, obj):
         return get_current_stock(obj)

@@ -6,6 +6,7 @@ const entryDefaults = {
   product: "",
   quantity: 1,
   buying_price_at_entry: "",
+  supplier: "",
   supplier_name: "",
   note: "",
 };
@@ -13,23 +14,26 @@ const entryDefaults = {
 export default function StockPage() {
   const [entries, setEntries] = useState([]);
   const [products, setProducts] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
   const [form, setForm] = useState(entryDefaults);
   const [transferForm, setTransferForm] = useState({ product: '', to_shop: '', quantity: 1, reference: '' });
   const [error, setError] = useState("");
-  const { user, scopedQuery, selectedShopId, subscription } = useAuth();
+  const { user, scopedQuery, selectedShopId, subscription, shops: allShops } = useAuth();
 
   const loadData = async () => {
     try {
       if (user?.role === "super_admin" && !selectedShopId) return;
-      const [productsResponse, entriesResponse] = await Promise.all([
+      const [productsResponse, entriesResponse, suppliersResponse] = await Promise.all([
         api.get(`/products/${scopedQuery}`),
         api.get(`/stock/entries/${scopedQuery}`),
+        api.get("/suppliers/"),
       ]);
       setProducts(productsResponse.data);
       setEntries(entriesResponse.data);
+      setSuppliers(suppliersResponse.data);
       setError("");
     } catch (err) {
-      setError("Could not load stock data for selected shop.");
+      setError("Could not load stock data.");
     }
   };
 
@@ -113,10 +117,21 @@ export default function StockPage() {
           placeholder="Buying price"
           required
         />
+        <select
+          value={form.supplier}
+          onChange={(event) => setForm((prev) => ({ ...prev, supplier: event.target.value }))}
+        >
+          <option value="">Link to supplier (Optional)</option>
+          {suppliers.map((supplier) => (
+            <option key={supplier.id} value={supplier.id}>
+              {supplier.name}
+            </option>
+          ))}
+        </select>
         <input
           value={form.supplier_name}
           onChange={(event) => setForm((prev) => ({ ...prev, supplier_name: event.target.value }))}
-          placeholder="Supplier"
+          placeholder="Manual Supplier Name"
         />
         <input
           value={form.note}
@@ -126,17 +141,14 @@ export default function StockPage() {
         <button type="submit">Add Entry</button>
       </form>
 
-      {/* Stock Transfer Form */}
       <div className="card" style={{ marginTop: '24px' }}>
         <h3>Transfer Stock (Pro+)</h3>
         <form className="form-grid" onSubmit={handleTransfer}>
           <select
-            value={transferForm.from_shop}
-            onChange={(e) => setTransferForm(prev => ({ ...prev, from_shop: e.target.value }))}
-            required
+            value={selectedShopId}
+            disabled
           >
-            <option value="">From Shop</option>
-            <option value={user.shop?.id}>{user.shop?.name}</option>
+            <option value={selectedShopId}>{allShops.find(s => s.id === selectedShopId)?.name || 'Current Shop'}</option>
           </select>
           <select
             value={transferForm.to_shop}
@@ -144,7 +156,7 @@ export default function StockPage() {
             required
           >
             <option value="">To Shop</option>
-            {shops.map(shop => (
+            {allShops.filter(s => s.id !== selectedShopId).map(shop => (
               <option key={shop.id} value={shop.id}>
                 {shop.name}
               </option>
@@ -192,14 +204,17 @@ export default function StockPage() {
             </tr>
           </thead>
           <tbody>
-            {entries.map((entry) => (
-              <tr key={entry.id}>
-                <td>{entry.product}</td>
-                <td>{entry.quantity}</td>
-                <td>{entry.buying_price_at_entry}</td>
-                <td>{entry.supplier_name || "-"}</td>
-              </tr>
-            ))}
+            {entries.map((entry) => {
+              const product = products.find(p => p.id === entry.product);
+              return (
+                <tr key={entry.id}>
+                  <td>{product?.name || entry.product}</td>
+                  <td>{entry.quantity}</td>
+                  <td>{entry.buying_price_at_entry}</td>
+                  <td>{entry.supplier_display_name || entry.supplier_name || "-"}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

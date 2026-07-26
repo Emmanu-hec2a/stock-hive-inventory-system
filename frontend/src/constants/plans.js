@@ -7,8 +7,21 @@ export const PLAN_LIMITS = {
 
 export const PLAN_FEATURES = {
   free: ['sales', 'stock_management', 'basic_reports'],
-  basic: ['sales', 'stock_management', 'basic_reports', 'advanced_reports', 'low_stock_alerts', 'export_csv'],
-  pro: ['sales', 'stock_management', 'basic_reports', 'advanced_reports', 'low_stock_alerts', 'export_csv', 'multi_branch', 'stock_transfers', 'priority_support'],
+  basic: ['sales', 'stock_management', 'basic_reports', 'advanced_reports', 'low_stock_alerts', 'export_csv', 'barcodes'],
+  pro: [
+    'sales',
+    'stock_management',
+    'basic_reports',
+    'advanced_reports',
+    'low_stock_alerts',
+    'export_csv',
+    'barcodes',
+    'multi_branch',
+    'stock_transfers',
+    'suppliers',
+    'audit_logs',
+    'priority_support',
+  ],
   enterprise: ['*'],
 };
 

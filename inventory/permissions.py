@@ -15,10 +15,19 @@ class IsSuperOrShopAdmin(BasePermission):
         )
 
 
+class IsInventoryManager(BasePermission):
+    def has_permission(self, request, view):
+        return bool(
+            request.user
+            and request.user.is_authenticated
+            and request.user.role in {"super_admin", "shop_admin", "inventory_manager"}
+        )
+
+
 class CanRecordSales(BasePermission):
     def has_permission(self, request, view):
         return bool(
             request.user
             and request.user.is_authenticated
-            and request.user.role in {"super_admin", "shop_admin", "cashier"}
+            and request.user.role in {"super_admin", "shop_admin", "inventory_manager", "cashier"}
         )

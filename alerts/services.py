@@ -113,7 +113,7 @@ def trigger_low_stock_alerts(product):
             return
 
         # Create alert record and attempt to send
-        from .whatsapp import send_whatsapp_alert
+        from .tasks import send_whatsapp_alert_task
         
         alert = StockAlert.objects.create(
             product=product,
@@ -124,21 +124,15 @@ def trigger_low_stock_alerts(product):
             threshold=threshold,
         )
 
-        success, error = send_whatsapp_alert(
+        # Trigger background task
+        send_whatsapp_alert_task.delay(
+            alert_id=alert.id,
             phone=connection.phone_number,
             shop_name=shop.name,
             product_name=product.name,
             current_stock=current_stock,
             unit=product.unit,
         )
-
-        alert.status = "sent" if success else "failed"
-        alert.error_msg = error
-        alert.save()
-
-        if success:
-            connection.last_message_at = timezone.now()
-            connection.save()
 
     except Exception as e:
         # Log but never raise — we don't want alert failures to break sales flow

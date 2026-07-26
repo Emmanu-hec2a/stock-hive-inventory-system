@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-&700j52@&)24eljk)@i9u%(7juxur0fm2=59pv2lc-e8@ts8+5')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -173,6 +173,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+MPESA_ENV = os.getenv("MPESA_ENV", "sandbox")
 MPESA_CONSUMER_KEY = os.getenv("MPESA_CONSUMER_KEY", "")
 MPESA_CONSUMER_SECRET = os.getenv("MPESA_CONSUMER_SECRET", "")
 MPESA_SHORTCODE = os.getenv("MPESA_SHORTCODE", "")
@@ -190,6 +191,42 @@ AT_WHATSAPP_NUMBER = os.getenv("AT_WHATSAPP_NUMBER", "")
 # Admin Panel IP Restriction
 ADMIN_ALLOWED_IPS = os.getenv("ADMIN_ALLOWED_IPS", "127.0.0.1").split(",")
 ADMIN_ALLOWED_IPS = [ip.strip() for ip in ADMIN_ALLOWED_IPS]
+
+# Celery Configuration Options
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    "reconcile-mpesa-payments": {
+        "task": "billing.tasks.reconcile_pending_payments",
+        "schedule": crontab(minute="*/10"),
+    },
+    "expire-subscriptions-daily": {
+        "task": "billing.tasks.expire_subscriptions_task",
+        "schedule": crontab(hour=0, minute=0),
+    },
+}
+
+# Cache Configuration
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.getenv("REDIS_URL", "redis://127.0.0.1:6379/1"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+# Use Cache for Sessions (Horizontal Scalability)
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 # Unfold Admin Configuration
 from django.urls import reverse_lazy

@@ -17,9 +17,13 @@ from inventory.views import (
     StockEntryViewSet,
     StockTransferViewSet,
     StockValueReportView,
+    SupplierSpendReportView,
+    SupplierViewSet,
+    AuditLogViewSet,
 )
 
 router = DefaultRouter()
+router.register("suppliers", SupplierViewSet, basename="suppliers")
 router.register("shops", ShopViewSet, basename="shops")
 router.register("staff", StaffViewSet, basename="staff")
 router.register("products", ProductViewSet, basename="products")
@@ -36,6 +40,8 @@ urlpatterns = [
     path("reports/sales/", SalesReportView.as_view(), name="report-sales"),
     path("reports/products/", ProductReportView.as_view(), name="report-products"),
     path("reports/stock-value/", StockValueReportView.as_view(), name="report-stock-value"),
+    path("reports/supplier-spend/", SupplierSpendReportView.as_view(), name="report-supplier-spend"),
     path("reports/overview/", OverviewReportView.as_view(), name="report-overview"),
+    path("audit-logs/", AuditLogViewSet.as_view({"get": "list"}), name="audit-logs"),
     path("", include(router.urls)),
 ]

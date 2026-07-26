@@ -106,6 +106,7 @@ function ProductSearchField({ products, query, onQueryChange, onProductSelect, d
 export default function SalesPage() {
   const [sales, setSales] = useState([]);
   const [products, setProducts] = useState([]);
+  const [barcodeQuery, setBarcodeQuery] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isExporting, setIsExporting] = useState(false);
@@ -136,6 +137,35 @@ export default function SalesPage() {
   useEffect(() => {
     loadData();
   }, [selectedShopId, user?.role, scopedQuery]);
+
+  const onBarcodeScan = async (e) => {
+      e.preventDefault();
+      const code = barcodeQuery.trim();
+      if (!code) return;
+
+      const product = products.find(p => p.barcode === code);
+      if (product) {
+          const existingIdx = form.items.findIndex(i => i.product_id === product.id);
+          if (existingIdx > -1) {
+              updateItem(existingIdx, { quantity: form.items[existingIdx].quantity + 1 });
+          } else {
+              const newItems = [...form.items];
+              // Replace first empty item if it exists
+              if (newItems.length === 1 && !newItems[0].product_id) {
+                  newItems[0] = { product_id: product.id, product_search: formatProductOption(product), quantity: 1 };
+              } else {
+                  newItems.push({ product_id: product.id, product_search: formatProductOption(product), quantity: 1 });
+              }
+              setForm(prev => ({ ...prev, items: newItems }));
+          }
+          setBarcodeQuery("");
+          setSuccess(`Added ${product.name}`);
+          setTimeout(() => setSuccess(""), 2000);
+      } else {
+          setError(`Product with barcode ${code} not found.`);
+          setTimeout(() => setError(""), 3000);
+      }
+  }
 
   const updateItem = (idx, updates) => {
     setForm((prev) => {
@@ -244,6 +274,19 @@ export default function SalesPage() {
   return (
     <section>
       <h1 className="page-title">Sales</h1>
+
+      {/* Barcode Quick Scan */}
+      <form onSubmit={onBarcodeScan} className="card" style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
+          <input
+            value={barcodeQuery}
+            onChange={(e) => setBarcodeQuery(e.target.value)}
+            placeholder="Scan Barcode / Enter code..."
+            style={{ flex: 1 }}
+            disabled={isShopSelectionMissing}
+          />
+          <button type="submit" className="btn btn-secondary" disabled={isShopSelectionMissing}>Quick Add</button>
+      </form>
+
       <form className="card sales-entry-card" onSubmit={submitSale}>
         <select
           className="sales-entry-payment"

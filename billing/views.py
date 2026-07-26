@@ -110,6 +110,57 @@ class PaymentStatusView(APIView):
         )
 
 
+class MpesaForceReconcileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, checkout_request_id):
+        from .mpesa import query_stk_status
+        import logging
+        logger = logging.getLogger(__name__)
+        
+        business = _require_business(request.user)
+        try:
+            payment = MpesaPayment.objects.get(
+                checkout_request_id=checkout_request_id,
+                business=business,
+            )
+        except MpesaPayment.DoesNotExist:
+            return Response({"error": "Payment not found."}, status=status.HTTP_404_NOT_FOUND)
+            
+        if payment.status != MpesaPayment.STATUS_PENDING:
+            return Response({
+                "status": payment.status,
+                "message": "Transaction already finalized."
+            })
+            
+        try:
+            status_data = query_stk_status(payment.checkout_request_id)
+            result_code = status_data.get("ResultCode")
+            
+            # Map result codes as we did in the background task
+            if result_code == "0":
+                payment.status = MpesaPayment.STATUS_SUCCESS
+                payment.result_code = 0
+                payment.result_desc = status_data.get("ResultDesc", "Success (Manual Reconcile)")
+                payment.save()
+                if payment.business.subscription:
+                    payment.business.subscription.activate(payment.plan)
+            elif result_code in ["1032", "1037", "2001", "1"]:
+                payment.status = MpesaPayment.STATUS_FAILED
+                payment.result_code = int(result_code)
+                payment.result_desc = status_data.get("ResultDesc", "Failed (Manual Reconcile)")
+                payment.save()
+                
+            return Response({
+                "status": payment.status,
+                "result_desc": payment.result_desc
+            })
+            
+        except Exception as e:
+            logger.error(f"Manual reconcile failed for {checkout_request_id}: {str(e)}")
+            return Response({"error": "Failed to verify with Safaricom. Try again later."}, status=500)
+
+
 class SubscriptionDetailView(APIView):
     permission_classes = [IsAuthenticated]
 

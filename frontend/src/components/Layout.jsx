@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Building2, CreditCard, LayoutDashboard, LogOut, Package, Settings, ShoppingCart, Store, Menu, X, Sliders } from "lucide-react";
+import { Building2, CreditCard, LayoutDashboard, LogOut, Package, Settings, ShoppingCart, Store, Menu, X, Sliders, Truck, History } from "lucide-react";
 import { useAuth } from "../state/AuthContext";
 import NotificationBell from "./NotificationBell";
 
@@ -18,6 +18,8 @@ export default function Layout() {
   };
 
   const canManageInventory = user?.role !== "cashier";
+  const isAdmin = user?.role === "super_admin" || user?.role === "shop_admin";
+
   const expiryDays = subscription?.end_date
     ? Math.ceil((new Date(subscription.end_date) - new Date()) / (1000 * 60 * 60 * 24))
     : null;
@@ -48,13 +50,30 @@ export default function Layout() {
           )}
           <NavLink to="/" onClick={closeSidebar}><LayoutDashboard size={15} />Dashboard</NavLink>
           {canManageInventory && <NavLink to="/products" onClick={closeSidebar}><Package size={15} />Products</NavLink>}
-          {canManageInventory && <NavLink to="/stock" onClick={closeSidebar}><Store size={15} />Stock</NavLink>}
+          {canManageInventory && (
+              <NavLink to="/stock" onClick={closeSidebar}>
+                  <Store size={15} />Stock
+                  {subscription?.plan === 'free' && <span className="nav-pro-badge">PRO</span>}
+              </NavLink>
+          )}
+          {canManageInventory && (
+              <NavLink to="/suppliers" onClick={closeSidebar}>
+                  <Truck size={15} />Suppliers
+                  {subscription?.plan !== 'pro' && subscription?.plan !== 'enterprise' && <span className="nav-pro-badge">PRO</span>}
+              </NavLink>
+          )}
           <NavLink to="/sales" onClick={closeSidebar}><ShoppingCart size={15} />Sales</NavLink>
-          <NavLink to="/billing" onClick={closeSidebar}><CreditCard size={15} />Billing</NavLink>
-          {(user?.role === "super_admin" || user?.role === "shop_admin") && (
+          {isAdmin && (
+            <NavLink to="/audit-logs" onClick={closeSidebar}>
+                <History size={15} />Audit Logs
+                {subscription?.plan !== 'pro' && subscription?.plan !== 'enterprise' && <span className="nav-pro-badge">PRO</span>}
+            </NavLink>
+          )}
+          {user?.role === 'super_admin' && <NavLink to="/billing" onClick={closeSidebar}><CreditCard size={15} />Billing</NavLink>}
+          {isAdmin && (
             <NavLink to="/staff" onClick={closeSidebar}><Settings size={15} />Staff</NavLink>
           )}
-          {(user?.role === "super_admin" || user?.role === "shop_admin") && (
+          {isAdmin && (
             <NavLink to="/settings" onClick={closeSidebar}><Sliders size={15} />Settings</NavLink>
           )}
         </nav>

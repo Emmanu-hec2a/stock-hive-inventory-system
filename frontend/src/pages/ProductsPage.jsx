@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/client";
+import FeatureGate from "../components/FeatureGate";
 import { PLAN_LIMITS } from "../constants/plans";
 import { useAuth } from "../state/AuthContext";
 import { downloadCsvExport } from "../utils/downloads";
@@ -7,6 +8,7 @@ import { downloadCsvExport } from "../utils/downloads";
 const initialForm = {
   name: "",
   sku: "",
+  barcode: "",
   buying_price: "",
   selling_price: "",
   unit: "pieces",
@@ -84,6 +86,9 @@ export default function ProductsPage() {
       <form className="card form-grid" onSubmit={onSubmit}>
         <input name="name" value={form.name} onChange={onChange} placeholder="Name" required />
         <input name="sku" value={form.sku} onChange={onChange} placeholder="SKU" required />
+        <FeatureGate feature="barcodes" inline>
+            <input name="barcode" value={form.barcode} onChange={onChange} placeholder="Barcode" />
+        </FeatureGate>
         <input
           name="buying_price"
           type="number"
@@ -129,7 +134,7 @@ export default function ProductsPage() {
           <thead>
             <tr>
               <th>Name</th>
-              <th>SKU</th>
+              <th>SKU / Barcode</th>
               <th>Price</th>
               <th>Stock</th>
               <th>Status</th>
@@ -139,7 +144,10 @@ export default function ProductsPage() {
             {products.map((product) => (
               <tr key={product.id}>
                 <td>{product.name}</td>
-                <td>{product.sku}</td>
+                <td>
+                    <div>{product.sku}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#666' }}>{product.barcode || '-'}</div>
+                </td>
                 <td>{product.selling_price}</td>
                 <td>
                   <div className="stock-cell">

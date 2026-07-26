@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import api from "../api/client";
 import { PLAN_PRICES } from "../constants/plans";
 import { useAuth } from "../state/AuthContext";
+import MpesaCheckoutModal from "../components/MpesaCheckoutModal";
 
 const planCards = [
   {
@@ -14,13 +15,13 @@ const planCards = [
     key: "basic",
     title: "Basic",
     price: PLAN_PRICES.basic,
-    features: ["2 shop", "200 products", "5 staff", "Advanced reports, exports, low-stock alerts"],
+    features: ["2 shops", "200 products", "5 staff", "Advanced reports, exports, barcodes"],
   },
   {
     key: "pro",
     title: "Pro",
     price: PLAN_PRICES.pro,
-    features: ["3 shops", "Unlimited products", "15 staff", "Multi-branch + priority support"],
+    features: ["3 shops", "Unlimited products", "15 staff", "Multi-branch, suppliers, audit logs"],
   },
   {
     key: "enterprise",
@@ -33,55 +34,25 @@ const planCards = [
 export default function BillingPage() {
   const { subscription, refreshSubscription, shops } = useAuth();
   const [history, setHistory] = useState([]);
-  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
-  const [checkoutId, setCheckoutId] = useState("");
+  const [checkoutConfig, setCheckoutConfig] = useState(null); // { plan, price }
 
   const loadBilling = async () => {
-    const [subRes, historyRes] = await Promise.all([
-      api.get("/billing/subscription/"),
-      api.get("/billing/history/"),
-    ]);
-    await refreshSubscription();
-    setHistory(historyRes.data);
-    return subRes.data;
-  };
-
-  useEffect(() => {
-    loadBilling().catch(() => setMessage("Could not load billing data."));
-  }, []);
-
-  useEffect(() => {
-    if (!checkoutId) return;
-    let attempts = 0;
-    const timer = setInterval(async () => {
-      attempts += 1;
-      const res = await api.get(`/billing/status/${checkoutId}/`);
-      if (res.data.status === "success") {
-        clearInterval(timer);
-        setMessage("Payment successful. Subscription activated.");
-        setCheckoutId("");
-        loadBilling();
-      } else if (res.data.status === "failed" || attempts >= 20) {
-        clearInterval(timer);
-        setMessage("Payment failed or timed out. Please try again.");
-        setCheckoutId("");
-      }
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [checkoutId]);
-
-  const onSubscribe = async (plan) => {
     try {
-      const res = await api.post("/billing/subscribe/", { plan, phone });
-      setCheckoutId(res.data.checkout_request_id);
-      setMessage("STK Push sent to your phone. Complete payment and wait for confirmation.");
-    } catch (error) {
-      setMessage(error?.response?.data?.error || "Could not initiate payment.");
+        const historyRes = await api.get("/billing/history/");
+        await refreshSubscription();
+        setHistory(historyRes.data);
+    } catch (err) {
+        setMessage("Could not load billing history.");
     }
   };
 
+  useEffect(() => {
+    loadBilling();
+  }, []);
+
   const onCancelRenew = async () => {
+    if (!window.confirm("Are you sure you want to cancel auto-renew?")) return;
     try {
       await api.post("/billing/cancel/");
       setMessage("Auto-renew cancelled.");
@@ -112,11 +83,11 @@ export default function BillingPage() {
       <div className="grid">
         <article className="card stat-card stat-amber">
           <p className="meta-label">Current Plan</p>
-          <p className="stat-value">{subscription?.plan || "-"}</p>
+          <p className="stat-value">{subscription?.plan?.toUpperCase() || "-"}</p>
         </article>
         <article className="card stat-card stat-blue">
           <p className="meta-label">Status</p>
-          <p className="mini-stat">{subscription?.status || "-"}</p>
+          <p className="mini-stat">{subscription?.status?.toUpperCase() || "-"}</p>
         </article>
         <article className="card stat-card stat-green">
           <p className="meta-label">Ends On</p>
@@ -129,12 +100,13 @@ export default function BillingPage() {
       </div>
 
       <div className="card">
-        <h3 className="section-title">Choose a plan</h3>
-        <div className="row">
-          <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="2547XXXXXXXX" />
-          <button className="ghost-btn" type="button" onClick={onCancelRenew}>
-            Cancel Auto-Renew
-          </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h3 className="section-title" style={{ margin: 0 }}>Choose a plan</h3>
+            {subscription?.auto_renew && subscription.plan !== 'free' && (
+                <button className="ghost-btn btn-small" type="button" onClick={onCancelRenew}>
+                    Cancel Auto-Renew
+                </button>
+            )}
         </div>
         <div className="plan-grid">
           {planCards.map((plan) => (
@@ -144,16 +116,25 @@ export default function BillingPage() {
             >
               <p className="meta-label">Plan</p>
               <h4 className="section-title">{plan.title}</h4>
-              <p className="mini-stat">KES {plan.price}/month</p>
-              <ul className="plan-features">
+              <p className="mini-stat">KES {plan.price.toLocaleString()}/month</p>
+              <ul className="plan-features" style={{ listStyle: 'none', padding: 0 }}>
                 {plan.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
+                  <li key={feature} style={{ display: 'flex', gap: '8px', marginBottom: '4px' }}>
+                      <span style={{ color: 'var(--emerald)' }}>✓</span> {feature}
+                  </li>
                 ))}
               </ul>
-              {plan.key !== "free" && (
-                <button className="primary-btn" type="button" onClick={() => onSubscribe(plan.key)}>
-                  Subscribe
+              {plan.key !== "free" && subscription?.plan !== plan.key && (
+                <button
+                    className="primary-btn checkout-btn"
+                    type="button"
+                    onClick={() => setCheckoutConfig({ plan: plan.key, price: plan.price })}
+                >
+                  {subscription?.plan === 'free' ? 'Upgrade Now' : 'Switch Plan'}
                 </button>
+              )}
+              {subscription?.plan === plan.key && (
+                  <div className="pill pill-green" style={{ width: '100%', textAlign: 'center', padding: '8px' }}>Your Current Plan</div>
               )}
             </article>
           ))}
@@ -166,7 +147,7 @@ export default function BillingPage() {
           <thead>
             <tr>
               <th>Plan</th>
-              <th>Amount</th>
+              <th>Amount (KES)</th>
               <th>Status</th>
               <th>Receipt</th>
               <th>Date</th>
@@ -175,8 +156,8 @@ export default function BillingPage() {
           <tbody>
             {history.map((item) => (
               <tr key={item.id}>
-                <td>{item.plan}</td>
-                <td>{item.amount}</td>
+                <td style={{ textTransform: 'uppercase' }}>{item.plan}</td>
+                <td style={{ fontWeight: 'bold' }}>{Number(item.amount).toLocaleString()}</td>
                 <td>
                   <span
                     className={`pill ${
@@ -187,16 +168,30 @@ export default function BillingPage() {
                           : "pill-amber"
                     }`}
                   >
-                    {item.status}
+                    {item.status.toUpperCase()}
                   </span>
                 </td>
-                <td>{item.mpesa_receipt || "-"}</td>
+                <td style={{ fontFamily: 'monospace' }}>{item.mpesa_receipt || "-"}</td>
                 <td>{new Date(item.created_at).toLocaleString()}</td>
               </tr>
             ))}
+            {history.length === 0 && (
+                <tr>
+                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }} className="muted">No payment history found.</td>
+                </tr>
+            )}
           </tbody>
         </table>
       </div>
+
+      {checkoutConfig && (
+          <MpesaCheckoutModal
+            plan={checkoutConfig.plan}
+            price={checkoutConfig.price}
+            onClose={() => setCheckoutConfig(null)}
+            onSuccess={loadBilling}
+          />
+      )}
     </section>
   );
 }

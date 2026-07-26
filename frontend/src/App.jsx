@@ -17,6 +17,8 @@ import ShopsPage from "./pages/ShopsPage";
 import StaffPage from "./pages/StaffPage";
 import StockPage from "./pages/StockPage";
 import SettingsPage from "./pages/SettingsPage";
+import SuppliersPage from "./pages/SuppliersPage";
+import AuditLogsPage from "./pages/AuditLogsPage";
 import { useAuth } from "./state/AuthContext";
 
 function App() {
@@ -50,7 +52,7 @@ function App() {
           <Route
             path="products"
             element={
-              <RoleRoute allowedRoles={["super_admin", "shop_admin"]}>
+              <RoleRoute allowedRoles={["super_admin", "shop_admin", "inventory_manager"]}>
                 <ProductsPage />
               </RoleRoute>
             }
@@ -58,13 +60,29 @@ function App() {
           <Route
             path="stock"
             element={
-              <RoleRoute allowedRoles={["super_admin", "shop_admin"]}>
+              <RoleRoute allowedRoles={["super_admin", "shop_admin", "inventory_manager"]}>
                 <StockPage />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="suppliers"
+            element={
+              <RoleRoute allowedRoles={["super_admin", "shop_admin", "inventory_manager"]}>
+                <SuppliersPage />
               </RoleRoute>
             }
           />
           <Route path="sales" element={<SalesPage />} />
           <Route path="sales/new" element={<SalesPage />} />
+          <Route
+            path="audit-logs"
+            element={
+              <RoleRoute allowedRoles={["super_admin", "shop_admin"]}>
+                <AuditLogsPage />
+              </RoleRoute>
+            }
+          />
           <Route
             path="billing"
             element={
