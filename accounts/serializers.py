@@ -1,3 +1,4 @@
+import re
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -37,10 +38,35 @@ class RegisterSerializer(serializers.ModelSerializer):
     password_confirm = serializers.CharField(write_only=True)
     business_name = serializers.CharField(write_only=True)
     shop_name = serializers.CharField(write_only=True, required=False)
+    phone_number = serializers.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ["email", "full_name", "password", "password_confirm", "business_name", "shop_name"]
+        fields = [
+            "email",
+            "full_name",
+            "phone_number",
+            "password",
+            "password_confirm",
+            "business_name",
+            "shop_name",
+        ]
+
+    def validate_phone_number(self, value):
+        # Regex for Kenyan phone numbers: 254... or 07... or 01...
+        # Supports: 254712345678, 0712345678, 0112345678
+        pattern = r"^(?:254|\+254|0)?(7|1)\d{8}$"
+        if not re.match(pattern, value):
+            raise serializers.ValidationError("Invalid Kenyan phone number format.")
+
+        # Normalize to 254...
+        clean = value.replace("+", "")
+        if clean.startswith("0"):
+            clean = "254" + clean[1:]
+        elif not clean.startswith("254"):
+            clean = "254" + clean
+
+        return clean
 
     def validate(self, attrs):
         if attrs["password"] != attrs.pop("password_confirm"):
