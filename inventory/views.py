@@ -214,6 +214,49 @@ class ProductViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.Model
         product = self.get_object()
         return Response({"product_id": str(product.id), "current_stock": get_current_stock(product)})
 
+    @action(detail=False, methods=['post'])
+    def clone_catalog(self, request):
+        from .models import Shop, Product
+        business = request.user.business
+        to_shop_id = request.data.get('to_shop_id')
+        from_shop = self.get_shop() # From ShopScopedMixin
+        
+        if not to_shop_id:
+            return Response({"error": "Destination shop is required."}, status=400)
+            
+        try:
+            to_shop = Shop.objects.get(id=to_shop_id, business=business)
+        except Shop.DoesNotExist:
+            return Response({"error": "Invalid destination shop."}, status=400)
+            
+        if from_shop.id == to_shop.id:
+            return Response({"error": "Source and destination shops must be different."}, status=400)
+
+        cloned_count = 0
+        with transaction.atomic():
+            source_products = Product.objects.filter(shop=from_shop, is_active=True)
+            for sp in source_products:
+                # Check if SKU already exists in destination
+                if not Product.objects.filter(shop=to_shop, sku=sp.sku).exists():
+                    Product.objects.create(
+                        shop=to_shop,
+                        name=sp.name,
+                        sku=sp.sku,
+                        barcode=sp.barcode,
+                        buying_price=sp.buying_price,
+                        selling_price=sp.selling_price,
+                        unit=sp.unit,
+                        # Note: Category is reset as categories are shop-specific
+                    )
+                    cloned_count += 1
+            
+            # Invalidate dashboard cache
+            cache.delete(f"dashboard_data_{to_shop.id}")
+
+        return Response({
+            "message": f"Successfully cloned {cloned_count} product definitions to {to_shop.name}."
+        })
+
     def get_queryset(self):
         queryset = super().get_queryset()
         barcode = self.request.query_params.get("barcode")
