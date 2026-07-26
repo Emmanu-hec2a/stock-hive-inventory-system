@@ -125,14 +125,24 @@ def trigger_low_stock_alerts(product):
         )
 
         # Trigger background task
-        send_whatsapp_alert_task.delay(
-            alert_id=alert.id,
-            phone=connection.phone_number,
-            shop_name=shop.name,
-            product_name=product.name,
-            current_stock=current_stock,
-            unit=product.unit,
-        )
+        try:
+            send_whatsapp_alert_task.delay(
+                alert_id=alert.id,
+                phone=connection.phone_number,
+                shop_name=shop.name,
+                product_name=product.name,
+                current_stock=current_stock,
+                unit=product.unit,
+            )
+        except Exception as celery_err:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Failed to enqueue WhatsApp alert for {product.id}: {str(celery_err)}")
+            # We don't raise here, so the sale can still finish successfully.
+            # The background reconciliation task or a manual check can handle this later.
+            alert.status = "failed"
+            alert.error_msg = f"Broker error: {str(celery_err)}"
+            alert.save()
 
     except Exception as e:
         # Log but never raise — we don't want alert failures to break sales flow

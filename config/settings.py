@@ -199,6 +199,8 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = TIME_ZONE
+CELERY_BROKER_CONNECTION_RETRY_ON_START = True  # Retry connecting to Redis on startup
+CELERY_TASK_PUBLISH_RETRY = True  # Retry enqueuing tasks if the broker is momentarily down
 
 from celery.schedules import crontab
 
@@ -220,6 +222,7 @@ CACHES = {
         "LOCATION": os.getenv("REDIS_URL", "redis://127.0.0.1:6379/1"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "IGNORE_EXCEPTIONS": True,  # Ensures app doesn't crash if Redis is down
         }
     }
 }

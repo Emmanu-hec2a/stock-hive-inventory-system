@@ -17,6 +17,8 @@ export default function StockPage() {
   const [suppliers, setSuppliers] = useState([]);
   const [form, setForm] = useState(entryDefaults);
   const [transferForm, setTransferForm] = useState({ product: '', to_shop: '', quantity: 1, reference: '' });
+  const [bulkTransferTo, setBulkTransferTo] = useState("");
+  const [isBulkProcessing, setIsBulkProcessing] = useState(false);
   const [error, setError] = useState("");
   const { user, scopedQuery, selectedShopId, subscription, shops: allShops } = useAuth();
 
@@ -72,6 +74,38 @@ export default function StockPage() {
       loadData();
     } catch (err) {
       setError('Transfer failed: ' + (err.response?.data || err.message));
+    }
+  };
+
+  const handleBulkTransfer = async () => {
+    if (!bulkTransferTo) {
+        setError("Please select a destination shop for bulk transfer.");
+        return;
+    }
+
+    const sourceShopName = allShops.find(s => s.id === selectedShopId)?.name || 'this shop';
+    const destShopName = allShops.find(s => s.id === bulkTransferTo)?.name || 'destination shop';
+
+    const confirm = window.confirm(
+        `ARE YOU SURE? This will transfer EVERY item with stock from "${sourceShopName}" to "${destShopName}".\n\nThis cannot be undone easily.`
+    );
+
+    if (!confirm) return;
+
+    setIsBulkProcessing(true);
+    setError("");
+
+    try {
+        const response = await api.post(`/stock/transfers/bulk_transfer/${scopedQuery}`, {
+            to_shop_id: bulkTransferTo
+        });
+        alert(response.data.message);
+        setBulkTransferTo("");
+        loadData();
+    } catch (err) {
+        setError("Bulk transfer failed: " + (err.response?.data?.error || err.message));
+    } finally {
+        setIsBulkProcessing(false);
     }
   };
 
@@ -189,6 +223,35 @@ export default function StockPage() {
           />
           <button type="submit" className="btn btn-secondary">Transfer Stock</button>
         </form>
+
+        <div style={{ marginTop: '20px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
+            <h4 className="section-title" style={{ fontSize: '14px', color: 'var(--crimson)' }}>Bulk Action: Move All Inventory</h4>
+            <p className="muted" style={{ fontSize: '12px', marginBottom: '12px' }}>
+                Closes stock in this branch and moves it all to another shop.
+            </p>
+            <div className="row" style={{ alignItems: 'center' }}>
+                <select
+                    value={bulkTransferTo}
+                    onChange={(e) => setBulkTransferTo(e.target.value)}
+                    style={{ maxWidth: '200px' }}
+                >
+                    <option value="">Move all to...</option>
+                    {allShops.filter(s => s.id !== selectedShopId).map(shop => (
+                        <option key={shop.id} value={shop.id}>
+                            {shop.name}
+                        </option>
+                    ))}
+                </select>
+                <button
+                    className="ghost-btn"
+                    style={{ color: 'var(--crimson)', borderColor: 'var(--crimson)' }}
+                    onClick={handleBulkTransfer}
+                    disabled={isBulkProcessing || !bulkTransferTo}
+                >
+                    {isBulkProcessing ? "Moving Everything..." : "Transfer All Stock"}
+                </button>
+            </div>
+        </div>
       </div>
 
       {error && <div className="alert-bar">⚠ {error}</div>}

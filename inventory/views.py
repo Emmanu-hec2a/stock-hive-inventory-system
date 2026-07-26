@@ -443,6 +443,88 @@ class StockTransferViewSet(ShopScopedMixin, AuditLogMixin, mixins.CreateModelMix
             shop_ids += list(Shop.objects.filter(business=user.business).values_list('id', flat=True))
         return self.queryset.filter(from_shop_id__in=shop_ids)
 
+    @action(detail=False, methods=['post'])
+    def bulk_transfer(self, request):
+        from .models import Shop, Product, StockAdjustment, StockEntry, StockTransfer
+        from .utils import get_current_stock
+        from billing.permissions import can_use_feature
+        
+        business = request.user.business
+        if not can_use_feature(business, 'stock_transfers'):
+            raise PermissionDenied("Bulk stock transfers available on Pro plan and above.")
+            
+        to_shop_id = request.data.get('to_shop_id')
+        from_shop = self.get_shop() # From ShopScopedMixin
+        
+        if not to_shop_id:
+            return Response({"error": "Destination shop is required."}, status=400)
+            
+        try:
+            to_shop = Shop.objects.get(id=to_shop_id, business=business)
+        except Shop.DoesNotExist:
+            return Response({"error": "Invalid destination shop."}, status=400)
+            
+        if from_shop.id == to_shop.id:
+            return Response({"error": "Source and destination shops must be different."}, status=400)
+
+        transferred_count = 0
+        with transaction.atomic():
+            products = Product.objects.filter(shop=from_shop, is_active=True)
+            for product in products:
+                current_qty = get_current_stock(product)
+                if current_qty > 0:
+                    # Find or create in destination
+                    dest_product, _ = Product.objects.get_or_create(
+                        shop=to_shop,
+                        sku=product.sku,
+                        defaults={
+                            "name": product.name,
+                            "barcode": product.barcode,
+                            "buying_price": product.buying_price,
+                            "selling_price": product.selling_price,
+                            "unit": product.unit,
+                        }
+                    )
+                    
+                    # Log the transfer record
+                    StockTransfer.objects.create(
+                        product=product,
+                        from_shop=from_shop,
+                        to_shop=to_shop,
+                        quantity=current_qty,
+                        transferred_by=request.user,
+                        note="Bulk inventory move"
+                    )
+                    
+                    # Decrease source
+                    StockAdjustment.objects.create(
+                        product=product,
+                        shop=from_shop,
+                        quantity=-current_qty,
+                        reason=StockAdjustment.REASON_OTHER,
+                        note=f"Bulk transfer to {to_shop.name}",
+                        adjusted_by=request.user
+                    )
+                    
+                    # Increase destination
+                    StockEntry.objects.create(
+                        product=dest_product,
+                        shop=to_shop,
+                        quantity=current_qty,
+                        buying_price_at_entry=product.buying_price,
+                        note=f"Bulk transfer from {from_shop.name}",
+                        entered_by=request.user
+                    )
+                    transferred_count += 1
+            
+            # Invalidate caches
+            cache.delete(f"dashboard_data_{from_shop.id}")
+            cache.delete(f"dashboard_data_{to_shop.id}")
+
+        return Response({
+            "message": f"Successfully transferred {transferred_count} products to {to_shop.name}."
+        })
+
     def perform_create(self, serializer):
         business = self.request.user.business
         if not can_use_feature(business, 'stock_transfers'):
@@ -452,9 +534,24 @@ class StockTransferViewSet(ShopScopedMixin, AuditLogMixin, mixins.CreateModelMix
             transfer = serializer.save(transferred_by=self.request.user, from_shop=self.get_shop())
             super().perform_create(serializer)
             
+            source_product = transfer.product
+            
+            # Find or create the product in the destination shop using SKU matching
+            dest_product, created = Product.objects.get_or_create(
+                shop=transfer.to_shop,
+                sku=source_product.sku,
+                defaults={
+                    "name": source_product.name,
+                    "barcode": source_product.barcode,
+                    "buying_price": source_product.buying_price,
+                    "selling_price": source_product.selling_price,
+                    "unit": source_product.unit,
+                }
+            )
+            
             # Create negative adjustment at source shop
             StockAdjustment.objects.create(
-                product=transfer.product,
+                product=source_product,
                 shop=transfer.from_shop,
                 quantity=-transfer.quantity,
                 reason=StockAdjustment.REASON_OTHER,
@@ -462,12 +559,12 @@ class StockTransferViewSet(ShopScopedMixin, AuditLogMixin, mixins.CreateModelMix
                 adjusted_by=self.request.user
             )
             
-            # Create stock entry at destination shop
+            # Create stock entry at destination shop using the matched/cloned product
             StockEntry.objects.create(
-                product=transfer.product,
+                product=dest_product,
                 shop=transfer.to_shop,
                 quantity=transfer.quantity,
-                buying_price_at_entry=transfer.product.buying_price,
+                buying_price_at_entry=source_product.buying_price,
                 note=f"Transfer from {transfer.from_shop.name}. Ref: {transfer.reference}",
                 entered_by=self.request.user
             )
