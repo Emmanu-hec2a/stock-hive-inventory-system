@@ -227,6 +227,7 @@ CACHES = {
     }
 }
 
+
 # Use Cache for Sessions (Horizontal Scalability)
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
