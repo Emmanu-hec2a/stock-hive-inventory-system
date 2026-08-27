@@ -16,7 +16,7 @@ export default function MpesaCheckoutModal({ plan, price, onClose, onSuccess }) 
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [checkoutId, setCheckoutId] = useState(null);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(120); // Phase 3: Increased from 60s to 120s for slow networks
   const pollingRef = useRef(null);
 
   useEffect(() => {

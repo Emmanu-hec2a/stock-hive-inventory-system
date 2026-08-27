@@ -215,6 +215,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "billing.tasks.expire_subscriptions_task",
         "schedule": crontab(hour=0, minute=0),
     },
+    "log-daily-metrics": {
+        "task": "billing.tasks.log_daily_metrics_task",
+        "schedule": crontab(hour=1, minute=0),  # Run at 1 AM UTC daily
+    },
 }
 
 # Cache Configuration
@@ -328,3 +332,112 @@ UNFOLD = {
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# ─────── BILLING & PAYMENT CONFIGURATION ──────────────────────
+
+# M-Pesa Webhook IP Whitelist (Safaricom IPs)
+# Production: 196.201.214.0/24 and 196.201.215.0/24
+# Sandbox: 196.201.214.0/24
+# For development, add your test server IP
+MPESA_ALLOWED_IPS = os.getenv("MPESA_ALLOWED_IPS", "127.0.0.1,::1").split(",")
+MPESA_ALLOWED_IPS = [ip.strip() for ip in MPESA_ALLOWED_IPS]
+
+# M-Pesa webhook signature verification (optional, advanced security)
+MPESA_SECRET_KEY = os.getenv("MPESA_SECRET_KEY", None)
+
+# ─────── LOGGING CONFIGURATION ──────────────────────────────
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+        "simple": {
+            "format": "{levelname} {asctime} {name} {message}",
+            "style": "{",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+        "json": {
+            "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
+            "format": "%(asctime)s %(name)s %(levelname)s %(message)s",
+        },
+    },
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs" / "stockhive.log",
+            "maxBytes": 1024 * 1024 * 10,  # 10MB
+            "backupCount": 10,
+            "formatter": "verbose",
+        },
+        "payment_file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs" / "billing_payment.log",
+            "maxBytes": 1024 * 1024 * 10,  # 10MB
+            "backupCount": 20,
+            "formatter": "verbose",
+        },
+        "webhook_file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs" / "billing_webhook.log",
+            "maxBytes": 1024 * 1024 * 10,  # 10MB
+            "backupCount": 20,
+            "formatter": "verbose",
+        },
+        "reconciliation_file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs" / "billing_reconciliation.log",
+            "maxBytes": 1024 * 1024 * 10,  # 10MB
+            "backupCount": 10,
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+        },
+        "billing.payment": {
+            "handlers": ["console", "payment_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "billing.webhook": {
+            "handlers": ["console", "webhook_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "billing.reconciliation": {
+            "handlers": ["console", "reconciliation_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "billing.security": {
+            "handlers": ["console", "webhook_file"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+    },
+}
+
+# Create logs directory if it doesn't exist
+import os as _os
+_logs_dir = BASE_DIR / "logs"
+_logs_dir.mkdir(exist_ok=True)

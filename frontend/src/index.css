@@ -106,6 +106,12 @@ body {
   gap: 12px;
   z-index: 40;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .mobile-sidebar-backdrop {
