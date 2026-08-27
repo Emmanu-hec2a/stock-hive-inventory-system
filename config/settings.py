@@ -163,11 +163,13 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://stockhive-backend.up.railway.app",
     "https://stockhive.up.railway.app",
+    "https://stockhive.pourexpress.co.ke",
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "https://stockhive.up.railway.app",
     "http://localhost:5173", # If you do local development
+    "https://stockhive.pourexpress.co.ke",
 ]
 
 
@@ -180,7 +182,7 @@ MPESA_SHORTCODE = os.getenv("MPESA_SHORTCODE", "")
 MPESA_PASSKEY = os.getenv("MPESA_PASSKEY", "")
 MPESA_CALLBACK_URL = os.getenv(
     "MPESA_CALLBACK_URL",
-    "https://example.com/api/billing/mpesa/callback/",
+    "https://stockhive-backend.up.railway.app/api/billing/mpesa/callback/",
 )
 
 # Africa's Talking WhatsApp Integration
