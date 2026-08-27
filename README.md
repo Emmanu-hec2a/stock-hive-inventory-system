@@ -1,6 +1,37 @@
-# Multi-Tenant Inventory System (MVP)
+# StockHive Inventory System 🐝
 
-MVP built with Django + DRF + JWT backend and React frontend for a multi-shop inventory SaaS model.
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)](https://djangoproject.com)
+[![Django REST Framework](https://img.shields.io/badge/DRF-A30000?style=for-the-badge&logo=django&logoColor=white)](https://www.django-rest-framework.org)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://postgresql.org)
+
+A multi-tenant SaaS inventory management platform built with Django REST Framework, JWT Authentication, and a React frontend. Designed for multi-branch shop management with strict data isolation, role-based permissions, automated billing, and real-time stock alerts.
+
+---
+
+## 🛠️ Key Features & Architecture
+
+* **🔐 Multi-Tenancy & Data Isolation:** Built with custom `ShopScopedMixin` and `ShopIsolationMiddleware` to enforce strict data privacy across isolated business branches.
+* **👥 Role-Based Access Control (RBAC):** Hierarchical permissions system supporting `super_admin`, `shop_admin`, and `cashier` user roles.
+* **📦 Smart Inventory Engine:** Real-time stock calculation, multi-branch stock catalog copying, and dynamic adjustment logs.
+* **⚠️ Automated Stock Alerts:** Real-time monitoring and threshold alerts for low inventory levels.
+* **💳 Billing & Subscriptions:** Modular billing system to handle subscription plans and shop license management.
+* **📊 Business Reports & Analytics:** Endpoints providing detailed insights into sales performance, product turn rates, and total stock valuations.
+
+---
+
+## 📂 Project Structure
+
+```text
+stock-hive-inventory-system/
+├── accounts/          # User authentication, RBAC, and shop isolation logic
+├── alerts/            # Low-stock notification workflows and logic
+├── billing/           # SaaS billing and subscription management
+├── config/            # Django root settings and WSGI/ASGI configs
+├── frontend/          # React SPA interface (Vite / React Router)
+├── inventory/         # Product catalog, stock adjustments, & sales engine
+└── landing/           # Landing page assets and marketing layout
 
 ## Features Implemented
 
