@@ -323,7 +323,31 @@ export default function SalesPage() {
         return;
       }
 
-      setError(err?.response?.data?.detail || err?.response?.data?.items?.[0] || "Could not create sale.");
+      // Extract detailed error message
+      let errorMessage = "Could not create sale.";
+      
+      // Handle validation errors from backend
+      const data = err?.response?.data;
+      if (data) {
+        // Non-field errors (stock validation, etc.)
+        if (Array.isArray(data.non_field_errors) && data.non_field_errors.length > 0) {
+          errorMessage = data.non_field_errors[0];
+        }
+        // Field errors
+        else if (data.items && Array.isArray(data.items) && data.items.length > 0) {
+          errorMessage = data.items[0];
+        }
+        // Detail field
+        else if (data.detail) {
+          errorMessage = data.detail;
+        }
+        // Generic error object
+        else if (typeof data === 'string') {
+          errorMessage = data;
+        }
+      }
+      
+      setError(errorMessage);
     }
   };
 

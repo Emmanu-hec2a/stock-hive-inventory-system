@@ -284,34 +284,55 @@ class SaleSerializer(serializers.ModelSerializer):
         
         logger.info(f"Creating sale with {len(items_data)} items, payment: {validated_data['payment_method']}")
 
-        sale = Sale.objects.create(shop=shop, served_by=request.user, payment_method=validated_data["payment_method"])
+        # VALIDATE ALL ITEMS FIRST before creating any records
+        validated_items = []
         total = Decimal("0.00")
-
+        
         for item in items_data:
-            logger.info(f"Processing item: product_id={item['product_id']}, qty={item['quantity']}")
+            logger.info(f"Validating item: product_id={item['product_id']}, qty={item['quantity']}")
             product = Product.objects.select_for_update().get(id=item["product_id"], shop=shop, is_active=True)
             qty = item["quantity"]
-
+            
             current = get_current_stock(product)
             if qty > current:
                 raise serializers.ValidationError(
-                    f"Insufficient stock for {product.name}. Available: {current}, requested: {qty}."
+                    f"Insufficient stock for '{product.name}'. Available: {current}, requested: {qty}."
                 )
-
+            
+            if qty <= 0:
+                raise serializers.ValidationError(
+                    f"Quantity for '{product.name}' must be greater than 0."
+                )
+            
             unit_price = product.selling_price
             subtotal = unit_price * qty
-            logger.info(f"Adding item: {product.name}, qty={qty}, unit_price={unit_price}, subtotal={subtotal}")
+            
+            validated_items.append({
+                'product': product,
+                'quantity': qty,
+                'unit_price': unit_price,
+                'subtotal': subtotal,
+            })
+            total += subtotal
+        
+        # All validation passed, now create the sale and items
+        sale = Sale.objects.create(
+            shop=shop, 
+            served_by=request.user, 
+            payment_method=validated_data["payment_method"],
+            total_amount=total
+        )
+        
+        for item in validated_items:
+            logger.info(f"Adding item: {item['product'].name}, qty={item['quantity']}, unit_price={item['unit_price']}, subtotal={item['subtotal']}")
             SaleItem.objects.create(
                 sale=sale,
-                product=product,
-                quantity=qty,
-                unit_price=unit_price,
-                subtotal=subtotal,
+                product=item['product'],
+                quantity=item['quantity'],
+                unit_price=item['unit_price'],
+                subtotal=item['subtotal'],
             )
-            total += subtotal
-
-        sale.total_amount = total
-        sale.save(update_fields=["total_amount"])
+        
         logger.info(f"Sale created: id={sale.id}, total_amount={total}")
         return sale
 
