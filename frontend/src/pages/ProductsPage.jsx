@@ -5,6 +5,7 @@ import CsvBulkImportModal from "../components/CsvBulkImportModal";
 import { PLAN_LIMITS } from "../constants/plans";
 import { useAuth } from "../state/AuthContext";
 import { downloadCsvExport } from "../utils/downloads";
+import { useBarcodeLookup } from "../hooks/useBarcodeLookup";
 
 const initialForm = {
   name: "",
@@ -25,7 +26,37 @@ export default function ProductsPage() {
   const [includeStock, setIncludeStock] = useState(false);
   const [isCloning, setIsCloning] = useState(false);
   const [showBulkImport, setShowBulkImport] = useState(false);
+  const [barcodeLookupMessage, setBarcodeLookupMessage] = useState("");
   const { user, scopedQuery, selectedShopId, subscription, shops: allShops } = useAuth();
+
+  // Hook for barcode lookup with auto-fill
+  const { loading: barcodeLoading, error: barcodeError, found: barcodeFound } = useBarcodeLookup(
+    form.barcode,
+    (product) => {
+      // Auto-fill form with product data
+      setForm((prev) => ({
+        ...prev,
+        name: product.name || prev.name,
+        buying_price: product.buying_price || prev.buying_price,
+        selling_price: product.selling_price || prev.selling_price,
+        unit: product.unit || prev.unit,
+      }));
+      setBarcodeLookupMessage("✅ Product found! Details auto-filled.");
+    }
+  );
+
+  // Update barcode lookup message based on status
+  useEffect(() => {
+    if (barcodeError) {
+      setBarcodeLookupMessage(`❌ ${barcodeError}`);
+    } else if (barcodeFound) {
+      setBarcodeLookupMessage("✅ Product found! Details auto-filled.");
+    } else if (barcodeLoading) {
+      setBarcodeLookupMessage("🔍 Looking up barcode...");
+    } else {
+      setBarcodeLookupMessage("");
+    }
+  }, [barcodeLoading, barcodeError, barcodeFound]);
 
   const loadProducts = async () => {
     try {
@@ -126,7 +157,43 @@ export default function ProductsPage() {
         <input name="name" value={form.name} onChange={onChange} placeholder="Name" required />
         <input name="sku" value={form.sku} onChange={onChange} placeholder="SKU" required />
         <FeatureGate feature="barcodes" inline>
-            <input name="barcode" value={form.barcode} onChange={onChange} placeholder="Barcode" />
+          <div style={{ position: "relative" }}>
+            <FeatureGate feature="barcode_autofill" inline>
+              <input
+                name="barcode"
+                value={form.barcode}
+                onChange={onChange}
+                placeholder="Barcode (auto-fills product details)"
+                style={{
+                  borderColor: barcodeFound ? "#10b981" : barcodeError ? "#ef4444" : undefined,
+                  borderWidth: barcodeFound || barcodeError ? "2px" : undefined,
+                }}
+              />
+              {barcodeLoading && (
+                <span style={{ fontSize: "0.75rem", color: "#f59e0b", marginTop: "4px", display: "block" }}>
+                  {barcodeLookupMessage}
+                </span>
+              )}
+              {barcodeError && (
+                <span style={{ fontSize: "0.75rem", color: "#ef4444", marginTop: "4px", display: "block" }}>
+                  {barcodeLookupMessage}
+                </span>
+              )}
+              {barcodeFound && (
+                <span style={{ fontSize: "0.75rem", color: "#10b981", marginTop: "4px", display: "block" }}>
+                  {barcodeLookupMessage}
+                </span>
+              )}
+            </FeatureGate>
+            <FeatureGate feature="barcode_autofill" inline invert>
+              <input
+                name="barcode"
+                value={form.barcode}
+                onChange={onChange}
+                placeholder="Barcode"
+              />
+            </FeatureGate>
+          </div>
         </FeatureGate>
         <input
           name="buying_price"
