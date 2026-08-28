@@ -286,15 +286,19 @@ export default function SalesPage() {
     if (!lastSaleId) return;
 
     setLoadingReceipt(true);
-    setError("");
+    setError(""); // Clear any previous error
     
     try {
       const receiptData = await fetchReceiptData(lastSaleId);
       setReceipt(receiptData);
       setShowReceiptModal(true);
+      // Clear success message when modal opens
+      setLastSaleId(null);
+      setSuccess("");
     } catch (err) {
-      setError("Could not load receipt data.");
-      console.error(err);
+      // Error message is already formatted in fetchReceiptData
+      setError(err.message || "Could not load receipt data.");
+      console.error("Receipt error:", err);
     } finally {
       setLoadingReceipt(false);
     }
@@ -398,7 +402,8 @@ export default function SalesPage() {
         <table>
           <thead>
             <tr>
-              <th>Sale ID</th>
+              <th>Items</th>
+              <th>Quantity</th>
               <th>Amount</th>
               <th>Payment</th>
               <th>Date</th>
@@ -407,7 +412,16 @@ export default function SalesPage() {
           <tbody>
             {sales.map((sale) => (
               <tr key={sale.id}>
-                <td>{sale.id}</td>
+                <td>
+                  {sale.line_items && sale.line_items.length > 0
+                    ? sale.line_items.map((item) => item.product_name || item.name).join(", ")
+                    : "No items"}
+                </td>
+                <td>
+                  {sale.line_items && sale.line_items.length > 0
+                    ? sale.line_items.reduce((sum, item) => sum + item.quantity, 0)
+                    : 0}
+                </td>
                 <td>{formatNumber(sale.total_amount)}</td>
                 <td>{sale.payment_method}</td>
                 <td>{new Date(sale.created_at).toLocaleString()}</td>

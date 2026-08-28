@@ -10,8 +10,26 @@ export async function fetchReceiptData(saleId) {
     const response = await api.get(`/sales/${saleId}/receipt/`);
     return response.data;
   } catch (error) {
-    console.error("Failed to fetch receipt data:", error);
-    throw error;
+    console.error("Failed to fetch receipt data:", {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message,
+    });
+    
+    // Extract error message for user display
+    let errorMessage = "Could not load receipt data.";
+    if (error.response?.data?.detail) {
+      errorMessage = error.response.data.detail;
+    } else if (typeof error.response?.data === 'string') {
+      errorMessage = error.response.data;
+    } else if (error.response?.status === 404) {
+      errorMessage = "Sale not found. Please try again.";
+    } else if (error.response?.status === 403) {
+      errorMessage = "You don't have permission to view this receipt.";
+    }
+    
+    throw new Error(errorMessage);
   }
 }
 
