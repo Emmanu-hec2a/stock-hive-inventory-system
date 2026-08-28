@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { AlertCircle } from "lucide-react";
 import api from "../api/client";
 import { PLAN_PRICES } from "../constants/plans";
 import { useAuth } from "../state/AuthContext";
@@ -76,9 +77,24 @@ export default function BillingPage() {
   return (
     <section>
       <h1 className="page-title">Subscription & Billing</h1>
-      {message && <div className="alert-bar">⚠ {message}</div>}
-      {expiryText && <div className="alert-bar">⚠ {expiryText}</div>}
-      {proShopsNudge && <div className="alert-bar">⚠ {proShopsNudge}</div>}
+      {message && (
+        <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <AlertCircle size={18} />
+          {message}
+        </div>
+      )}
+      {expiryText && (
+        <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <AlertCircle size={18} />
+          {expiryText}
+        </div>
+      )}
+      {proShopsNudge && (
+        <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <AlertCircle size={18} />
+          {proShopsNudge}
+        </div>
+      )}
 
       <div className="grid">
         <article className="card stat-card stat-amber">

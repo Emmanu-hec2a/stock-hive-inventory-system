@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AlertCircle } from "lucide-react";
 import api from "../api/client";
 import { useAuth } from "../state/AuthContext";
 
@@ -38,7 +39,10 @@ export default function ShopsPage() {
     return (
       <section>
         <h1 className="page-title">Shops</h1>
-        <div className="alert-bar">⚠ Only business owners can create or manage shops.</div>
+        <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <AlertCircle size={18} />
+          Only business owners can create or manage shops.
+        </div>
       </section>
     );
   }
@@ -66,7 +70,12 @@ export default function ShopsPage() {
         />
         <button type="submit">Add Shop</button>
       </form>
-      {error && <div className="alert-bar">⚠ {error}</div>}
+      {error && (
+        <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <AlertCircle size={18} />
+          {error}
+        </div>
+      )}
       <div className="card">
         <table>
           <thead>

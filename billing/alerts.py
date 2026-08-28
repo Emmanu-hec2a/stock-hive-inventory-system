@@ -25,7 +25,7 @@ def send_payment_failure_alert(payment, reason):
             logger.warning("No admin emails found to notify about payment failure")
             return
         
-        subject = f"⚠️ Payment Failed: {payment.checkout_request_id}"
+        subject = f"[ALERT] Payment Failed: {payment.checkout_request_id}"
         message = f"""
 Payment Failure Alert
 
@@ -70,7 +70,7 @@ def send_reconciliation_failure_alert(checkout_request_id, error_message):
             logger.warning("No admin emails found to notify about reconciliation failure")
             return
         
-        subject = f"⚠️ Reconciliation Failed: {checkout_request_id}"
+        subject = f"[ALERT] Reconciliation Failed: {checkout_request_id}"
         message = f"""
 Reconciliation Failure Alert
 

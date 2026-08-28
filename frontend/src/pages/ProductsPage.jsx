@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Check, X, Search, Upload, AlertCircle } from "lucide-react";
 import api from "../api/client";
 import FeatureGate from "../components/FeatureGate";
 import CsvBulkImportModal from "../components/CsvBulkImportModal";
@@ -41,18 +42,18 @@ export default function ProductsPage() {
         selling_price: product.selling_price || prev.selling_price,
         unit: product.unit || prev.unit,
       }));
-      setBarcodeLookupMessage("✅ Product found! Details auto-filled.");
+      setBarcodeLookupMessage("✓ Product found! Details auto-filled.");
     }
   );
 
   // Update barcode lookup message based on status
   useEffect(() => {
     if (barcodeError) {
-      setBarcodeLookupMessage(`❌ ${barcodeError}`);
+      setBarcodeLookupMessage(`✗ ${barcodeError}`);
     } else if (barcodeFound) {
-      setBarcodeLookupMessage("✅ Product found! Details auto-filled.");
+      setBarcodeLookupMessage("✓ Product found! Details auto-filled.");
     } else if (barcodeLoading) {
-      setBarcodeLookupMessage("🔍 Looking up barcode...");
+      setBarcodeLookupMessage("Searching...");
     } else {
       setBarcodeLookupMessage("");
     }
@@ -146,8 +147,9 @@ export default function ProductsPage() {
         if (!max) return null;
         if (products.length >= Math.ceil(max * 0.8)) {
           return (
-            <div className="alert-bar">
-              ⚠ You’re using {products.length}/{max} products. Upgrade to add more.
+            <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <AlertCircle size={18} />
+              You're using {products.length}/{max} products. Upgrade to add more.
             </div>
           );
         }
@@ -229,12 +231,18 @@ export default function ProductsPage() {
           type="button"
           onClick={() => setShowBulkImport(true)}
           className="btn btn-secondary"
-          style={{ marginBottom: "16px" }}
+          style={{ marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}
         >
-          📤 Bulk Import CSV
+          <Upload size={18} />
+          Bulk Import CSV
         </button>
       </FeatureGate>
-      {error && <div className="alert-bar">⚠ {error}</div>}
+      {error && (
+        <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <AlertCircle size={18} />
+          {error}
+        </div>
+      )}
 
       <div className="card" style={{ marginBottom: '24px' }}>
           <h3 className="section-title">Catalog Sync (Rapid Branch Setup)</h3>

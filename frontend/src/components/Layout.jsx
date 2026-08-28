@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Building2, CreditCard, LayoutDashboard, LogOut, Package, Settings, ShoppingCart, Store, Menu, X, Sliders, Truck, History, BarChart3 } from "lucide-react";
+import { Building2, CreditCard, LayoutDashboard, LogOut, Package, Settings, ShoppingCart, Store, Menu, X, Sliders, Truck, History, BarChart3, AlertCircle } from "lucide-react";
 import { useAuth } from "../state/AuthContext";
 import NotificationBell from "./NotificationBell";
 
@@ -121,8 +121,9 @@ export default function Layout() {
       <div className={`mobile-sidebar-backdrop ${sidebarOpen ? "mobile-open" : ""}`} onClick={closeSidebar} />
       <main className="content">
         {subscription?.is_active && expiryDays !== null && expiryDays <= 5 && subscription.plan !== "free" && (
-          <div className="alert-bar">
-            ⚠ Your plan expires in {Math.max(expiryDays, 0)} days. Renew to avoid interruption.
+          <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <AlertCircle size={18} />
+            Your plan expires in {Math.max(expiryDays, 0)} days. Renew to avoid interruption.
           </div>
         )}
         {isExpired && (

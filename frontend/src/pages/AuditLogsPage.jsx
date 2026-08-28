@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AlertCircle } from "lucide-react";
 import api from "../api/client";
 import FeatureGate from "../components/FeatureGate";
 import { useAuth } from "../state/AuthContext";
@@ -27,7 +28,12 @@ export default function AuditLogsPage() {
       <h1 className="page-title">Activity Audit Trail</h1>
 
       <FeatureGate feature="audit_logs">
-          {error && <div className="alert-bar">⚠ {error}</div>}
+          {error && (
+            <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <AlertCircle size={18} />
+              {error}
+            </div>
+          )}
 
           <div className="card">
             <table>

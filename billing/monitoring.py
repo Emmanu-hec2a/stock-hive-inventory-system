@@ -172,4 +172,4 @@ def log_daily_metrics():
     # Check for stuck payments
     stuck_payments = collector.get_pending_payments_older_than_minutes(30)
     if stuck_payments.count() > 0:
-        logger.warning(f"⚠️ {stuck_payments.count()} payments pending >30 min (may be stuck)")
+        logger.warning(f"[ALERT] {stuck_payments.count()} payments pending >30 min (may be stuck)")

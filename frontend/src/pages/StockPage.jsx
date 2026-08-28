@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AlertCircle } from "lucide-react";
 import api from "../api/client";
 import { useAuth } from "../state/AuthContext";
 
@@ -254,7 +255,12 @@ export default function StockPage() {
         </div>
       </div>
 
-      {error && <div className="alert-bar">⚠ {error}</div>}
+      {error && (
+        <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <AlertCircle size={18} />
+          {error}
+        </div>
+      )}
 
       <div className="card">
         <table>
