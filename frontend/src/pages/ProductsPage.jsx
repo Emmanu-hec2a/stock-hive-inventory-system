@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api/client";
 import FeatureGate from "../components/FeatureGate";
+import CsvBulkImportModal from "../components/CsvBulkImportModal";
 import { PLAN_LIMITS } from "../constants/plans";
 import { useAuth } from "../state/AuthContext";
 import { downloadCsvExport } from "../utils/downloads";
@@ -23,6 +24,7 @@ export default function ProductsPage() {
   const [cloneTo, setCloneTo] = useState("");
   const [includeStock, setIncludeStock] = useState(false);
   const [isCloning, setIsCloning] = useState(false);
+  const [showBulkImport, setShowBulkImport] = useState(false);
   const { user, scopedQuery, selectedShopId, subscription, shops: allShops } = useAuth();
 
   const loadProducts = async () => {
@@ -155,6 +157,16 @@ export default function ProductsPage() {
         />
         <button type="submit">Add Product</button>
       </form>
+      <FeatureGate feature="bulk_import">
+        <button
+          type="button"
+          onClick={() => setShowBulkImport(true)}
+          className="btn btn-secondary"
+          style={{ marginBottom: "16px" }}
+        >
+          📤 Bulk Import CSV
+        </button>
+      </FeatureGate>
       {error && <div className="alert-bar">⚠ {error}</div>}
 
       <div className="card" style={{ marginBottom: '24px' }}>
@@ -267,6 +279,12 @@ export default function ProductsPage() {
           </tbody>
         </table>
       </div>
+      {showBulkImport && (
+        <CsvBulkImportModal
+          onClose={() => setShowBulkImport(false)}
+          onSuccess={() => loadProducts()}
+        />
+      )}
     </section>
   );
 }
