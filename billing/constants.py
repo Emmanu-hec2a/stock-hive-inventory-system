@@ -30,6 +30,9 @@ PLAN_FEATURES = {
         "suppliers",
         "audit_logs",
         "priority_support",
+        "bulk_import",
+        "barcode_autofill",
+        "smart_suggestions",
     ],
     "enterprise": ["*"],
 }

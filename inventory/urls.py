@@ -21,6 +21,8 @@ from inventory.views import (
     SupplierViewSet,
     AuditLogViewSet,
 )
+from inventory.bulk_import import bulk_import_products, confirm_bulk_import
+from inventory.product_utils import lookup_barcode, suggest_categories
 from inventory.analytics import (
     sales_analytics,
     inventory_analytics,
@@ -50,6 +52,12 @@ urlpatterns = [
     path("reports/supplier-spend/", SupplierSpendReportView.as_view(), name="report-supplier-spend"),
     path("reports/overview/", OverviewReportView.as_view(), name="report-overview"),
     path("audit-logs/", AuditLogViewSet.as_view({"get": "list"}), name="audit-logs"),
+    # Bulk Import
+    path("products/bulk-import/preview/", bulk_import_products, name="bulk-import-preview"),
+    path("products/bulk-import/confirm/", confirm_bulk_import, name="bulk-import-confirm"),
+    # Product Utilities
+    path("products/lookup/barcode/", lookup_barcode, name="lookup-barcode"),
+    path("products/suggest/categories/", suggest_categories, name="suggest-categories"),
     # Advanced Analytics Endpoints
     path("analytics/sales/", sales_analytics, name="analytics-sales"),
     path("analytics/inventory/", inventory_analytics, name="analytics-inventory"),
