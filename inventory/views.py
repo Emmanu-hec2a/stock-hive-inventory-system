@@ -453,7 +453,16 @@ class SaleViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.ModelVie
                 status=403
             )
         
-        sale = self.get_object()
+        # Get sale by pk, bypassing ShopScopedMixin for super_admin users
+        try:
+            sale = Sale.objects.prefetch_related("items__product").get(pk=pk)
+        except Sale.DoesNotExist:
+            return Response({"detail": "Sale not found."}, status=404)
+        
+        # Verify permission: user can only view sales from their shop(s)
+        user = request.user
+        if user.role != 'super_admin' and sale.shop_id != user.shop_id:
+            return Response({"detail": "Permission denied."}, status=403)
         
         # Format receipt data
         receipt_data = {
