@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import api from "../api/client";
 import { useAuth } from "../state/AuthContext";
+import { SkeletonTable } from "../components/SkeletonLoaders";
 
 const entryDefaults = {
   product: "",
@@ -20,11 +21,13 @@ export default function StockPage() {
   const [transferForm, setTransferForm] = useState({ product: '', to_shop: '', quantity: 1, reference: '' });
   const [bulkTransferTo, setBulkTransferTo] = useState("");
   const [isBulkProcessing, setIsBulkProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const { user, scopedQuery, selectedShopId, subscription, shops: allShops } = useAuth();
 
   const loadData = async () => {
     try {
+      setIsLoading(true);
       if (user?.role === "super_admin" && !selectedShopId) return;
       const [productsResponse, entriesResponse, suppliersResponse] = await Promise.all([
         api.get(`/products/${scopedQuery}`),
@@ -37,6 +40,8 @@ export default function StockPage() {
       setError("");
     } catch (err) {
       setError("Could not load stock data.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -263,29 +268,33 @@ export default function StockPage() {
       )}
 
       <div className="card">
-        <table>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Qty</th>
-              <th>Buying Price</th>
-              <th>Supplier</th>
-            </tr>
-          </thead>
-          <tbody>
-            {entries.map((entry) => {
-              const product = products.find(p => p.id === entry.product);
-              return (
-                <tr key={entry.id}>
-                  <td>{product?.name || entry.product}</td>
-                  <td>{entry.quantity}</td>
-                  <td>{entry.buying_price_at_entry}</td>
-                  <td>{entry.supplier_display_name || entry.supplier_name || "-"}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {isLoading ? (
+          <SkeletonTable rows={6} columns={4} />
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Buying Price</th>
+                <th>Supplier</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.map((entry) => {
+                const product = products.find(p => p.id === entry.product);
+                return (
+                  <tr key={entry.id}>
+                    <td>{product?.name || entry.product}</td>
+                    <td>{entry.quantity}</td>
+                    <td>{entry.buying_price_at_entry}</td>
+                    <td>{entry.supplier_display_name || entry.supplier_name || "-"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
       </div>
     </section>
   );

@@ -17,6 +17,7 @@ import {
   AlertCircle,
   Loader,
 } from "lucide-react";
+import { SkeletonAnalytics } from "../components/SkeletonLoaders";
 import "../Analytics.css";
 
 export default function AnalyticsPage() {
@@ -86,10 +87,7 @@ export default function AnalyticsPage() {
   if (loading) {
     return (
       <div className="page-container">
-        <div className="loading-center">
-          <Loader size={32} className="loading-spinner" />
-          <p>Loading analytics...</p>
-        </div>
+        <SkeletonAnalytics />
       </div>
     );
   }

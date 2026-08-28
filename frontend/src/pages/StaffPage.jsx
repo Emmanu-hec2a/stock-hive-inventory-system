@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import api from "../api/client";
 import { useAuth } from "../state/AuthContext";
+import { SkeletonTable } from "../components/SkeletonLoaders";
 
 const initialStaff = {
   full_name: "",
@@ -15,11 +16,17 @@ export default function StaffPage() {
   const { user, shops, refreshShops } = useAuth();
   const [staff, setStaff] = useState([]);
   const [form, setForm] = useState(initialStaff);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   const loadStaff = async () => {
-    const response = await api.get("/staff/");
-    setStaff(response.data);
+    try {
+      setIsLoading(true);
+      const response = await api.get("/staff/");
+      setStaff(response.data);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -92,32 +99,36 @@ export default function StaffPage() {
         </div>
       )}
       <div className="card">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Shop</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {staff.map((member) => (
-              <tr key={member.id}>
-                <td>{member.full_name}</td>
-                <td>{member.email}</td>
-                <td>{member.role}</td>
-                <td>{member.shop_name || "-"}</td>
-                <td>
-                  <span className={`pill ${member.is_active ? "pill-green" : "pill-red"}`}>
-                    {member.is_active ? "ACTIVE" : "INACTIVE"}
-                  </span>
-                </td>
+        {isLoading ? (
+          <SkeletonTable rows={6} columns={5} />
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Shop</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {staff.map((member) => (
+                <tr key={member.id}>
+                  <td>{member.full_name}</td>
+                  <td>{member.email}</td>
+                  <td>{member.role}</td>
+                  <td>{member.shop_name || "-"}</td>
+                  <td>
+                    <span className={`pill ${member.is_active ? "pill-green" : "pill-red"}`}>
+                      {member.is_active ? "ACTIVE" : "INACTIVE"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </section>
   );

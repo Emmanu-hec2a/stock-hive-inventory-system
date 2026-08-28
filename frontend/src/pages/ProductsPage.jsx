@@ -7,6 +7,7 @@ import { PLAN_LIMITS } from "../constants/plans";
 import { useAuth } from "../state/AuthContext";
 import { downloadCsvExport } from "../utils/downloads";
 import { useBarcodeLookup } from "../hooks/useBarcodeLookup";
+import { SkeletonTable } from "../components/SkeletonLoaders";
 
 const initialForm = {
   name: "",
@@ -24,6 +25,7 @@ export default function ProductsPage() {
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState("");
   const [isExporting, setIsExporting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [cloneTo, setCloneTo] = useState("");
   const [includeStock, setIncludeStock] = useState(false);
   const [isCloning, setIsCloning] = useState(false);
@@ -62,12 +64,15 @@ export default function ProductsPage() {
 
   const loadProducts = async () => {
     try {
+      setIsLoading(true);
       if (user?.role === "super_admin" && !selectedShopId) return;
       const response = await api.get(`/products/${scopedQuery}`);
       setProducts(response.data);
       setError("");
     } catch (err) {
       setError("Could not load products for selected shop.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -305,63 +310,67 @@ export default function ProductsPage() {
             {isExporting ? "Exporting..." : "Export CSV"}
           </button>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>SKU / Barcode</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>
-                    <div>{product.sku}</div>
-                    <div style={{ fontSize: '0.75rem', color: '#666' }}>{product.barcode || '-'}</div>
-                </td>
-                <td>{product.selling_price}</td>
-                <td>
-                  <div className="stock-cell">
-                    <div className="stock-track">
-                      <div
-                        className={`stock-fill ${
-                          product.current_stock <= product.low_stock_threshold
-                            ? "stock-red"
-                            : product.current_stock <= product.low_stock_threshold * 2
-                              ? "stock-amber"
-                              : "stock-green"
-                        }`}
-                        style={{ width: `${Math.min(100, product.current_stock * 5)}%` }}
-                      />
-                    </div>
-                    <span>{product.current_stock}</span>
-                  </div>
-                </td>
-                <td>
-                  <span
-                    className={`pill ${
-                      product.current_stock <= product.low_stock_threshold
-                        ? "pill-red"
-                        : product.current_stock <= product.low_stock_threshold * 2
-                          ? "pill-amber"
-                          : "pill-green"
-                    }`}
-                  >
-                    {product.current_stock <= product.low_stock_threshold
-                      ? "LOW"
-                      : product.current_stock <= product.low_stock_threshold * 2
-                        ? "MEDIUM"
-                        : "HEALTHY"}
-                  </span>
-                </td>
+        {isLoading ? (
+          <SkeletonTable rows={6} columns={5} />
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>SKU / Barcode</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>
+                      <div>{product.sku}</div>
+                      <div style={{ fontSize: '0.75rem', color: '#666' }}>{product.barcode || '-'}</div>
+                  </td>
+                  <td>{product.selling_price}</td>
+                  <td>
+                    <div className="stock-cell">
+                      <div className="stock-track">
+                        <div
+                          className={`stock-fill ${
+                            product.current_stock <= product.low_stock_threshold
+                              ? "stock-red"
+                              : product.current_stock <= product.low_stock_threshold * 2
+                                ? "stock-amber"
+                                : "stock-green"
+                          }`}
+                          style={{ width: `${Math.min(100, product.current_stock * 5)}%` }}
+                        />
+                      </div>
+                      <span>{product.current_stock}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span
+                      className={`pill ${
+                        product.current_stock <= product.low_stock_threshold
+                          ? "pill-red"
+                          : product.current_stock <= product.low_stock_threshold * 2
+                            ? "pill-amber"
+                            : "pill-green"
+                      }`}
+                    >
+                      {product.current_stock <= product.low_stock_threshold
+                        ? "LOW"
+                        : product.current_stock <= product.low_stock_threshold * 2
+                          ? "MEDIUM"
+                          : "HEALTHY"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
       {showBulkImport && (
         <CsvBulkImportModal

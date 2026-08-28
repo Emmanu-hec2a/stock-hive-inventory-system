@@ -8,6 +8,7 @@ import { cacheProducts, getCachedProducts, isCacheStale } from "../utils/offline
 import FeatureGate from "../components/FeatureGate";
 import ReceiptTemplate from "../components/ReceiptTemplate";
 import { fetchReceiptData } from "../utils/receiptPrinting";
+import { SkeletonTable } from "../components/SkeletonLoaders";
 
 const initialForm = {
   payment_method: "cash",
@@ -117,6 +118,7 @@ export default function SalesPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isExporting, setIsExporting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState(initialForm);
   const [lastSaleId, setLastSaleId] = useState(null);
   const [receipt, setReceipt] = useState(null);
@@ -126,6 +128,7 @@ export default function SalesPage() {
 
   const loadData = async () => {
     try {
+      setIsLoading(true);
       if (user?.role === "super_admin" && !selectedShopId) {
         setSales([]);
         setProducts([]);
@@ -199,6 +202,8 @@ export default function SalesPage() {
           console.error("Failed to load cache:", cacheErr);
         }
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -491,36 +496,40 @@ export default function SalesPage() {
             {isExporting ? "Exporting..." : "Export CSV"}
           </button>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Items</th>
-              <th>Quantity</th>
-              <th>Amount</th>
-              <th>Payment</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sales.map((sale) => (
-              <tr key={sale.id}>
-                <td>
-                  {sale.line_items && sale.line_items.length > 0
-                    ? sale.line_items.map((item) => item.product_name || item.name).join(", ")
-                    : "No items"}
-                </td>
-                <td>
-                  {sale.line_items && sale.line_items.length > 0
-                    ? sale.line_items.reduce((sum, item) => sum + item.quantity, 0)
-                    : 0}
-                </td>
-                <td>{formatNumber(sale.total_amount)}</td>
-                <td>{sale.payment_method}</td>
-                <td>{new Date(sale.created_at).toLocaleString()}</td>
+        {isLoading ? (
+          <SkeletonTable rows={6} columns={5} />
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Items</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Payment</th>
+                <th>Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sales.map((sale) => (
+                <tr key={sale.id}>
+                  <td>
+                    {sale.line_items && sale.line_items.length > 0
+                      ? sale.line_items.map((item) => item.product_name || item.name).join(", ")
+                      : "No items"}
+                  </td>
+                  <td>
+                    {sale.line_items && sale.line_items.length > 0
+                      ? sale.line_items.reduce((sum, item) => sum + item.quantity, 0)
+                      : 0}
+                  </td>
+                  <td>{formatNumber(sale.total_amount)}</td>
+                  <td>{sale.payment_method}</td>
+                  <td>{new Date(sale.created_at).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </section>
   );

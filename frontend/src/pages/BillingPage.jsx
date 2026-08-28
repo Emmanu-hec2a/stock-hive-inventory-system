@@ -4,6 +4,7 @@ import api from "../api/client";
 import { PLAN_PRICES } from "../constants/plans";
 import { useAuth } from "../state/AuthContext";
 import MpesaCheckoutModal from "../components/MpesaCheckoutModal";
+import { SkeletonTable, SkeletonStatCards } from "../components/SkeletonLoaders";
 
 const planCards = [
   {
@@ -35,16 +36,20 @@ const planCards = [
 export default function BillingPage() {
   const { subscription, refreshSubscription, shops } = useAuth();
   const [history, setHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [checkoutConfig, setCheckoutConfig] = useState(null); // { plan, price }
 
   const loadBilling = async () => {
     try {
-        const historyRes = await api.get("/billing/history/");
-        await refreshSubscription();
-        setHistory(historyRes.data);
+      setIsLoading(true);
+      const historyRes = await api.get("/billing/history/");
+      await refreshSubscription();
+      setHistory(historyRes.data);
     } catch (err) {
-        setMessage("Could not load billing history.");
+      setMessage("Could not load billing history.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -96,24 +101,28 @@ export default function BillingPage() {
         </div>
       )}
 
-      <div className="grid">
-        <article className="card stat-card stat-amber">
-          <p className="meta-label">Current Plan</p>
-          <p className="stat-value">{subscription?.plan?.toUpperCase() || "-"}</p>
-        </article>
-        <article className="card stat-card stat-blue">
-          <p className="meta-label">Status</p>
-          <p className="mini-stat">{subscription?.status?.toUpperCase() || "-"}</p>
-        </article>
-        <article className="card stat-card stat-green">
-          <p className="meta-label">Ends On</p>
-          <p className="mini-stat">{subscription?.end_date || "Never"}</p>
-        </article>
-        <article className="card stat-card stat-red">
-          <p className="meta-label">Auto Renew</p>
-          <p className="mini-stat">{subscription?.auto_renew ? "ON" : "OFF"}</p>
-        </article>
-      </div>
+      {isLoading ? (
+        <SkeletonStatCards count={4} />
+      ) : (
+        <div className="grid">
+          <article className="card stat-card stat-amber">
+            <p className="meta-label">Current Plan</p>
+            <p className="stat-value">{subscription?.plan?.toUpperCase() || "-"}</p>
+          </article>
+          <article className="card stat-card stat-blue">
+            <p className="meta-label">Status</p>
+            <p className="mini-stat">{subscription?.status?.toUpperCase() || "-"}</p>
+          </article>
+          <article className="card stat-card stat-green">
+            <p className="meta-label">Ends On</p>
+            <p className="mini-stat">{subscription?.end_date || "Never"}</p>
+          </article>
+          <article className="card stat-card stat-red">
+            <p className="meta-label">Auto Renew</p>
+            <p className="mini-stat">{subscription?.auto_renew ? "ON" : "OFF"}</p>
+          </article>
+        </div>
+      )}
 
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -159,45 +168,49 @@ export default function BillingPage() {
 
       <div className="card">
         <h3 className="section-title">Payment History</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Plan</th>
-              <th>Amount (KES)</th>
-              <th>Status</th>
-              <th>Receipt</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {history.map((item) => (
-              <tr key={item.id}>
-                <td style={{ textTransform: 'uppercase' }}>{item.plan}</td>
-                <td style={{ fontWeight: 'bold' }}>{Number(item.amount).toLocaleString()}</td>
-                <td>
-                  <span
-                    className={`pill ${
-                      item.status === "success"
-                        ? "pill-green"
-                        : item.status === "failed"
-                          ? "pill-red"
-                          : "pill-amber"
-                    }`}
-                  >
-                    {item.status.toUpperCase()}
-                  </span>
-                </td>
-                <td style={{ fontFamily: 'monospace' }}>{item.mpesa_receipt || "-"}</td>
-                <td>{new Date(item.created_at).toLocaleString()}</td>
+        {isLoading ? (
+          <SkeletonTable rows={6} columns={5} />
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Amount (KES)</th>
+                <th>Status</th>
+                <th>Receipt</th>
+                <th>Date</th>
               </tr>
-            ))}
-            {history.length === 0 && (
-                <tr>
-                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }} className="muted">No payment history found.</td>
+            </thead>
+            <tbody>
+              {history.map((item) => (
+                <tr key={item.id}>
+                  <td style={{ textTransform: 'uppercase' }}>{item.plan}</td>
+                  <td style={{ fontWeight: 'bold' }}>{Number(item.amount).toLocaleString()}</td>
+                  <td>
+                    <span
+                      className={`pill ${
+                        item.status === "success"
+                          ? "pill-green"
+                          : item.status === "failed"
+                            ? "pill-red"
+                            : "pill-amber"
+                      }`}
+                    >
+                      {item.status.toUpperCase()}
+                    </span>
+                  </td>
+                  <td style={{ fontFamily: 'monospace' }}>{item.mpesa_receipt || "-"}</td>
+                  <td>{new Date(item.created_at).toLocaleString()}</td>
                 </tr>
-            )}
-          </tbody>
-        </table>
+              ))}
+              {history.length === 0 && (
+                  <tr>
+                      <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }} className="muted">No payment history found.</td>
+                  </tr>
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {checkoutConfig && (
