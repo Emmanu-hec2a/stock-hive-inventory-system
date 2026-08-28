@@ -47,6 +47,70 @@
   box-sizing: border-box;
 }
 
+/* Modern Scrollbar Styling */
+/* Firefox */
+* {
+  scrollbar-color: var(--amber) var(--surface-2);
+  scrollbar-width: thin;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--amber);
+  border-radius: 10px;
+  border: 2px solid var(--surface-2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f5a72b;
+  border-color: var(--surface-2);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #f59e0b;
+}
+
+/* Small scrollbars for dropdowns/modals */
+.form-control::-webkit-scrollbar,
+select::-webkit-scrollbar,
+textarea::-webkit-scrollbar,
+[role="listbox"]::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.form-control::-webkit-scrollbar-track,
+select::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-track,
+[role="listbox"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.form-control::-webkit-scrollbar-thumb,
+select::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb,
+[role="listbox"]::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.6);
+  border-radius: 8px;
+}
+
+.form-control::-webkit-scrollbar-thumb:hover,
+select::-webkit-scrollbar-thumb:hover,
+textarea::-webkit-scrollbar-thumb:hover,
+[role="listbox"]::-webkit-scrollbar-thumb:hover {
+  background: var(--amber);
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -106,12 +170,23 @@ body {
   gap: 12px;
   z-index: 40;
   overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 .sidebar::-webkit-scrollbar {
-  display: none;
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.5);
+  border-radius: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.8);
 }
 
 .mobile-sidebar-backdrop {
