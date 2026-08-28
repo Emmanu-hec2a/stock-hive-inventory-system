@@ -3,7 +3,7 @@ import { Lock } from 'lucide-react';
 import { useAuth } from '../state/AuthContext';
 import { PLAN_FEATURES } from '../constants/plans';
 
-export default function FeatureGate({ feature, children, fallback = null, inline = false }) {
+export default function FeatureGate({ feature, children, fallback = null, inline = false, invert = false }) {
   const { subscription } = useAuth();
   const navigate = useNavigate();
 
@@ -11,6 +11,12 @@ export default function FeatureGate({ feature, children, fallback = null, inline
   const allowedFeatures = PLAN_FEATURES[plan] || [];
   const isAllowed = allowedFeatures.includes('*') || allowedFeatures.includes(feature);
 
+  // If invert is true, show children when feature is NOT allowed
+  if (invert) {
+    return isAllowed ? null : <>{children}</>;
+  }
+
+  // Normal behavior: show children when feature IS allowed
   if (isAllowed) {
     return <>{children}</>;
   }

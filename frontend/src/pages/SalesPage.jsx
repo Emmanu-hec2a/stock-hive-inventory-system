@@ -426,7 +426,7 @@ export default function SalesPage() {
           <FeatureGate feature="receipt_printing">
             <div className="card" style={{ padding: "16px", backgroundColor: "#f0f9ff", borderColor: "#bfdbfe" }}>
               <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-                <span style={{ flex: 1 }}>Last sale recorded successfully!</span>
+                <span style={{ flex: 1, color: "#0c4a6e" }}>✓ Last sale recorded successfully!</span>
                 <button
                   type="button"
                   className="btn btn-primary"
@@ -439,8 +439,8 @@ export default function SalesPage() {
             </div>
           </FeatureGate>
           <FeatureGate feature="receipt_printing" invert>
-            <div className="alert-bar" style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "#fef3c7", borderColor: "#fcd34d" }}>
-              <span style={{ flex: 1 }}>Sale recorded! 📄 Receipt printing is available on Pro and Enterprise plans. Upgrade now to unlock thermal printer support.</span>
+            <div className="card" style={{ padding: "16px", backgroundColor: "#fef3c7", borderColor: "#fcd34d", display: "flex", gap: "12px", alignItems: "center" }}>
+              <span style={{ flex: 1, color: "#78350f" }}>Sale recorded! Receipt printing is available on Pro and Enterprise plans only.</span>
               <button type="button" className="btn btn-secondary" style={{ whiteSpace: "nowrap" }} onClick={() => window.location.href = "/billing"}>
                 Upgrade Plan
               </button>
