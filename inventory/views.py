@@ -181,8 +181,20 @@ class ProductViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.Model
     serializer_class = ProductSerializer
     export_serializer_class = ProductExportSerializer
     model = Product
-    permission_classes = [IsAuthenticated, IsInventoryManager, SubscriptionPermission]
+    permission_classes = [IsAuthenticated, SubscriptionPermission]
     queryset = Product.objects.filter(is_active=True)
+
+    def get_permissions(self):
+        """
+        Allow cashiers to read products for sales entry.
+        Restrict create/update/delete to inventory managers and above.
+        """
+        if self.action in ['list', 'retrieve']:
+            # Cashiers can view products for sales entry
+            return [IsAuthenticated(), SubscriptionPermission()]
+        else:
+            # Only inventory managers can modify products
+            return [IsAuthenticated(), IsInventoryManager(), SubscriptionPermission()]
 
     def perform_create(self, serializer):
         check_limit(self.request.user.business, "products")
