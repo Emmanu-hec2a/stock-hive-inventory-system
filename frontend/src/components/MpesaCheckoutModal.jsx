@@ -191,7 +191,10 @@ export default function MpesaCheckoutModal({ plan, price, onClose, onSuccess }) 
           {error && step === STEPS.IDLE && <div className="alert-bar">{error}</div>}
         </div>
         <div className="modal-footer">
-          <Smartphone size={24} style={{ color: "var(--amber)" }} />
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <Smartphone size={24} style={{ color: "var(--amber)" }} />
+            <span style={{ fontWeight: "600", color: "var(--amber)" }}>M-PESA</span>
+          </div>
           <span className="security-tag">Secured by Safaricom</span>
         </div>
       </div>
