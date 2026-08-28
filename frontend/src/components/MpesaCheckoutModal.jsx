@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { X, CheckCircle, AlertCircle, Loader2, Phone, RefreshCw } from "lucide-react";
+import { X, CheckCircle, AlertCircle, Loader2, Phone, RefreshCw, Smartphone } from "lucide-react";
 import api from "../api/client";
 
 const STEPS = {
@@ -191,7 +191,7 @@ export default function MpesaCheckoutModal({ plan, price, onClose, onSuccess }) 
           {error && step === STEPS.IDLE && <div className="alert-bar">{error}</div>}
         </div>
         <div className="modal-footer">
-          <img src="/mpesa-logo.png" alt="M-Pesa" className="mpesa-badge" onerror="this.style.display=\u0027none\u0027" />
+          <Smartphone size={24} style={{ color: "var(--amber)" }} />
           <span className="security-tag">Secured by Safaricom</span>
         </div>
       </div>
