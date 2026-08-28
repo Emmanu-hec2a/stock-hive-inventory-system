@@ -16,6 +16,7 @@ const initialForm = {
   selling_price: "",
   unit: "pieces",
   low_stock_threshold: 10,
+  initial_stock: "",
 };
 
 export default function ProductsPage() {
@@ -223,6 +224,14 @@ export default function ProductsPage() {
           onChange={onChange}
           placeholder="Low stock threshold"
           required
+        />
+        <input
+          name="initial_stock"
+          type="number"
+          value={form.initial_stock}
+          onChange={onChange}
+          placeholder="Initial Stock (Optional)"
+          min="0"
         />
         <button type="submit">Add Product</button>
       </form>

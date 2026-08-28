@@ -6,6 +6,7 @@ Provides comprehensive metrics for sales, inventory, and business performance
 from datetime import timedelta, datetime
 from decimal import Decimal
 from django.db.models import Sum, Count, Avg, Q, F
+from django.db.models.functions import TruncDate
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -61,13 +62,16 @@ class AnalyticsService:
     @staticmethod
     def get_daily_sales_trend(shop, days=30):
         """Get daily sales trend for charting"""
+        if not shop:
+            return []
+        
         start_date, end_date = AnalyticsService.get_date_range(days)
         
         sales_by_day = Sale.objects.filter(
             shop=shop,
             created_at__range=[start_date, end_date]
-        ).extra(
-            select={'date': 'DATE(created_at)'}
+        ).annotate(
+            date=TruncDate('created_at')
         ).values('date').annotate(
             revenue=Sum('total_amount'),
             transactions=Count('id')
@@ -313,9 +317,9 @@ def sales_analytics(request):
     if user.role == 'super_admin':
         # Business overview
         overview = AnalyticsService.get_business_overview(user.business, days)
-        daily_trend = AnalyticsService.get_daily_sales_trend(Shop.objects.filter(
-            business=user.business, is_active=True
-        ).first(), days) if Shop.objects.filter(business=user.business, is_active=True).exists() else []
+        # Get first active shop for daily trend, or empty list if none
+        first_shop = Shop.objects.filter(business=user.business, is_active=True).first()
+        daily_trend = AnalyticsService.get_daily_sales_trend(first_shop, days) if first_shop else []
         return Response({
             'overview': overview,
             'daily_trend': daily_trend

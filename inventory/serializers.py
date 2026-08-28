@@ -125,6 +125,7 @@ class AuditLogSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     current_stock = serializers.SerializerMethodField()
+    initial_stock = serializers.IntegerField(write_only=True, required=False, min_value=0, help_text="Set initial stock quantity for the product")
 
     class Meta:
         model = Product
@@ -143,6 +144,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "is_active",
             "created_at",
             "current_stock",
+            "initial_stock",
         ]
         read_only_fields = ["id", "shop", "created_at", "current_stock"]
 

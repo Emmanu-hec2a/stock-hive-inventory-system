@@ -222,9 +222,25 @@ class ProductViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.Model
         if serializer.validated_data.get("barcode") and not can_use_feature(self.request.user.business, "barcodes"):
             raise PermissionDenied("Barcode support is available on Basic plans and above.")
 
+        # Extract initial_stock before saving the product
+        initial_stock = serializer.validated_data.pop('initial_stock', None)
+        
         with transaction.atomic():
-            serializer.save(shop=self.get_shop())
+            product = serializer.save(shop=self.get_shop())
             super().perform_create(serializer)
+            
+            # Create initial stock entry if provided
+            if initial_stock and initial_stock > 0:
+                StockEntry.objects.create(
+                    product=product,
+                    shop=self.get_shop(),
+                    quantity=initial_stock,
+                    buying_price_at_entry=product.buying_price,
+                    supplier_name="Initial Stock",
+                    note="Initial stock set during product creation",
+                    entered_by=self.request.user
+                )
+            
             # Invalidate caches
             shop = self.get_shop()
             cache.delete(f"dashboard_data_{shop.id}")
@@ -335,8 +351,10 @@ class StockEntryViewSet(ShopScopedMixin, AuditLogMixin, mixins.CreateModelMixin,
         with transaction.atomic():
             serializer.save(shop=self.get_shop(), entered_by=self.request.user)
             super().perform_create(serializer)
-            # Invalidate dashboard cache
-            cache.delete(f"dashboard_data_{self.get_shop().id}")
+            # Invalidate both dashboard and product caches
+            shop = self.get_shop()
+            cache.delete(f"dashboard_data_{shop.id}")
+            cache.delete(f"products_list_{shop.id}")  # Invalidate product cache since stock changed
 
 
 class StockAdjustmentViewSet(
@@ -357,8 +375,10 @@ class StockAdjustmentViewSet(
                 from alerts.services import trigger_low_stock_alerts
                 trigger_low_stock_alerts(adjustment.product)
             
-            # Invalidate dashboard cache
-            cache.delete(f"dashboard_data_{self.get_shop().id}")
+            # Invalidate both dashboard and product caches
+            shop = self.get_shop()
+            cache.delete(f"dashboard_data_{shop.id}")
+            cache.delete(f"products_list_{shop.id}")  # Invalidate product cache since stock changed
 
 
 class LowStockView(APIView, ShopScopedMixin):
