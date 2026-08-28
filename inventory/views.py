@@ -371,7 +371,7 @@ class SaleViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.ModelVie
         """Record sale and trigger low stock alerts for products sold."""
         with transaction.atomic():
             sale = serializer.save(shop=self.get_shop(), served_by=self.request.user)
-            super().perform_create(serializer)
+            self._log_action("create", sale)
             
             # Trigger low stock alerts for each product sold
             from alerts.services import trigger_low_stock_alerts
