@@ -196,6 +196,27 @@ class ProductViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.Model
             # Only inventory managers can modify products
             return [IsAuthenticated(), IsInventoryManager(), SubscriptionPermission()]
 
+    def list(self, request, *args, **kwargs):
+        """
+        Override list to add Redis caching for offline support.
+        Cache expires after 1 hour.
+        """
+        shop = self.get_shop()
+        cache_key = f"products_list_{shop.id}"
+        
+        # Try to get from cache
+        cached_data = cache.get(cache_key)
+        if cached_data is not None:
+            return Response(cached_data)
+        
+        # Get from database
+        response = super().list(request, *args, **kwargs)
+        
+        # Cache for 3600 seconds (1 hour)
+        cache.set(cache_key, response.data, 3600)
+        
+        return response
+
     def perform_create(self, serializer):
         check_limit(self.request.user.business, "products")
         if serializer.validated_data.get("barcode") and not can_use_feature(self.request.user.business, "barcodes"):
@@ -204,21 +225,27 @@ class ProductViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.Model
         with transaction.atomic():
             serializer.save(shop=self.get_shop())
             super().perform_create(serializer)
-            # Invalidate dashboard cache
-            cache.delete(f"dashboard_data_{self.get_shop().id}")
+            # Invalidate caches
+            shop = self.get_shop()
+            cache.delete(f"dashboard_data_{shop.id}")
+            cache.delete(f"products_list_{shop.id}")  # Invalidate product cache
 
     def perform_update(self, serializer):
         serializer.save()
         super().perform_update(serializer)
-        # Invalidate dashboard cache
-        cache.delete(f"dashboard_data_{self.get_shop().id}")
+        # Invalidate caches
+        shop = self.get_shop()
+        cache.delete(f"dashboard_data_{shop.id}")
+        cache.delete(f"products_list_{shop.id}")  # Invalidate product cache
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.is_active = False
         instance.save(update_fields=["is_active"])
-        # Invalidate dashboard cache
-        cache.delete(f"dashboard_data_{self.get_shop().id}")
+        # Invalidate caches
+        shop = self.get_shop()
+        cache.delete(f"dashboard_data_{shop.id}")
+        cache.delete(f"products_list_{shop.id}")  # Invalidate product cache
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["get"])

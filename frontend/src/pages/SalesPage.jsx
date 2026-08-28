@@ -4,6 +4,7 @@ import { useAuth } from "../state/AuthContext";
 import { downloadCsvExport } from "../utils/downloads";
 import { formatNumber } from "../utils/formatters";
 import { saveSaleOffline } from "../utils/offlineSales";
+import { cacheProducts, getCachedProducts, isCacheStale } from "../utils/offlineProducts";
 import FeatureGate from "../components/FeatureGate";
 import ReceiptTemplate from "../components/ReceiptTemplate";
 import { fetchReceiptData } from "../utils/receiptPrinting";
@@ -131,14 +132,42 @@ export default function SalesPage() {
         return;
       }
 
-      const [productsResponse, salesResponse] = await Promise.all([
-        api.get(`/products/${scopedQuery}`),
-        api.get(`/sales/${scopedQuery}`),
-      ]);
+      // Try to load from API
+      try {
+        const [productsResponse, salesResponse] = await Promise.all([
+          api.get(`/products/${scopedQuery}`),
+          api.get(`/sales/${scopedQuery}`),
+        ]);
 
-      setProducts(productsResponse.data);
-      setSales(salesResponse.data);
-      setError("");
+        setProducts(productsResponse.data);
+        setSales(salesResponse.data);
+        setError("");
+
+        // Cache products for offline use
+        if (selectedShopId) {
+          await cacheProducts(productsResponse.data, selectedShopId);
+        }
+      } catch (apiError) {
+        // If online, show error and don't use cache
+        if (navigator.onLine) {
+          throw apiError;
+        }
+
+        // If offline, try to use cached data
+        console.log("Offline: Loading from cache...");
+        const cachedProducts = selectedShopId 
+          ? await getCachedProducts(selectedShopId)
+          : [];
+        
+        setProducts(cachedProducts);
+        setSales([]); // Can't load sales while offline (read-only anyway)
+        
+        if (cachedProducts.length > 0) {
+          setError("Offline mode: Using cached products. Sales will sync when online.");
+        } else {
+          setError("Offline mode: No cached products available. Please go online to load products.");
+        }
+      }
     } catch (err) {
       console.error("Failed to load sales/products:", {
         status: err.response?.status,
@@ -157,6 +186,19 @@ export default function SalesPage() {
         errorMsg = "No internet connection. Please check your network.";
       }
       setError(errorMsg);
+      
+      // Try to load cached products as fallback
+      if (!navigator.onLine && selectedShopId) {
+        try {
+          const cachedProducts = await getCachedProducts(selectedShopId);
+          if (cachedProducts.length > 0) {
+            setProducts(cachedProducts);
+            setError("Offline mode: Using cached products.");
+          }
+        } catch (cacheErr) {
+          console.error("Failed to load cache:", cacheErr);
+        }
+      }
     }
   };
 
