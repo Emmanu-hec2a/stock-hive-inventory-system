@@ -4,6 +4,9 @@ import { useAuth } from "../state/AuthContext";
 import { downloadCsvExport } from "../utils/downloads";
 import { formatNumber } from "../utils/formatters";
 import { saveSaleOffline } from "../utils/offlineSales";
+import FeatureGate from "../components/FeatureGate";
+import ReceiptTemplate from "../components/ReceiptTemplate";
+import { fetchReceiptData } from "../utils/receiptPrinting";
 
 const initialForm = {
   payment_method: "cash",
@@ -54,7 +57,10 @@ function ProductSearchField({ products, query, onQueryChange, onProductSelect, d
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const filteredProducts = products.filter((product) => matchesProduct(product, query)).slice(0, 8);
+  const filteredProducts = products
+    .filter((product) => product.current_stock > 0)
+    .filter((product) => matchesProduct(product, query))
+    .slice(0, 8);
 
   return (
     <div className="sales-product-search" ref={wrapperRef}>
@@ -111,7 +117,11 @@ export default function SalesPage() {
   const [success, setSuccess] = useState("");
   const [isExporting, setIsExporting] = useState(false);
   const [form, setForm] = useState(initialForm);
-  const { user, scopedQuery, selectedShopId } = useAuth();
+  const [lastSaleId, setLastSaleId] = useState(null);
+  const [receipt, setReceipt] = useState(null);
+  const [showReceiptModal, setShowReceiptModal] = useState(false);
+  const [loadingReceipt, setLoadingReceipt] = useState(false);
+  const { user, scopedQuery, selectedShopId, subscription } = useAuth();
 
   const loadData = async () => {
     try {
@@ -143,7 +153,7 @@ export default function SalesPage() {
       const code = barcodeQuery.trim();
       if (!code) return;
 
-      const product = products.find(p => p.barcode === code);
+      const product = products.find(p => p.barcode === code && p.current_stock > 0);
       if (product) {
           const existingIdx = form.items.findIndex(i => i.product_id === product.id);
           if (existingIdx > -1) {
@@ -245,6 +255,7 @@ export default function SalesPage() {
       const response = await api.post(`/sales/${scopedQuery}`, payload);
       setForm(initialForm);
       setError("");
+      setLastSaleId(response.data.id);
       setSuccess(`Sale recorded! Total: ${formatNumber(response.data.total_amount)}`);
       window.setTimeout(() => setSuccess(""), 3000);
       loadData();
@@ -268,6 +279,24 @@ export default function SalesPage() {
       setError("Failed to export sales.");
     } finally {
       setIsExporting(false);
+    }
+  };
+
+  const handlePrintReceipt = async () => {
+    if (!lastSaleId) return;
+
+    setLoadingReceipt(true);
+    setError("");
+    
+    try {
+      const receiptData = await fetchReceiptData(lastSaleId);
+      setReceipt(receiptData);
+      setShowReceiptModal(true);
+    } catch (err) {
+      setError("Could not load receipt data.");
+      console.error(err);
+    } finally {
+      setLoadingReceipt(false);
     }
   };
 
@@ -328,6 +357,33 @@ export default function SalesPage() {
       </form>
       {error && <div className="alert-bar">{error}</div>}
       {success && <div className="success-bar">{success}</div>}
+
+      {/* Receipt Print Button */}
+      {lastSaleId && (
+        <FeatureGate feature="receipt_printing">
+          <div className="card" style={{ padding: "16px", backgroundColor: "#f0f9ff", borderColor: "#bfdbfe" }}>
+            <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+              <span style={{ flex: 1 }}>Last sale recorded successfully!</span>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handlePrintReceipt}
+                disabled={loadingReceipt}
+              >
+                {loadingReceipt ? "Loading..." : "Print Receipt"}
+              </button>
+            </div>
+          </div>
+        </FeatureGate>
+      )}
+
+      {/* Receipt Modal */}
+      {showReceiptModal && receipt && (
+        <ReceiptTemplate
+          receipt={receipt}
+          onClose={() => setShowReceiptModal(false)}
+        />
+      )}
       <div className="card" style={{ position: "relative" }}>
         <div style={{ position: "absolute", top: "8px", right: "16px" }}>
           <button

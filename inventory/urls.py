@@ -21,6 +21,13 @@ from inventory.views import (
     SupplierViewSet,
     AuditLogViewSet,
 )
+from inventory.analytics import (
+    sales_analytics,
+    inventory_analytics,
+    products_analytics,
+    profit_analytics,
+    staff_analytics,
+)
 
 router = DefaultRouter()
 router.register("suppliers", SupplierViewSet, basename="suppliers")
@@ -43,5 +50,11 @@ urlpatterns = [
     path("reports/supplier-spend/", SupplierSpendReportView.as_view(), name="report-supplier-spend"),
     path("reports/overview/", OverviewReportView.as_view(), name="report-overview"),
     path("audit-logs/", AuditLogViewSet.as_view({"get": "list"}), name="audit-logs"),
+    # Advanced Analytics Endpoints
+    path("analytics/sales/", sales_analytics, name="analytics-sales"),
+    path("analytics/inventory/", inventory_analytics, name="analytics-inventory"),
+    path("analytics/products/", products_analytics, name="analytics-products"),
+    path("analytics/profit/", profit_analytics, name="analytics-profit"),
+    path("analytics/staff/", staff_analytics, name="analytics-staff"),
     path("", include(router.urls)),
 ]

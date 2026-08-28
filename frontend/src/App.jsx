@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RoleRoute from "./components/RoleRoute";
 import { useAppBadge } from "./hooks/useAppBadge";
 import { useOfflineSalesSync } from "./hooks/useOfflineSalesSync";
+import AnalyticsPage from "./pages/AnalyticsPage";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -46,6 +47,14 @@ function App() {
             element={
               <RoleRoute allowedRoles={["super_admin"]}>
                 <DashboardPage forceBusinessOverview />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="analytics"
+            element={
+              <RoleRoute allowedRoles={["super_admin", "shop_admin", "inventory_manager"]}>
+                <AnalyticsPage />
               </RoleRoute>
             }
           />

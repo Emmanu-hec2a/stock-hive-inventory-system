@@ -242,7 +242,7 @@ class SaleExportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sale
-        fields = ["id", "created_at", "shop_name", "total_amount", "payment_method", "served_by_name", "items_data"]
+        fields = ["created_at", "shop_name", "total_amount", "payment_method", "served_by_name", "items_data"]
 
     def get_items_data(self, obj):
         return [{"name": item.product.name, "sku": item.product.sku, "qty": item.quantity, "price": item.unit_price, "subtotal": item.subtotal} for item in obj.items.all()]
@@ -312,5 +312,14 @@ class SaleSerializer(serializers.ModelSerializer):
         sale.save(update_fields=["total_amount"])
         logger.info(f"Sale created: id={sale.id}, total_amount={total}")
         return sale
+
+    def update(self, instance, validated_data):
+        """
+        Sales are immutable after creation.
+        Raise error if update is attempted.
+        """
+        raise serializers.ValidationError(
+            "Sales cannot be modified after creation. Create a new sale instead."
+        )
 
 

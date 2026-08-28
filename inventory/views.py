@@ -349,6 +349,8 @@ class SaleViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.ModelVie
     model = Sale
     permission_classes = [IsAuthenticated, CanRecordSales, SubscriptionPermission]
     queryset = Sale.objects.prefetch_related("items__product")
+    # Disable update/partial_update since sales are immutable
+    http_method_names = ['get', 'post', 'head', 'options']
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -378,6 +380,35 @@ class SaleViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.ModelVie
             
             # Invalidate dashboard cache
             cache.delete(f"dashboard_data_{self.get_shop().id}")
+
+    @action(detail=True, methods=['get'])
+    def receipt(self, request, pk=None):
+        """Get receipt data for a sale (Pro/Enterprise only)"""
+        sale = self.get_object()
+        
+        # Format receipt data
+        receipt_data = {
+            'id': str(sale.id)[:8],  # Short ID for receipt
+            'shop_name': sale.shop.name,
+            'shop_location': sale.shop.location,
+            'seller_name': sale.served_by.full_name if sale.served_by else 'N/A',
+            'date': sale.created_at.isoformat(),
+            'payment_method': sale.get_payment_method_display(),
+            'items': [
+                {
+                    'product_name': item.product.name,
+                    'sku': item.product.sku,
+                    'quantity': item.quantity,
+                    'unit_price': str(item.unit_price),
+                    'subtotal': str(item.subtotal),
+                }
+                for item in sale.items.all()
+            ],
+            'total_items': sum(item.quantity for item in sale.items.all()),
+            'total_amount': str(sale.total_amount),
+        }
+        
+        return Response(receipt_data)
 
 
 class DashboardReportView(APIView, ShopScopedMixin):

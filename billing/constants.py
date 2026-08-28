@@ -24,6 +24,7 @@ PLAN_FEATURES = {
         "low_stock_alerts",
         "export_csv",
         "barcodes",
+        "receipt_printing",
         "multi_branch",
         "stock_transfers",
         "suppliers",

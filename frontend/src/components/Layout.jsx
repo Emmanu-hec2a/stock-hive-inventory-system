@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Building2, CreditCard, LayoutDashboard, LogOut, Package, Settings, ShoppingCart, Store, Menu, X, Sliders, Truck, History } from "lucide-react";
+import { Building2, CreditCard, LayoutDashboard, LogOut, Package, Settings, ShoppingCart, Store, Menu, X, Sliders, Truck, History, BarChart3 } from "lucide-react";
 import { useAuth } from "../state/AuthContext";
 import NotificationBell from "./NotificationBell";
 
@@ -49,6 +49,11 @@ export default function Layout() {
             <NavLink to="/overview" onClick={closeSidebar}><Building2 size={15} />Overview</NavLink>
           )}
           <NavLink to="/" onClick={closeSidebar}><LayoutDashboard size={15} />Dashboard</NavLink>
+          {canManageInventory && (
+            <NavLink to="/analytics" onClick={closeSidebar}>
+              <BarChart3 size={15} />Analytics
+            </NavLink>
+          )}
           {canManageInventory && <NavLink to="/products" onClick={closeSidebar}><Package size={15} />Products</NavLink>}
           {canManageInventory && (
               <NavLink to="/stock" onClick={closeSidebar}>

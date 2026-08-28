@@ -21,7 +21,7 @@ const planCards = [
     key: "pro",
     title: "Pro",
     price: PLAN_PRICES.pro,
-    features: ["3 shops", "Unlimited products", "15 staff", "Multi-branch, suppliers, audit logs"],
+    features: ["3 shops", "Unlimited products", "15 staff", "Multi-branch, suppliers, audit logs", "Barcodes, receipt printing"],
   },
   {
     key: "enterprise",
