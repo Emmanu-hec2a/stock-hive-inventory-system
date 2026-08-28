@@ -194,23 +194,23 @@ export default function AnalyticsPage() {
       {/* Tab Content */}
       <div className="analytics-content">
         {/* Sales Tab */}
-        {activeTab === "sales" && salesData && (
+        {activeTab === "sales" && salesData && salesData.summary && (
           <div className="analytics-section">
             {/* Summary Cards */}
             <div className="metrics-grid">
               <div className="metric-card">
                 <div className="metric-label">Total Revenue</div>
                 <div className="metric-value">
-                  KES {salesData.summary.total_revenue.toLocaleString()}
+                  KES {(salesData.summary.total_revenue || 0).toLocaleString()}
                 </div>
                 <div className="metric-subtitle">
-                  {salesData.summary.transaction_count} transactions
+                  {salesData.summary.transaction_count || 0} transactions
                 </div>
               </div>
               <div className="metric-card">
                 <div className="metric-label">Average Transaction</div>
                 <div className="metric-value">
-                  KES {salesData.summary.average_transaction.toLocaleString()}
+                  KES {(salesData.summary.average_transaction || 0).toLocaleString()}
                 </div>
                 <div className="metric-subtitle">Per transaction</div>
               </div>
@@ -219,8 +219,8 @@ export default function AnalyticsPage() {
                 <div className="metric-value">
                   KES{" "}
                   {(
-                    salesData.summary.total_revenue /
-                    salesData.summary.period_days
+                    (salesData.summary.total_revenue || 0) /
+                    (salesData.summary.period_days || 1)
                   ).toLocaleString()}
                 </div>
                 <div className="metric-subtitle">Per day</div>
@@ -231,12 +231,12 @@ export default function AnalyticsPage() {
             <div className="chart-container">
               <div className="chart-section">
                 <h3 className="section-subtitle">Sales Trend</h3>
-                <SalesLineChart data={salesData.daily_trend} />
+                <SalesLineChart data={salesData.daily_trend || []} />
               </div>
 
               <div className="chart-section">
                 <h3 className="section-subtitle">Payment Methods</h3>
-                <PaymentMethodChart data={salesData.payment_analysis} />
+                <PaymentMethodChart data={salesData.payment_analysis || []} />
               </div>
             </div>
           </div>
@@ -248,19 +248,19 @@ export default function AnalyticsPage() {
             <div className="chart-container">
               <div className="chart-section">
                 <h3 className="section-subtitle">Top Products</h3>
-                <TopProductsChart data={productsData.top_products} />
+                <TopProductsChart data={productsData.top_products || []} />
               </div>
 
               <div className="chart-section">
                 <h3 className="section-subtitle">Category Performance</h3>
                 <CategoryPerformanceChart
-                  data={productsData.category_performance}
+                  data={productsData.category_performance || []}
                 />
               </div>
             </div>
 
             {/* Top Products List */}
-            {productsData.top_products.length > 0 && (
+            {productsData.top_products && productsData.top_products.length > 0 && (
               <div className="data-table">
                 <h3 className="section-subtitle">Top Products (Detailed)</h3>
                 <table>
@@ -297,25 +297,25 @@ export default function AnalyticsPage() {
               <div className="metric-card">
                 <div className="metric-label">Total Revenue</div>
                 <div className="metric-value">
-                  KES {profitData.total_revenue.toLocaleString()}
+                  KES {(profitData.total_revenue || 0).toLocaleString()}
                 </div>
               </div>
               <div className="metric-card">
                 <div className="metric-label">Cost of Goods Sold</div>
                 <div className="metric-value">
-                  KES {profitData.total_cogs.toLocaleString()}
+                  KES {(profitData.total_cogs || 0).toLocaleString()}
                 </div>
               </div>
               <div className="metric-card">
                 <div className="metric-label">Gross Profit</div>
                 <div className="metric-value profit">
-                  KES {profitData.total_profit.toLocaleString()}
+                  KES {(profitData.total_profit || 0).toLocaleString()}
                 </div>
               </div>
               <div className="metric-card">
                 <div className="metric-label">Profit Margin</div>
                 <div className="metric-value profit">
-                  {profitData.profit_margin_percent.toFixed(2)}%
+                  {((profitData.profit_margin_percent || 0).toFixed(2))}%
                 </div>
               </div>
             </div>
@@ -328,7 +328,7 @@ export default function AnalyticsPage() {
                   <div className="breakdown-fill revenue"></div>
                 </div>
                 <div className="breakdown-value">
-                  KES {profitData.total_revenue.toLocaleString()}
+                  KES {(profitData.total_revenue || 0).toLocaleString()}
                 </div>
               </div>
               <div className="breakdown-item">
@@ -337,7 +337,7 @@ export default function AnalyticsPage() {
                   <div className="breakdown-fill cogs"></div>
                 </div>
                 <div className="breakdown-value">
-                  KES {profitData.total_cogs.toLocaleString()}
+                  KES {(profitData.total_cogs || 0).toLocaleString()}
                 </div>
               </div>
               <div className="breakdown-item">
@@ -346,7 +346,7 @@ export default function AnalyticsPage() {
                   <div className="breakdown-fill profit"></div>
                 </div>
                 <div className="breakdown-value">
-                  KES {profitData.total_profit.toLocaleString()}
+                  KES {(profitData.total_profit || 0).toLocaleString()}
                 </div>
               </div>
             </div>
@@ -360,31 +360,31 @@ export default function AnalyticsPage() {
               <div className="metric-card">
                 <div className="metric-label">Total Products</div>
                 <div className="metric-value">
-                  {inventoryData.total_products}
+                  {inventoryData.total_products || 0}
                 </div>
               </div>
               <div className="metric-card">
                 <div className="metric-label">Inventory Value</div>
                 <div className="metric-value">
-                  KES {inventoryData.inventory_value.toLocaleString()}
+                  KES {(inventoryData.inventory_value || 0).toLocaleString()}
                 </div>
               </div>
               <div className="metric-card alert">
                 <div className="metric-label">Low Stock Items</div>
                 <div className="metric-value warning">
-                  {inventoryData.low_stock_count}
+                  {inventoryData.low_stock_count || 0}
                 </div>
               </div>
               <div className="metric-card alert">
                 <div className="metric-label">Out of Stock</div>
                 <div className="metric-value error">
-                  {inventoryData.out_of_stock_count}
+                  {inventoryData.out_of_stock_count || 0}
                 </div>
               </div>
             </div>
 
             {/* Low Stock Items */}
-            {inventoryData.low_stock_items.length > 0 && (
+            {inventoryData.low_stock_items && inventoryData.low_stock_items.length > 0 && (
               <div className="data-table warning-table">
                 <h3 className="section-subtitle">Low Stock Items</h3>
                 <table>
@@ -413,7 +413,7 @@ export default function AnalyticsPage() {
             )}
 
             {/* Out of Stock Items */}
-            {inventoryData.out_of_stock_items.length > 0 && (
+            {inventoryData.out_of_stock_items && inventoryData.out_of_stock_items.length > 0 && (
               <div className="data-table error-table">
                 <h3 className="section-subtitle">Out of Stock Items</h3>
                 <table>
@@ -443,12 +443,12 @@ export default function AnalyticsPage() {
             <div className="chart-container">
               <div className="chart-section">
                 <h3 className="section-subtitle">Staff Performance</h3>
-                <StaffPerformanceChart data={staffData.staff_performance} />
+                <StaffPerformanceChart data={staffData.staff_performance || []} />
               </div>
             </div>
 
             {/* Staff Performance Table */}
-            {staffData.staff_performance.length > 0 && (
+            {staffData.staff_performance && staffData.staff_performance.length > 0 && (
               <div className="data-table">
                 <h3 className="section-subtitle">Staff Performance (Detailed)</h3>
                 <table>
@@ -465,11 +465,11 @@ export default function AnalyticsPage() {
                       <tr key={staff.staff_id}>
                         <td>{staff.name}</td>
                         <td>
-                          KES {staff.total_sales.toLocaleString()}
+                          KES {(staff.total_sales || 0).toLocaleString()}
                         </td>
-                        <td>{staff.transaction_count}</td>
+                        <td>{staff.transaction_count || 0}</td>
                         <td>
-                          KES {staff.average_transaction.toLocaleString()}
+                          KES {(staff.average_transaction || 0).toLocaleString()}
                         </td>
                       </tr>
                     ))}
