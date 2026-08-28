@@ -59,7 +59,14 @@ export default function AnalyticsPage() {
           api.get(`/analytics/staff/?${params}`),
         ]);
 
-      setSalesData(salesRes.data);
+      // Normalize sales data: backend returns 'overview' for super_admin, 'summary' for others
+      const normalizedSalesData = {
+        summary: salesRes.data.summary || salesRes.data.overview,
+        daily_trend: salesRes.data.daily_trend || [],
+        payment_analysis: salesRes.data.payment_analysis || [],
+      };
+
+      setSalesData(normalizedSalesData);
       setInventoryData(inventoryRes.data);
       setProductsData(productsRes.data);
       setProfitData(profitRes.data);
