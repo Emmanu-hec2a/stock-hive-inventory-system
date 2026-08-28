@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronRight, RotateCcw } from "lucide-react";
+import { ChevronRight, RotateCcw, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/client";
 import { useAuth } from "../state/AuthContext";
@@ -217,7 +217,10 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
                       <h3 style={{ fontFamily: "\"Syne\", sans-serif", fontSize: "14px", fontWeight: 700, margin: "0 0 4px" }}>
                         {shop.name}
                       </h3>
-                      <p style={{ fontSize: "12px", color: "#888", margin: 0 }}>🗼 {shop.location}</p>
+                      <p style={{ fontSize: "12px", color: "#888", margin: 0, display: "flex", alignItems: "center", gap: "4px" }}>
+                        <MapPin size={12} />
+                        {shop.location}
+                      </p>
                     </div>
                     <span style={{ width: "8px", height: "8px", background: "#00ff00", borderRadius: "50%", marginTop: "4px" }} />
                   </div>
