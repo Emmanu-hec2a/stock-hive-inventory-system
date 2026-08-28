@@ -381,9 +381,19 @@ class SaleViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.ModelVie
             # Invalidate dashboard cache
             cache.delete(f"dashboard_data_{self.get_shop().id}")
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated, SubscriptionPermission])
     def receipt(self, request, pk=None):
         """Get receipt data for a sale (Pro/Enterprise only)"""
+        from billing.permissions import require_feature
+        
+        # Check feature permission
+        perm = require_feature('receipt_printing')()
+        if not perm.has_permission(request, self):
+            return Response(
+                {"detail": "Receipt printing is not available on your current plan."},
+                status=403
+            )
+        
         sale = self.get_object()
         
         # Format receipt data

@@ -140,7 +140,23 @@ export default function SalesPage() {
       setSales(salesResponse.data);
       setError("");
     } catch (err) {
-      setError("Could not load sales for the current shop.");
+      console.error("Failed to load sales/products:", {
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data,
+        message: err.message,
+        url: err.config?.url,
+      });
+      
+      let errorMsg = "Could not load sales for the current shop.";
+      if (err.response?.status === 403) {
+        errorMsg = "You don't have permission to view sales for this shop.";
+      } else if (err.response?.status === 404) {
+        errorMsg = "Shop not found. Please select a valid shop.";
+      } else if (!navigator.onLine) {
+        errorMsg = "No internet connection. Please check your network.";
+      }
+      setError(errorMsg);
     }
   };
 
