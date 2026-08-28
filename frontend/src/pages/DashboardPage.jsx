@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/client";
 import { useAuth } from "../state/AuthContext";
 import { formatCurrency, formatNumber } from "../utils/formatters";
+import { SkeletonStatCards, SkeletonDashboard, SkeletonList } from "../components/SkeletonLoaders";
 
 function getPaymentPillClass(paymentMethod) {
   if (paymentMethod === "mpesa") return "pill-green";
@@ -60,6 +61,7 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
   const [shops, setShops] = useState([]);
   const [salesTrend, setSalesTrend] = useState([]);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const { user, scopedQuery, selectedShopId, selectShop } = useAuth();
   const navigate = useNavigate();
 
@@ -76,6 +78,7 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
 
   const fetchBusinessData = async () => {
     try {
+      setIsLoading(true);
       setError("");
       const overviewResponse = await api.get("/reports/overview/");
       console.log("Business overview data:", overviewResponse.data);
@@ -85,11 +88,14 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
     } catch (err) {
       console.error("Business data fetch error:", err);
       setError("Could not load business overview.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const fetchShopData = async () => {
     try {
+      setIsLoading(true);
       setError("");
       const [dashboardResponse, salesResponse] = await Promise.all([
         api.get(`/reports/dashboard/${scopedQuery}`),
@@ -102,6 +108,8 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
     } catch (err) {
       console.error("Shop data fetch error:", err);
       setError("Could not load dashboard for selected shop.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -150,7 +158,21 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
 
         {error && <div className="alert-bar">as  {error}</div>}
 
-        <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+        {isLoading ? (
+          <>
+            <SkeletonStatCards count={4} />
+            <div style={{ marginTop: "40px" }}>
+              <h2 style={{ fontFamily: "\"Syne\", sans-serif", fontSize: "18px", fontWeight: 700, marginBottom: "20px" }}>
+                Branch Performance
+              </h2>
+              <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+                <SkeletonList items={4} showAvatar={false} />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
           <article className="card stat-card stat-amber">
             <p className="meta-label">Total Revenue (Month)</p>
             <p className="stat-value">{formatCurrency(data?.total_revenue_month)}</p>
@@ -265,6 +287,8 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
             </div>
           </div>
         )}
+          </>
+        )}
       </section>
     );
   }
@@ -295,25 +319,32 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
         </button>
       </div>
       {error && <div className="alert-bar">as  {error}</div>}
-      <div className="grid">
-        <article className="card stat-card stat-amber">
-          <p className="meta-label">Sales Today</p>
-          <p className="stat-value">{formatCurrency(data?.total_sales_today)}</p>
-        </article>
-        <article className="card stat-card stat-blue">
-          <p className="meta-label">Stock Value</p>
-          <p className="stat-value">{formatCurrency(data?.stock_value)}</p>
-        </article>
-        <article className="card stat-card stat-red">
-          <p className="meta-label">Low Stock</p>
-          <p className="stat-value">{formatNumber(data?.low_stock_count)}</p>
-        </article>
-        <article className="card stat-card stat-green">
-          <p className="meta-label">Shop Status</p>
-          <p className="mini-stat">ACTIVE</p>
-        </article>
-      </div>
-      <div className="dashboard-flex-container">
+      {isLoading ? (
+        <SkeletonStatCards count={4} />
+      ) : (
+        <div className="grid">
+          <article className="card stat-card stat-amber">
+            <p className="meta-label">Sales Today</p>
+            <p className="stat-value">{formatCurrency(data?.total_sales_today)}</p>
+          </article>
+          <article className="card stat-card stat-blue">
+            <p className="meta-label">Stock Value</p>
+            <p className="stat-value">{formatCurrency(data?.stock_value)}</p>
+          </article>
+          <article className="card stat-card stat-red">
+            <p className="meta-label">Low Stock</p>
+            <p className="stat-value">{formatNumber(data?.low_stock_count)}</p>
+          </article>
+          <article className="card stat-card stat-green">
+            <p className="meta-label">Shop Status</p>
+            <p className="mini-stat">ACTIVE</p>
+          </article>
+        </div>
+      )}
+      {isLoading ? (
+        <SkeletonDashboard />
+      ) : (
+        <div className="dashboard-flex-container">
         <article className="card dashboard-recent-sales">
           <div className="dashboard-card-header">
             <h3 className="section-title">Recent Sales</h3>
@@ -404,7 +435,8 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
             )}
           </article>
         </div>
-      </div>
+        </div>
+      )}
     </section>
   );
 }
