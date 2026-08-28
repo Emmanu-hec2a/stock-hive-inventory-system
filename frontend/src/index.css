@@ -170,23 +170,12 @@ body {
   gap: 12px;
   z-index: 40;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .sidebar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: rgba(245, 158, 11, 0.5);
-  border-radius: 8px;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(245, 158, 11, 0.8);
+  display: none;
 }
 
 .mobile-sidebar-backdrop {
