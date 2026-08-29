@@ -1,0 +1,14 @@
+Feature: Implement split billing and multi-item cart system
+
+- Add payment_method field to SaleItem model for per-item payment tracking
+- Create migration for SaleItem payment_method
+- Update SaleSerializer to handle per-item payment methods
+- Enhance SalesPage UI with comprehensive cart features:
+  * Add "Add Item" button to build multi-product carts
+  * Add "Remove Item" button per item
+  * Add per-item payment method selector (Cash/M-Pesa/Credit)
+  * Add running total display showing cart total
+  * Make barcode scan add items to cart instead of creating sale
+  * Add "Clear Form" button to reset cart
+- Update receipt template to show payment method per item
+- Support split billing: different items can be paid with different methods

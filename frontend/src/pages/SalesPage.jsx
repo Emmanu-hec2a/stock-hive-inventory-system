@@ -12,7 +12,7 @@ import { SkeletonTable } from "../components/SkeletonLoaders";
 
 const initialForm = {
   payment_method: "cash",
-  items: [{ product_id: "", product_search: "", quantity: 1 }],
+  items: [{ product_id: "", product_search: "", quantity: 1, payment_method: "cash" }],
 };
 
 function formatProductOption(product) {
@@ -225,9 +225,9 @@ export default function SalesPage() {
               const newItems = [...form.items];
               // Replace first empty item if it exists
               if (newItems.length === 1 && !newItems[0].product_id) {
-                  newItems[0] = { product_id: product.id, product_search: formatProductOption(product), quantity: 1 };
+                  newItems[0] = { product_id: product.id, product_search: formatProductOption(product), quantity: 1, payment_method: "cash" };
               } else {
-                  newItems.push({ product_id: product.id, product_search: formatProductOption(product), quantity: 1 });
+                  newItems.push({ product_id: product.id, product_search: formatProductOption(product), quantity: 1, payment_method: "cash" });
               }
               setForm(prev => ({ ...prev, items: newItems }));
           }
@@ -264,6 +264,40 @@ export default function SalesPage() {
     });
   };
 
+  const addItem = () => {
+    setForm((prev) => ({
+      ...prev,
+      items: [...prev.items, { product_id: "", product_search: "", quantity: 1, payment_method: "cash" }],
+    }));
+  };
+
+  const removeItem = (idx) => {
+    if (form.items.length === 1) {
+      setError("You must have at least one item in the sale.");
+      return;
+    }
+    setForm((prev) => ({
+      ...prev,
+      items: prev.items.filter((_, i) => i !== idx),
+    }));
+  };
+
+  const clearForm = () => {
+    setForm(initialForm);
+    setError("");
+    setSuccess("");
+  };
+
+  const calculateTotal = () => {
+    return form.items.reduce((sum, item) => {
+      const product = products.find(p => p.id === item.product_id);
+      if (product && item.quantity > 0) {
+        return sum + (product.selling_price * item.quantity);
+      }
+      return sum;
+    }, 0);
+  };
+
   const isShopSelectionMissing = user?.role === "super_admin" && !selectedShopId;
   const isFormValid = form.items.length > 0 && form.items.every((item) => item.product_id);
 
@@ -290,9 +324,10 @@ export default function SalesPage() {
 
     const payload = {
       payment_method: form.payment_method,
-      items: form.items.map(({ product_id, quantity }) => ({
+      items: form.items.map(({ product_id, quantity, payment_method }) => ({
         product_id,
         quantity,
+        payment_method,
       })),
     };
 
@@ -408,40 +443,148 @@ export default function SalesPage() {
       </form>
 
       <form className="card sales-entry-card" onSubmit={submitSale}>
-        <select
-          className="sales-entry-payment"
-          value={form.payment_method}
-          onChange={(event) => setForm((prev) => ({ ...prev, payment_method: event.target.value }))}
-          disabled={isShopSelectionMissing}
-        >
-          <option value="cash">Cash</option>
-          <option value="mpesa">Mpesa</option>
-          <option value="credit">Credit</option>
-        </select>
-
-        {form.items.map((item, idx) => (
-          <div className="sales-entry-row" key={idx}>
-            <ProductSearchField
-              products={products}
-              query={item.product_search}
-              onQueryChange={(query) => handleProductQueryChange(idx, query)}
-              onProductSelect={(product) => handleProductSelect(idx, product)}
+        {/* Header with Global Payment Method */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <div>
+            <label style={{ fontSize: "12px", color: "#888", textTransform: "uppercase" }}>Default Payment Method</label>
+            <select
+              className="sales-entry-payment"
+              value={form.payment_method}
+              onChange={(event) => setForm((prev) => ({ ...prev, payment_method: event.target.value }))}
               disabled={isShopSelectionMissing}
-            />
-            <input
-              type="number"
-              min="1"
-              className="sales-entry-quantity"
-              value={item.quantity}
-              onChange={(event) => updateItem(idx, { quantity: Number(event.target.value) })}
-              required
-              disabled={isShopSelectionMissing}
-            />
+              style={{ marginTop: "4px" }}
+            >
+              <option value="cash">Cash</option>
+              <option value="mpesa">M-Pesa</option>
+              <option value="credit">Credit</option>
+            </select>
           </div>
-        ))}
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: "12px", color: "#888", textTransform: "uppercase", marginBottom: "8px" }}>Total Amount</div>
+            <div style={{ fontSize: "24px", fontWeight: "bold", color: "#ffa500", fontFamily: "\"Syne\", sans-serif" }}>
+              KES {calculateTotal().toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+          </div>
+        </div>
 
-        <div className="sales-entry-actions">
-          <button type="submit" disabled={!isFormValid || isShopSelectionMissing}>
+        <div style={{ borderTop: "1px solid #333", paddingTop: "16px", marginBottom: "16px" }}>
+          {/* Items List */}
+          {form.items.map((item, idx) => {
+            const product = products.find(p => p.id === item.product_id);
+            const itemTotal = product ? product.selling_price * item.quantity : 0;
+            
+            return (
+              <div key={idx} style={{ marginBottom: "16px", paddingBottom: "16px", borderBottom: "1px solid #222" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 120px 100px auto", gap: "12px", alignItems: "start" }}>
+                  {/* Product Search */}
+                  <ProductSearchField
+                    products={products}
+                    query={item.product_search}
+                    onQueryChange={(query) => handleProductQueryChange(idx, query)}
+                    onProductSelect={(product) => handleProductSelect(idx, product)}
+                    disabled={isShopSelectionMissing}
+                  />
+                  
+                  {/* Quantity */}
+                  <div>
+                    <label style={{ fontSize: "11px", color: "#888", textTransform: "uppercase" }}>Qty</label>
+                    <input
+                      type="number"
+                      min="1"
+                      className="sales-entry-quantity"
+                      value={item.quantity}
+                      onChange={(event) => updateItem(idx, { quantity: Math.max(1, Number(event.target.value)) })}
+                      required
+                      disabled={isShopSelectionMissing}
+                      style={{ marginTop: "4px" }}
+                    />
+                  </div>
+
+                  {/* Per-Item Payment Method */}
+                  <div>
+                    <label style={{ fontSize: "11px", color: "#888", textTransform: "uppercase" }}>Pay With</label>
+                    <select
+                      value={item.payment_method}
+                      onChange={(event) => updateItem(idx, { payment_method: event.target.value })}
+                      disabled={isShopSelectionMissing}
+                      style={{
+                        marginTop: "4px",
+                        padding: "8px",
+                        borderRadius: "4px",
+                        border: "1px solid #555",
+                        backgroundColor: "#1a1a1a",
+                        color: "#fff",
+                        fontSize: "12px",
+                        width: "100%",
+                      }}
+                    >
+                      <option value="cash">Cash</option>
+                      <option value="mpesa">M-Pesa</option>
+                      <option value="credit">Credit</option>
+                    </select>
+                  </div>
+
+                  {/* Remove Button */}
+                  <button
+                    type="button"
+                    onClick={() => removeItem(idx)}
+                    disabled={isShopSelectionMissing}
+                    style={{
+                      padding: "8px 12px",
+                      background: "#ff4444",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      marginTop: "20px",
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+
+                {/* Item Subtotal */}
+                {product && (
+                  <div style={{ marginTop: "8px", fontSize: "12px", color: "#aaa" }}>
+                    {item.quantity} × KES {Number(product.selling_price).toLocaleString()} = 
+                    <span style={{ color: "#ffa500", fontWeight: "600", marginLeft: "8px" }}>
+                      KES {itemTotal.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="sales-entry-actions" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
+          <button
+            type="button"
+            onClick={addItem}
+            disabled={isShopSelectionMissing}
+            className="btn btn-secondary"
+            style={{ gridColumn: "1" }}
+          >
+            + Add Item
+          </button>
+          <button
+            type="button"
+            onClick={clearForm}
+            disabled={isShopSelectionMissing}
+            className="btn btn-secondary"
+            style={{ gridColumn: "2" }}
+          >
+            Clear Form
+          </button>
+          <button
+            type="submit"
+            disabled={!isFormValid || isShopSelectionMissing}
+            className="btn btn-primary"
+            style={{ gridColumn: "3" }}
+          >
             Record Sale
           </button>
         </div>

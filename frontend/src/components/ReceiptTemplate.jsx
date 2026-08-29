@@ -105,12 +105,23 @@ export default function ReceiptTemplate({ receipt, onClose, onPrint }) {
               </table>
 
               <table className="receipt-details">
+                <thead style={{ fontSize: "11px", borderBottom: "1px solid #444", marginBottom: "8px" }}>
+                  <tr>
+                    <th style={{ textAlign: "left", paddingBottom: "8px" }}>QTY</th>
+                    <th style={{ textAlign: "right", paddingBottom: "8px" }}>PRICE</th>
+                    <th style={{ textAlign: "right", paddingBottom: "8px" }}>SUBTOTAL</th>
+                    <th style={{ textAlign: "center", paddingBottom: "8px" }}>PAYMENT</th>
+                  </tr>
+                </thead>
                 <tbody>
                   {receipt.items.map((item, idx) => (
-                    <tr key={idx}>
+                    <tr key={idx} style={{ fontSize: "12px" }}>
                       <td className="detail-qty">{item.quantity}x</td>
                       <td className="detail-price">KES {Number(item.unit_price).toLocaleString()}</td>
                       <td className="detail-subtotal">KES {Number(item.subtotal).toLocaleString()}</td>
+                      <td style={{ textAlign: "center", fontSize: "11px", textTransform: "capitalize", color: "#ffa500", fontWeight: "600" }}>
+                        {item.payment_method || item.payment_method_display || "Cash"}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
