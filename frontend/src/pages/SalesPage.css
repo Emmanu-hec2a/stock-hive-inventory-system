@@ -1,0 +1,119 @@
+/* Mobile-Responsive Layout for Sales Page */
+
+/* Desktop: 4-column grid */
+.sales-item-grid {
+  display: grid;
+  grid-template-columns: 1fr 120px 100px auto;
+  gap: 12px;
+  align-items: start;
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 1024px) {
+  .sales-item-grid {
+    grid-template-columns: 1fr 100px;
+  }
+  
+  .sales-item-grid .sales-item-payment,
+  .sales-item-grid .sales-item-remove {
+    grid-column: span 2;
+  }
+}
+
+/* Mobile: Product full width, Qty/Pay/Remove in horizontal row */
+@media (max-width: 640px) {
+  .sales-item-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 54px;
+    gap: 6px;
+  }
+  
+  /* Product search spans full width */
+  .sales-item-product {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-bottom: 6px;
+  }
+  
+  /* Qty takes first column (small) */
+  .sales-item-qty {
+    width: 100%;
+  }
+  
+  .sales-item-qty label {
+    display: block;
+  }
+  
+  .sales-item-qty input {
+    width: 100%;
+    padding: 6px 4px !important;
+    height: 36px !important;
+    font-size: 12px;
+  }
+  
+  /* Pay With takes middle column (flexible) */
+  .sales-item-grid .sales-item-payment {
+    grid-column: auto;
+    width: 100%;
+  }
+  
+  .sales-item-payment label {
+    display: block;
+  }
+  
+  .sales-item-payment select {
+    padding: 6px 6px !important;
+    height: 36px !important;
+    font-size: 12px;
+  }
+  
+  /* Remove takes last column (small) */
+  .sales-item-grid .sales-item-remove {
+    grid-column: auto;
+    align-self: end;
+    width: 100%;
+    margin-top: 19px !important;
+    padding: 6px 4px !important;
+    height: 36px !important;
+    font-size: 11px !important;
+    line-height: 1.2;
+  }
+  
+  /* Make search field larger on mobile */
+  .sales-product-search {
+    width: 100%;
+  }
+  
+  .sales-product-input {
+    font-size: 16px !important;
+    padding: 12px !important;
+    height: 44px !important;
+  }
+  
+  /* Increase dropdown option size on mobile */
+  .sales-product-option {
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+  }
+  
+  .sales-product-option-name {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .sales-product-option-meta {
+    font-size: 12px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .sales-product-input {
+    font-size: 16px !important;
+    min-height: 48px !important;
+  }
+  
+  .sales-product-option {
+    padding: 14px 16px !important;
+  }
+}

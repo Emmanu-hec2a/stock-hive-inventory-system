@@ -40,9 +40,6 @@ export default function Layout() {
         </div>
       </header>
       <aside className={`sidebar ${sidebarOpen ? "mobile-open" : ""}`}>
-        <button className="mobile-sidebar-toggle sidebar-close-btn" onClick={closeSidebar}>
-          <X size={20} />
-        </button>
         <p className="meta-label nav-group-label">Main</p>
         <nav>
           {user?.role === "super_admin" && (

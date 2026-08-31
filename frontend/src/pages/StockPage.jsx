@@ -29,15 +29,26 @@ export default function StockPage() {
     try {
       setIsLoading(true);
       if (user?.role === "super_admin" && !selectedShopId) return;
-      const [productsResponse, entriesResponse, suppliersResponse] = await Promise.all([
+      const [productsResponse, entriesResponse] = await Promise.all([
         api.get(`/products/${scopedQuery}`),
         api.get(`/stock/entries/${scopedQuery}`),
-        api.get("/suppliers/"),
       ]);
       setProducts(productsResponse.data);
       setEntries(entriesResponse.data);
-      setSuppliers(suppliersResponse.data);
       setError("");
+      
+      // Try to load suppliers (Pro+ feature), but don't block if not available
+      try {
+        const suppliersResponse = await api.get("/suppliers/");
+        setSuppliers(suppliersResponse.data);
+      } catch (suppliersErr) {
+        // Suppliers require Pro/Enterprise plan - safe to ignore for free tier
+        if (suppliersErr.response?.status === 403) {
+          setSuppliers([]);
+        } else {
+          throw suppliersErr;
+        }
+      }
     } catch (err) {
       setError("Could not load stock data.");
     } finally {

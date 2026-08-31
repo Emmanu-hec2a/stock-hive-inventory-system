@@ -9,6 +9,7 @@ import FeatureGate from "../components/FeatureGate";
 import ReceiptTemplate from "../components/ReceiptTemplate";
 import { fetchReceiptData } from "../utils/receiptPrinting";
 import { SkeletonTable } from "../components/SkeletonLoaders";
+import "./SalesPage.css";
 
 const initialForm = {
   payment_method: "cash",
@@ -462,15 +463,15 @@ export default function SalesPage() {
       <h1 className="page-title">Sales</h1>
 
       {/* Barcode Quick Scan */}
-      <form onSubmit={onBarcodeScan} className="card" style={{ marginBottom: '16px', display: 'flex', gap: '8px' }}>
+      <form onSubmit={onBarcodeScan} className="card" style={{ marginBottom: '16px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <input
             value={barcodeQuery}
             onChange={(e) => setBarcodeQuery(e.target.value)}
             placeholder="Scan Barcode / Enter code..."
-            style={{ flex: 1 }}
+            style={{ flex: '1 1 auto', minWidth: '200px' }}
             disabled={isShopSelectionMissing}
           />
-          <button type="submit" className="btn btn-secondary" disabled={isShopSelectionMissing}>Quick Add</button>
+          <button type="submit" className="btn btn-secondary" disabled={isShopSelectionMissing} style={{ whiteSpace: 'nowrap' }}>Quick Add</button>
       </form>
 
       <form className="card sales-entry-card" onSubmit={submitSale}>
@@ -506,18 +507,20 @@ export default function SalesPage() {
             
             return (
               <div key={idx} style={{ marginBottom: "16px", paddingBottom: "16px", borderBottom: "1px solid #222" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 120px 100px auto", gap: "12px", alignItems: "start" }}>
+                <div className="sales-item-grid">
                   {/* Product Search */}
-                  <ProductSearchField
-                    products={products}
-                    query={item.product_search}
-                    onQueryChange={(query) => handleProductQueryChange(idx, query)}
-                    onProductSelect={(product) => handleProductSelect(idx, product)}
-                    disabled={isShopSelectionMissing}
-                  />
+                  <div className="sales-item-product">
+                    <ProductSearchField
+                      products={products}
+                      query={item.product_search}
+                      onQueryChange={(query) => handleProductQueryChange(idx, query)}
+                      onProductSelect={(product) => handleProductSelect(idx, product)}
+                      disabled={isShopSelectionMissing}
+                    />
+                  </div>
                   
                   {/* Quantity */}
-                  <div>
+                  <div className="sales-item-qty">
                     <label style={{ fontSize: "11px", color: "#888", textTransform: "uppercase" }}>Qty</label>
                     <input
                       type="number"
@@ -532,7 +535,7 @@ export default function SalesPage() {
                   </div>
 
                   {/* Per-Item Payment Method */}
-                  <div>
+                  <div className="sales-item-payment">
                     <label style={{ fontSize: "11px", color: "#888", textTransform: "uppercase" }}>Pay With</label>
                     <select
                       value={item.payment_method}
@@ -560,6 +563,7 @@ export default function SalesPage() {
                     type="button"
                     onClick={() => removeItem(idx)}
                     disabled={isShopSelectionMissing}
+                    className="sales-item-remove"
                     style={{
                       padding: "8px 12px",
                       background: "#ff4444",

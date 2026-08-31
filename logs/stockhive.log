@@ -273,3 +273,692 @@ INFO 2026-08-31 23:21:56 autoreload 15176 17224 C:\Users\PC\Desktop\InventoryTra
 INFO 2026-08-31 23:22:03 autoreload 9844 14540 Watching for file changes with StatReloader
 INFO 2026-08-31 23:22:32 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
 INFO 2026-08-31 23:22:32 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:23:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:23:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:24:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:24:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:25:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:25:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:25:51 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:26:06 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:26:06 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:27:32 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:27:32 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:28:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:28:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:29:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:29:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:30:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:30:33 log 9844 536 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:31:33 log 9844 536 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:31:33 log 9844 536 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:32:33 log 9844 536 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:32:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:33:33 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:33:33 log 9844 536 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:21 log 9844 536 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:22 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:22 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:28 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:28 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:28 log 9844 1464 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:34:28 log 9844 10268 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:34:28 log 9844 11340 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:34:28 log 9844 8736 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:34:28 log 9844 11340 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:28 log 9844 10268 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:34:28 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:28 log 9844 1464 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:34:29 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:29 log 9844 11340 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:34:29 log 9844 10268 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:34:29 log 9844 10472 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:34:30 log 9844 11340 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:34:30 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:30 log 9844 10268 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:34:30 log 9844 6264 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:34:30 log 9844 11340 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:30 log 9844 6264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:32 basehttp 9844 536 - Broken pipe from ('127.0.0.1', 11447)
+INFO 2026-08-31 23:34:32 basehttp 9844 10264 - Broken pipe from ('127.0.0.1', 11260)
+INFO 2026-08-31 23:34:33 log 9844 10268 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:34:33 log 9844 8736 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:34:33 log 9844 6264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:33 log 9844 10472 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:34:33 log 9844 8736 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:34:33 log 9844 17812 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:33 log 9844 6264 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:34:33 log 9844 10472 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:34:33 log 9844 17812 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:33 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:34:34 basehttp 9844 1464 - Broken pipe from ('127.0.0.1', 11532)
+INFO 2026-08-31 23:34:38 log 9844 10268 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-08-31 23:34:38 log 9844 11340 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-08-31 23:34:38 log 9844 17812 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:34:38 log 9844 10268 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:34:42 log 9844 8736 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:34:42 log 9844 11340 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:35:10 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:35:34 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:35:34 log 9844 11340 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:36:34 log 9844 11340 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:36:34 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:36:56 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:37:34 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:37:34 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:37:43 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:06 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:17 log 9844 10472 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:38:17 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:17 log 9844 6264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:17 log 9844 17812 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:38:17 log 9844 6264 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:38:17 log 9844 8736 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:38:17 log 9844 17812 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:38:17 log 9844 10268 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:38:17 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:17 log 9844 6264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:20 log 9844 17812 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:38:20 log 9844 6264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:20 log 9844 10268 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:38:20 log 9844 18336 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:20 log 9844 17592 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:38:20 log 9844 6264 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:38:20 log 9844 18336 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:38:20 log 9844 17592 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:20 log 9844 10268 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:38:20 log 9844 6264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:21 basehttp 9844 10472 - Broken pipe from ('127.0.0.1', 11538)
+INFO 2026-08-31 23:38:21 basehttp 9844 11340 - Broken pipe from ('127.0.0.1', 11531)
+INFO 2026-08-31 23:38:24 log 9844 8736 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:38:24 log 9844 17812 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:38:27 log 9844 10268 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:38:27 log 9844 17812 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:27 log 9844 18336 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:27 log 9844 6264 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:38:27 log 9844 17592 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:38:27 log 9844 18336 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:38:27 log 9844 6264 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:38:27 log 9844 17812 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:38:27 log 9844 17592 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:27 log 9844 18336 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:38:31 log 9844 10268 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:38:31 log 9844 8736 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:39:28 log 9844 10268 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:39:28 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:40:03 log 9844 8736 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:40:24 log 9844 5872 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:40:26 log 9844 5872 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:40:27 log 9844 5872 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:40:27 log 9844 8564 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:40:41 log 9844 8564 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:41:01 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:41:04 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:41:04 log 9844 3176 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:41:04 log 9844 17940 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:41:04 log 9844 8512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:41:04 log 9844 14544 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:41:04 log 9844 17940 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:41:04 log 9844 3176 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:41:04 log 9844 8512 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:41:04 log 9844 14544 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:41:04 log 9844 17940 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:41:08 log 9844 15576 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:41:08 log 9844 4284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:41:37 log 9844 4284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:42:04 log 9844 4284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:42:04 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:42:32 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:42:43 log 9844 14544 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:42:43 log 9844 8512 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:42:43 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:42:43 log 9844 17940 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:42:43 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:42:43 log 9844 8512 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:42:43 log 9844 3176 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:42:43 log 9844 17940 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:42:43 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:42:43 log 9844 8512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:42:47 log 9844 4284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:42:47 log 9844 14544 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:43:05 log 9844 14544 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:43:11 log 9844 15576 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:43:11 log 9844 17940 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:43:11 log 9844 8512 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:43:11 log 9844 14544 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:43:11 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:43:11 log 9844 17940 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:43:11 log 9844 8512 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:43:11 log 9844 3176 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:43:11 log 9844 14544 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:43:11 log 9844 17940 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:43:15 log 9844 4284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:43:15 log 9844 15576 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:43:19 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:44:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:44:12 log 9844 4284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:45:08 log 9844 4284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:45:11 log 9844 3176 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:45:11 log 9844 14544 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:45:11 log 9844 4284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:45:11 log 9844 8512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:45:12 log 9844 8512 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 23:45:12 log 9844 4284 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 23:45:12 log 9844 14544 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:45:12 log 9844 17940 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:45:12 log 9844 8512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:45:12 log 9844 4284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:45:16 log 9844 15576 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:45:16 log 9844 3176 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:46:12 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:46:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:47:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:47:12 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:47:20 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:47:29 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:48:00 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:48:12 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:48:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:48:37 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:49:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:49:12 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:50:12 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:50:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-08-31 23:51:12 log 9844 15576 Unauthorized: /api/alerts/notifications/unread-count/
+WARNING 2026-08-31 23:51:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 401 183
+WARNING 2026-08-31 23:51:12 log 9844 3176 Unauthorized: /api/alerts/notifications/unread-count/
+WARNING 2026-08-31 23:51:12 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 401 183
+INFO 2026-08-31 23:51:12 log 9844 3176 "POST /api/auth/refresh/ HTTP/1.1" 200 409
+INFO 2026-08-31 23:51:12 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:51:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:51:42 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:52:12 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:52:12 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:53:33 log 9844 3176 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:53:33 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:53:47 log 9844 15576 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:54:06 autoreload 9844 14540 C:\Users\PC\Desktop\InventoryTrackingSystem\billing\views.py changed, reloading.
+INFO 2026-08-31 23:54:14 autoreload 12632 5864 Watching for file changes with StatReloader
+INFO 2026-08-31 23:55:30 log 12632 2800 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:55:30 log 12632 2272 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:55:30 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:56:12 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:56:12 log 12632 2272 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:56:52 log 12632 2272 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:57:12 log 12632 2272 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:57:12 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:58:33 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:58:33 log 12632 2272 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:59:06 log 12632 2272 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:59:11 log 12632 2272 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:59:11 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:59:33 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:00:06 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:00:11 log 12632 2272 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:00:11 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:00:33 log 12632 2272 "GET /api/reports/overview/ HTTP/1.1" 200 283
+INFO 2026-09-01 00:00:33 log 12632 14636 "GET /api/reports/overview/ HTTP/1.1" 200 283
+INFO 2026-09-01 00:00:39 log 12632 2272 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:00:39 log 12632 11944 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:00:43 log 12632 14636 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:00:43 log 12632 11172 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:01:12 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:01:12 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:02:33 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:02:33 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:03:33 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:03:33 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:04:33 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:04:33 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:04:45 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:04:54 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:04:54 log 12632 11944 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:04:54 log 12632 2272 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:04:54 log 12632 11944 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:04:54 log 12632 2272 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:04:54 log 12632 11096 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:04:54 log 12632 11944 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:04:54 log 12632 2272 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:04:54 log 12632 18012 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:04:54 log 12632 11096 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:04:58 log 12632 11172 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:04:58 log 12632 14636 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:05:55 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:05:55 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:06:55 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:06:55 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:07:29 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:07:40 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:07:42 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:07:42 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:07:44 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:07:44 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:07:46 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:07:46 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:07:48 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:07:48 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:07:50 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:07:50 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:07:52 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:07:52 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:07:54 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:07:54 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+INFO 2026-09-01 00:07:54 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:07:54 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:07:55 log 12632 10760 Not Found: /health
+WARNING 2026-09-01 00:07:55 log 12632 8536 Not Found: /balance
+WARNING 2026-09-01 00:07:55 log 12632 10760 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:07:55 log 12632 8536 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:07:55 log 12632 10760 Not Found: /positions
+WARNING 2026-09-01 00:07:55 log 12632 8536 Not Found: /trades
+WARNING 2026-09-01 00:07:55 log 12632 10760 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:07:55 log 12632 8536 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:07:55 log 12632 10760 Not Found: /stats
+WARNING 2026-09-01 00:07:55 log 12632 8536 Not Found: /weights
+WARNING 2026-09-01 00:07:55 log 12632 10760 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:07:55 log 12632 8536 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:07:56 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:07:56 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:07:58 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:07:58 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:00 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:00 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:02 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:02 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:04 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:04 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:06 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:06 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:08 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:08 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:10 log 12632 8536 Not Found: /health
+WARNING 2026-09-01 00:08:10 log 12632 10760 Not Found: /balance
+WARNING 2026-09-01 00:08:10 log 12632 12476 Not Found: /positions
+WARNING 2026-09-01 00:08:10 log 12632 940 Not Found: /trades
+WARNING 2026-09-01 00:08:10 log 12632 12360 Not Found: /stats
+WARNING 2026-09-01 00:08:10 log 12632 17608 Not Found: /weights
+WARNING 2026-09-01 00:08:10 log 12632 8536 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:08:10 log 12632 10760 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:08:10 log 12632 12476 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:08:10 log 12632 940 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:08:10 log 12632 12360 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:08:10 log 12632 17608 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:08:10 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:10 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:12 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:12 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:14 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:14 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:16 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:16 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:18 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:18 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:20 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:20 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:22 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:22 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:24 log 12632 8536 Not Found: /positions/live
+WARNING 2026-09-01 00:08:24 log 12632 8536 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:25 log 12632 940 Not Found: /trades
+WARNING 2026-09-01 00:08:25 log 12632 8536 Not Found: /health
+WARNING 2026-09-01 00:08:25 log 12632 17608 Not Found: /balance
+WARNING 2026-09-01 00:08:25 log 12632 12476 Not Found: /stats
+WARNING 2026-09-01 00:08:25 log 12632 12360 Not Found: /positions
+WARNING 2026-09-01 00:08:25 log 12632 10760 Not Found: /weights
+WARNING 2026-09-01 00:08:25 log 12632 940 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:08:25 log 12632 8536 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:08:25 log 12632 17608 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:08:25 log 12632 12476 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:08:25 log 12632 12360 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:08:25 log 12632 10760 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:08:26 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:08:26 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:28 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:08:28 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:30 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:08:30 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:32 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:08:32 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:34 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:08:34 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:36 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:08:36 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:38 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:08:38 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:08:40 log 12632 10760 Not Found: /candles/XAUUSD/1H/300
+WARNING 2026-09-01 00:08:40 log 12632 8536 Not Found: /trades
+WARNING 2026-09-01 00:08:40 log 12632 12360 Not Found: /health
+WARNING 2026-09-01 00:08:40 log 12632 17608 Not Found: /positions
+WARNING 2026-09-01 00:08:40 log 12632 940 Not Found: /stats
+WARNING 2026-09-01 00:08:40 log 12632 12476 Not Found: /balance
+WARNING 2026-09-01 00:08:40 log 12632 10760 "GET /candles/XAUUSD/1H/300 HTTP/1.1" 404 3022
+WARNING 2026-09-01 00:08:40 log 12632 8536 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:08:40 log 12632 12360 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:08:40 log 12632 17608 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:08:40 log 12632 940 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:08:40 log 12632 12476 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:08:40 log 12632 10760 Not Found: /weights
+WARNING 2026-09-01 00:08:40 log 12632 10760 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:08:55 log 12632 10760 Not Found: /health
+WARNING 2026-09-01 00:08:55 log 12632 8536 Not Found: /weights
+WARNING 2026-09-01 00:08:55 log 12632 940 Not Found: /positions
+WARNING 2026-09-01 00:08:55 log 12632 12360 Not Found: /stats
+WARNING 2026-09-01 00:08:55 log 12632 17608 Not Found: /trades
+WARNING 2026-09-01 00:08:55 log 12632 12476 Not Found: /balance
+WARNING 2026-09-01 00:08:55 log 12632 10760 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:08:55 log 12632 8536 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:08:55 log 12632 940 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:08:55 log 12632 12360 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:08:55 log 12632 17608 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:08:55 log 12632 12476 "GET /balance HTTP/1.1" 404 2980
+INFO 2026-09-01 00:08:55 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:08:55 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:08:57 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:09:10 log 12632 17608 Not Found: /balance
+WARNING 2026-09-01 00:09:10 log 12632 12476 Not Found: /health
+WARNING 2026-09-01 00:09:10 log 12632 940 Not Found: /stats
+WARNING 2026-09-01 00:09:10 log 12632 8536 Not Found: /trades
+WARNING 2026-09-01 00:09:10 log 12632 12360 Not Found: /positions
+WARNING 2026-09-01 00:09:10 log 12632 10760 Not Found: /weights
+WARNING 2026-09-01 00:09:10 log 12632 940 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:09:10 log 12632 12476 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:09:10 log 12632 17608 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:09:10 log 12632 8536 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:09:10 log 12632 12360 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:09:10 log 12632 10760 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:09:33 log 12632 10760 Not Found: /positions/live
+WARNING 2026-09-01 00:09:33 log 12632 10760 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:09:33 log 12632 12360 Not Found: /health
+WARNING 2026-09-01 00:09:33 log 12632 12476 Not Found: /balance
+WARNING 2026-09-01 00:09:33 log 12632 12360 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:09:33 log 12632 8536 Not Found: /positions
+WARNING 2026-09-01 00:09:33 log 12632 940 Not Found: /weights
+WARNING 2026-09-01 00:09:33 log 12632 17608 Not Found: /stats
+WARNING 2026-09-01 00:09:33 log 12632 10760 Not Found: /trades
+WARNING 2026-09-01 00:09:33 log 12632 12476 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:09:33 log 12632 8536 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:09:33 log 12632 940 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:09:33 log 12632 17608 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:09:33 log 12632 10760 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:09:40 log 12632 10760 Not Found: /candles/XAUUSD/1H/300
+WARNING 2026-09-01 00:09:40 log 12632 10760 "GET /candles/XAUUSD/1H/300 HTTP/1.1" 404 3022
+INFO 2026-09-01 00:09:55 log 12632 14636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:09:55 log 12632 11172 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:10:33 log 12632 10016 Not Found: /positions
+WARNING 2026-09-01 00:10:33 log 12632 15264 Not Found: /positions/live
+WARNING 2026-09-01 00:10:33 log 12632 15892 Not Found: /health
+WARNING 2026-09-01 00:10:33 log 12632 10016 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:10:33 log 12632 10288 Not Found: /trades
+WARNING 2026-09-01 00:10:33 log 12632 10348 Not Found: /stats
+WARNING 2026-09-01 00:10:33 log 12632 16528 Not Found: /balance
+WARNING 2026-09-01 00:10:33 log 12632 15264 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:10:33 log 12632 15892 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:10:33 log 12632 10288 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:10:33 log 12632 10348 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:10:33 log 12632 16528 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:10:33 log 12632 10016 Not Found: /weights
+WARNING 2026-09-01 00:10:33 log 12632 10016 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:10:40 log 12632 10016 Not Found: /candles/XAUUSD/1H/300
+WARNING 2026-09-01 00:10:40 log 12632 10016 "GET /candles/XAUUSD/1H/300 HTTP/1.1" 404 3022
+INFO 2026-09-01 00:10:55 log 12632 13284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:10:55 log 12632 1320 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:11:12 log 12632 1320 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:11:18 log 12632 1320 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:11:18 log 12632 4636 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:11:18 log 12632 12516 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:11:18 log 12632 7768 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:11:18 log 12632 1320 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:11:18 log 12632 4636 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:11:18 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:11:18 log 12632 12516 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:11:18 log 12632 4636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:11:18 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:11:22 log 12632 13284 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:11:26 log 12632 12516 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+WARNING 2026-09-01 00:11:33 log 12632 10016 Not Found: /positions/live
+WARNING 2026-09-01 00:11:33 log 12632 10016 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:11:33 log 12632 10288 Not Found: /positions
+WARNING 2026-09-01 00:11:33 log 12632 16528 Not Found: /health
+WARNING 2026-09-01 00:11:33 log 12632 15264 Not Found: /stats
+WARNING 2026-09-01 00:11:33 log 12632 15892 Not Found: /trades
+WARNING 2026-09-01 00:11:33 log 12632 10288 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:11:33 log 12632 16528 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:11:33 log 12632 15264 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:11:33 log 12632 10016 Not Found: /weights
+WARNING 2026-09-01 00:11:33 log 12632 10348 Not Found: /balance
+WARNING 2026-09-01 00:11:33 log 12632 15892 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:11:33 log 12632 10016 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:11:33 log 12632 10348 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:11:40 log 12632 10348 Not Found: /candles/XAUUSD/1H/300
+WARNING 2026-09-01 00:11:40 log 12632 10348 "GET /candles/XAUUSD/1H/300 HTTP/1.1" 404 3022
+INFO 2026-09-01 00:11:56 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:11:59 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:12:18 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:12:18 log 12632 13284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:12:33 log 12632 10348 Not Found: /positions/live
+WARNING 2026-09-01 00:12:33 log 12632 10016 Not Found: /health
+WARNING 2026-09-01 00:12:33 log 12632 10016 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:12:33 log 12632 10348 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:12:33 log 12632 10288 Not Found: /stats
+WARNING 2026-09-01 00:12:33 log 12632 15892 Not Found: /balance
+WARNING 2026-09-01 00:12:33 log 12632 16528 Not Found: /trades
+WARNING 2026-09-01 00:12:33 log 12632 15264 Not Found: /positions
+WARNING 2026-09-01 00:12:33 log 12632 15892 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:12:33 log 12632 10016 Not Found: /weights
+WARNING 2026-09-01 00:12:33 log 12632 10288 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:12:33 log 12632 15264 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:12:33 log 12632 16528 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:12:33 log 12632 10016 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:12:40 log 12632 10016 Not Found: /candles/XAUUSD/1H/300
+WARNING 2026-09-01 00:12:40 log 12632 10016 "GET /candles/XAUUSD/1H/300 HTTP/1.1" 404 3022
+INFO 2026-09-01 00:13:18 log 12632 13284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:18 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:27 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:32 log 12632 1320 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:13:32 log 12632 17512 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:13:32 log 12632 4636 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:13:32 log 12632 7768 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:32 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:32 log 12632 17512 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:13:32 log 12632 4636 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:13:32 log 12632 7768 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:13:32 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:32 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:13:33 log 12632 10016 Not Found: /positions/live
+WARNING 2026-09-01 00:13:33 log 12632 10016 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:13:33 log 12632 10016 Not Found: /health
+WARNING 2026-09-01 00:13:33 log 12632 10016 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:13:33 log 12632 10016 Not Found: /balance
+WARNING 2026-09-01 00:13:33 log 12632 10016 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:13:33 log 12632 10288 Not Found: /weights
+WARNING 2026-09-01 00:13:33 log 12632 10016 Not Found: /positions
+WARNING 2026-09-01 00:13:33 log 12632 15264 Not Found: /trades
+WARNING 2026-09-01 00:13:33 log 12632 16528 Not Found: /stats
+WARNING 2026-09-01 00:13:33 log 12632 10288 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:13:33 log 12632 10016 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:13:33 log 12632 15264 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:13:33 log 12632 16528 "GET /stats HTTP/1.1" 404 2974
+INFO 2026-09-01 00:13:37 log 12632 1320 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:13:37 log 12632 13284 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+WARNING 2026-09-01 00:13:40 log 12632 16528 Not Found: /candles/XAUUSD/1H/300
+WARNING 2026-09-01 00:13:40 log 12632 16528 "GET /candles/XAUUSD/1H/300 HTTP/1.1" 404 3022
+INFO 2026-09-01 00:13:46 log 12632 13284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:46 log 12632 7768 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:13:46 log 12632 12516 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:13:46 log 12632 17512 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:13:46 log 12632 4636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:46 log 12632 7768 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:13:46 log 12632 12516 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:13:46 log 12632 17512 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:13:46 log 12632 4636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:46 log 12632 7768 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:50 log 12632 1320 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:13:50 log 12632 13284 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:13:57 log 12632 13284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:59 log 12632 13284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:59 log 12632 17512 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:13:59 log 12632 4636 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:13:59 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:59 log 12632 7768 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:13:59 log 12632 17512 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:13:59 log 12632 12516 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:13:59 log 12632 4636 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:13:59 log 12632 7768 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:13:59 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:14:00 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:14:00 log 12632 12516 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:14:00 log 12632 4636 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:14:00 log 12632 12516 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:14:00 log 12632 14212 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:14:00 log 12632 4636 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:14:00 log 12632 17560 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:14:00 log 12632 12516 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:14:00 log 12632 14212 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:14:00 log 12632 4636 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:14:03 basehttp 12632 1320 - Broken pipe from ('127.0.0.1', 12150)
+INFO 2026-09-01 00:14:03 basehttp 12632 13284 - Broken pipe from ('127.0.0.1', 12151)
+INFO 2026-09-01 00:14:04 log 12632 7768 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:14:04 log 12632 17512 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+INFO 2026-09-01 00:14:11 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:14:33 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:14:33 log 12632 15264 Not Found: /health
+WARNING 2026-09-01 00:14:33 log 12632 10016 Not Found: /balance
+WARNING 2026-09-01 00:14:33 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:14:33 log 12632 10288 Not Found: /positions
+WARNING 2026-09-01 00:14:33 log 12632 10348 Not Found: /stats
+WARNING 2026-09-01 00:14:33 log 12632 15892 Not Found: /trades
+WARNING 2026-09-01 00:14:33 log 12632 15264 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:14:33 log 12632 10016 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:14:33 log 12632 16528 Not Found: /weights
+WARNING 2026-09-01 00:14:33 log 12632 10288 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:14:33 log 12632 10348 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:14:33 log 12632 15892 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:14:33 log 12632 16528 "GET /weights HTTP/1.1" 404 2980
+INFO 2026-09-01 00:14:54 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:00 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:00 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:00 log 12632 7768 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:15:08 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:08 log 12632 10348 Not Found: /health
+WARNING 2026-09-01 00:15:08 log 12632 15892 Not Found: /candles/XAUUSD/1H/300
+WARNING 2026-09-01 00:15:08 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:08 log 12632 10288 Not Found: /balance
+WARNING 2026-09-01 00:15:08 log 12632 15264 Not Found: /trades
+WARNING 2026-09-01 00:15:09 log 12632 10016 Not Found: /positions
+WARNING 2026-09-01 00:15:09 log 12632 10348 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:15:09 log 12632 15892 "GET /candles/XAUUSD/1H/300 HTTP/1.1" 404 3022
+WARNING 2026-09-01 00:15:09 log 12632 10288 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:15:09 log 12632 10016 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:15:09 log 12632 15264 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:15:09 log 12632 16528 Not Found: /stats
+WARNING 2026-09-01 00:15:09 log 12632 10348 Not Found: /weights
+WARNING 2026-09-01 00:15:09 log 12632 16528 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:15:09 log 12632 10348 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:15:09 log 12632 16528 Not Found: /balance
+WARNING 2026-09-01 00:15:09 log 12632 10348 Not Found: /health
+WARNING 2026-09-01 00:15:09 log 12632 10016 Not Found: /positions
+WARNING 2026-09-01 00:15:09 log 12632 15264 Not Found: /trades
+WARNING 2026-09-01 00:15:09 log 12632 15892 Not Found: /weights
+WARNING 2026-09-01 00:15:09 log 12632 10288 Not Found: /stats
+WARNING 2026-09-01 00:15:09 log 12632 16528 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:15:09 log 12632 10348 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:15:09 log 12632 10016 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:15:09 log 12632 15264 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:15:09 log 12632 10288 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:15:09 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:09 log 12632 15892 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:15:09 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:12 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:12 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:14 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:14 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+INFO 2026-09-01 00:15:15 log 12632 7768 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:15 log 12632 14212 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:15:15 log 12632 4636 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:15:15 log 12632 12516 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:15:15 log 12632 17560 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:15 log 12632 4636 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:15:15 log 12632 14212 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:15:15 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:15 log 12632 7768 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:15:15 log 12632 14212 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-09-01 00:15:16 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:16 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:18 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:18 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+INFO 2026-09-01 00:15:19 log 12632 17512 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+WARNING 2026-09-01 00:15:20 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:20 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+INFO 2026-09-01 00:15:20 log 12632 17512 "OPTIONS /api/auth/logout/ HTTP/1.1" 200 0
+INFO 2026-09-01 00:15:20 log 12632 17512 "POST /api/auth/logout/ HTTP/1.1" 205 0
+WARNING 2026-09-01 00:15:22 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:22 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+INFO 2026-09-01 00:15:23 log 12632 14212 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+WARNING 2026-09-01 00:15:24 log 12632 16528 Not Found: /positions/live
+WARNING 2026-09-01 00:15:24 log 12632 16528 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:25 log 12632 16528 Not Found: /health
+WARNING 2026-09-01 00:15:25 log 12632 10348 Not Found: /weights
+WARNING 2026-09-01 00:15:25 log 12632 10016 Not Found: /stats
+WARNING 2026-09-01 00:15:25 log 12632 10288 Not Found: /positions
+WARNING 2026-09-01 00:15:25 log 12632 15892 Not Found: /balance
+WARNING 2026-09-01 00:15:25 log 12632 15264 Not Found: /trades
+WARNING 2026-09-01 00:15:25 log 12632 16528 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:15:25 log 12632 10348 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:15:25 log 12632 10016 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:15:25 log 12632 15892 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:15:25 log 12632 10288 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:15:25 log 12632 15264 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:15:26 log 12632 15264 Not Found: /positions/live
+WARNING 2026-09-01 00:15:26 log 12632 15264 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:28 log 12632 15264 Not Found: /positions/live
+WARNING 2026-09-01 00:15:28 log 12632 15264 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:30 log 12632 15264 Not Found: /positions/live
+WARNING 2026-09-01 00:15:30 log 12632 15264 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:32 log 12632 15264 Not Found: /positions/live
+WARNING 2026-09-01 00:15:32 log 12632 15264 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:34 log 12632 15264 Not Found: /positions/live
+WARNING 2026-09-01 00:15:34 log 12632 15264 "GET /positions/live HTTP/1.1" 404 3001
+INFO 2026-09-01 00:15:34 log 12632 14212 "POST /api/auth/login/ HTTP/1.1" 200 1023
+INFO 2026-09-01 00:15:34 log 12632 7768 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-09-01 00:15:34 log 12632 17512 "GET /api/alerts/notifications/unread-count/ HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:34 log 12632 14212 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:15:34 log 12632 7768 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-09-01 00:15:34 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:34 log 12632 17512 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:34 log 12632 14212 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-09-01 00:15:34 log 12632 12516 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-09-01 00:15:34 log 12632 17512 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+WARNING 2026-09-01 00:15:36 log 12632 15264 Not Found: /positions/live
+WARNING 2026-09-01 00:15:36 log 12632 15264 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:38 log 12632 15264 Not Found: /positions/live
+WARNING 2026-09-01 00:15:38 log 12632 15264 "GET /positions/live HTTP/1.1" 404 3001
+INFO 2026-09-01 00:15:38 log 12632 7768 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+WARNING 2026-09-01 00:15:40 log 12632 15264 Not Found: /candles/XAUUSD/1H/300
+WARNING 2026-09-01 00:15:40 log 12632 10288 Not Found: /health
+WARNING 2026-09-01 00:15:40 log 12632 15892 Not Found: /balance
+WARNING 2026-09-01 00:15:40 log 12632 10348 Not Found: /stats
+WARNING 2026-09-01 00:15:40 log 12632 10016 Not Found: /positions
+WARNING 2026-09-01 00:15:40 log 12632 16528 Not Found: /trades
+WARNING 2026-09-01 00:15:40 log 12632 15264 "GET /candles/XAUUSD/1H/300 HTTP/1.1" 404 3022
+WARNING 2026-09-01 00:15:40 log 12632 15892 "GET /balance HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:15:40 log 12632 10288 "GET /health HTTP/1.1" 404 2977
+WARNING 2026-09-01 00:15:40 log 12632 10348 "GET /stats HTTP/1.1" 404 2974
+WARNING 2026-09-01 00:15:40 log 12632 10016 "GET /positions HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:15:40 log 12632 16528 "GET /trades?limit=50 HTTP/1.1" 404 2986
+WARNING 2026-09-01 00:15:40 log 12632 15264 Not Found: /weights
+WARNING 2026-09-01 00:15:40 log 12632 10288 Not Found: /positions/live
+WARNING 2026-09-01 00:15:40 log 12632 15264 "GET /weights HTTP/1.1" 404 2980
+WARNING 2026-09-01 00:15:40 log 12632 10288 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:42 log 12632 10288 Not Found: /positions/live
+WARNING 2026-09-01 00:15:42 log 12632 10288 "GET /positions/live HTTP/1.1" 404 3001
+INFO 2026-09-01 00:15:42 log 12632 17512 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 476
+WARNING 2026-09-01 00:15:44 log 12632 10288 Not Found: /positions/live
+WARNING 2026-09-01 00:15:44 log 12632 10288 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:46 log 12632 10288 Not Found: /positions/live
+WARNING 2026-09-01 00:15:46 log 12632 10288 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:48 log 12632 10288 Not Found: /positions/live
+WARNING 2026-09-01 00:15:48 log 12632 10288 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:50 log 12632 10288 Not Found: /positions/live
+WARNING 2026-09-01 00:15:50 log 12632 10288 "GET /positions/live HTTP/1.1" 404 3001
+WARNING 2026-09-01 00:15:52 log 12632 10288 Not Found: /positions/live
+WARNING 2026-09-01 00:15:52 log 12632 10288 "GET /positions/live HTTP/1.1" 404 3001

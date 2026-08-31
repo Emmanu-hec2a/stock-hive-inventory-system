@@ -124,7 +124,6 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
   const maxBar = Math.max(1, ...salesTrend.map((item) => Number(item.total || 0)));
   const recentSales = data?.recent_sales || [];
   const stockLevels = data?.stock_levels || [];
-  const stockLevelMax = Math.max(1, ...stockLevels.map((item) => Number(item.current_stock || 0)));
   const recentSalesLabel = getRecentSalesLabel(recentSales);
 
   if (showBusinessOverview) {
@@ -423,14 +422,6 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
                     <div className="dashboard-stock-copy">
                       <p className="dashboard-stock-name">{product.name}</p>
                       <p className="dashboard-stock-meta">{getStockMeta(product)}</p>
-                    </div>
-                    <div className="stock-track dashboard-stock-track">
-                      <div
-                        className={`stock-fill ${getStockToneClass(product.current_stock, product.low_stock_threshold)}`}
-                        style={{
-                          width: `${Math.max(10, (Number(product.current_stock || 0) / stockLevelMax) * 100)}%`,
-                        }}
-                      />
                     </div>
                     <span
                       className={`dashboard-stock-value ${getStockToneClass(product.current_stock, product.low_stock_threshold)}`}
