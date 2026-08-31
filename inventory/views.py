@@ -550,10 +550,15 @@ class DashboardReportView(APIView, ShopScopedMixin):
                 else:  # fixed
                     discount_amount = Decimal(str(sale.discount_value))
             
+            # Extract first name from full_name
+            cashier_name = "Unknown staff"
+            if sale.served_by and sale.served_by.full_name:
+                cashier_name = sale.served_by.full_name.split()[0]  # Get first name only
+            
             recent_sales.append({
                 "id": str(sale.id),
                 "created_at": sale.created_at,
-                "cashier_name": sale.served_by.full_name if sale.served_by and sale.served_by.full_name else "Unknown staff",
+                "cashier_name": cashier_name,
                 "total_amount": sale.total_amount,
                 "payment_method": sale.payment_method,
                 "discount_type": sale.discount_type,

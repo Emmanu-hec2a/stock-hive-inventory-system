@@ -235,3 +235,41 @@ INFO 2026-08-31 23:08:32 autoreload 5820 8592 C:\Users\PC\Desktop\InventoryTrack
 INFO 2026-08-31 23:08:38 autoreload 15176 17224 Watching for file changes with StatReloader
 INFO 2026-08-31 23:09:05 log 15176 5416 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
 INFO 2026-08-31 23:09:05 log 15176 5416 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:10:05 log 15176 5416 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:10:05 log 15176 5416 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:11:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:11:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:12:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:12:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:13:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:13:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:14:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:14:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:15:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:15:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:16:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:16:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:17:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:17:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:18:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:18:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:19:13 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:19:13 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:19:13 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:19:40 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:20:05 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:20:05 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:20:33 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:20:40 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-08-31 23:21:05 log 15176 7188 Unauthorized: /api/alerts/notifications/unread-count/
+WARNING 2026-08-31 23:21:05 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 401 183
+WARNING 2026-08-31 23:21:05 log 15176 7188 Unauthorized: /api/alerts/notifications/unread-count/
+WARNING 2026-08-31 23:21:05 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 401 183
+INFO 2026-08-31 23:21:05 log 15176 7188 "OPTIONS /api/auth/refresh/ HTTP/1.1" 200 0
+INFO 2026-08-31 23:21:05 log 15176 7188 "POST /api/auth/refresh/ HTTP/1.1" 200 409
+INFO 2026-08-31 23:21:05 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:21:05 log 15176 7188 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:21:56 autoreload 15176 17224 C:\Users\PC\Desktop\InventoryTrackingSystem\inventory\views.py changed, reloading.
+INFO 2026-08-31 23:22:03 autoreload 9844 14540 Watching for file changes with StatReloader
+INFO 2026-08-31 23:22:32 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:22:32 log 9844 10264 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
