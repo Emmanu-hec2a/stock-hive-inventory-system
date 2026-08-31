@@ -155,6 +155,13 @@ class Sale(models.Model):
         (PAYMENT_CREDIT, "Credit"),
     ]
 
+    DISCOUNT_TYPE_FIXED = "fixed"
+    DISCOUNT_TYPE_PERCENT = "percent"
+    DISCOUNT_CHOICES = [
+        (DISCOUNT_TYPE_FIXED, "Fixed Amount (KES)"),
+        (DISCOUNT_TYPE_PERCENT, "Percentage (%)"),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="sales")
     served_by = models.ForeignKey(
@@ -162,6 +169,35 @@ class Sale(models.Model):
     )
     total_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES)
+    
+    # Manual Discount Fields (Pro+ feature)
+    discount_type = models.CharField(
+        max_length=20,
+        choices=DISCOUNT_CHOICES,
+        null=True,
+        blank=True,
+        help_text="Type of discount applied (fixed amount or percentage)"
+    )
+    discount_value = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Discount amount (KES) or percentage value"
+    )
+    discount_reason = models.TextField(
+        null=True,
+        blank=True,
+        help_text="Reason for discount (e.g., 'Customer loyalty', 'Bulk order')"
+    )
+    discount_given_by = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="discounts_given"
+    )
+    
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -189,11 +225,26 @@ class StockTransfer(models.Model):
 
 
 class SaleItem(models.Model):
+    PAYMENT_CASH = "cash"
+    PAYMENT_MPESA = "mpesa"
+    PAYMENT_CREDIT = "credit"
+    PAYMENT_CHOICES = [
+        (PAYMENT_CASH, "Cash"),
+        (PAYMENT_MPESA, "M-Pesa"),
+        (PAYMENT_CREDIT, "Credit"),
+    ]
+
     sale = models.ForeignKey(Sale, on_delete=models.CASCADE, related_name="items")
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name="sale_items")
     quantity = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=12, decimal_places=2)
     subtotal = models.DecimalField(max_digits=12, decimal_places=2)
+    payment_method = models.CharField(
+        max_length=20, 
+        choices=PAYMENT_CHOICES, 
+        default=PAYMENT_CASH,
+        help_text="Payment method for this specific item (supports split billing)"
+    )
 
     class Meta:
         ordering = ["id"]

@@ -28,7 +28,7 @@ const planCards = [
   {
     key: "enterprise",
     title: "Business Enterprise",
-    price: PLAN_PRICES.enterprise,
+    price: null, // Custom pricing - negotiated with sales team
     features: ["Unlimited shops", "Unlimited products", "Unlimited staff", "All features enabled"],
   },
 ];
@@ -141,7 +141,9 @@ export default function BillingPage() {
             >
               <p className="meta-label">Plan</p>
               <h4 className="section-title">{plan.title}</h4>
-              <p className="mini-stat">KES {plan.price.toLocaleString()}/month</p>
+              <p className="mini-stat">
+                {plan.price !== null ? `KES ${plan.price.toLocaleString()}/month` : "Custom Pricing"}
+              </p>
               <ul className="plan-features" style={{ listStyle: 'none', padding: 0 }}>
                 {plan.features.map((feature) => (
                   <li key={feature} style={{ display: 'flex', gap: '8px', marginBottom: '4px' }}>
@@ -149,7 +151,16 @@ export default function BillingPage() {
                   </li>
                 ))}
               </ul>
-              {plan.key !== "free" && subscription?.plan !== plan.key && (
+              {plan.key === "enterprise" && subscription?.plan !== plan.key && (
+                <a
+                    href="mailto:sales@stockhive.com?subject=Enterprise%20Plan%20Inquiry"
+                    className="primary-btn checkout-btn"
+                    style={{ textDecoration: 'none', display: 'block', textAlign: 'center' }}
+                >
+                  Contact Sales
+                </a>
+              )}
+              {plan.key !== "free" && plan.key !== "enterprise" && subscription?.plan !== plan.key && (
                 <button
                     className="primary-btn checkout-btn"
                     type="button"

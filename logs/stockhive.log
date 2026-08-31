@@ -1,3 +1,237 @@
 WARNING 2026-08-28 12:58:05 log 4140 1468 Bad Request: /api/sales/
 WARNING 2026-08-28 12:59:05 log 7084 16656 Bad Request: /api/sales/
 WARNING 2026-08-28 13:42:47 log 20640 9296 Bad Request: /api/sales/
+INFO 2026-08-31 22:43:24 autoreload 6988 8860 Watching for file changes with StatReloader
+INFO 2026-08-31 22:45:55 autoreload 6988 8860 C:\Users\PC\Desktop\InventoryTrackingSystem\config\settings.py changed, reloading.
+INFO 2026-08-31 22:46:01 autoreload 11132 15824 Watching for file changes with StatReloader
+INFO 2026-08-31 22:47:08 log 11132 4840 "OPTIONS /api/reports/dashboard/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:47:08 log 11132 12516 "OPTIONS /api/alerts/notifications/unread-count/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:47:08 log 11132 7492 "OPTIONS /api/alerts/notifications/unread-count/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:47:08 log 11132 17400 "OPTIONS /api/reports/sales/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:47:08 log 11132 12516 "OPTIONS /api/alerts/notifications/unread-count/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:47:08 log 11132 4840 "OPTIONS /api/reports/sales/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:47:08 log 11132 2716 "OPTIONS /api/reports/dashboard/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:47:08 log 11132 16336 "OPTIONS /api/alerts/notifications/unread-count/ HTTP/1.1" 200 0
+WARNING 2026-08-31 22:47:09 log 11132 7492 Unauthorized: /api/reports/dashboard/
+WARNING 2026-08-31 22:47:09 log 11132 17400 Unauthorized: /api/reports/sales/
+WARNING 2026-08-31 22:47:09 log 11132 12516 Unauthorized: /api/alerts/notifications/unread-count/
+WARNING 2026-08-31 22:47:09 log 11132 7492 "GET /api/reports/dashboard/ HTTP/1.1" 401 183
+WARNING 2026-08-31 22:47:09 log 11132 17400 "GET /api/reports/sales/ HTTP/1.1" 401 183
+WARNING 2026-08-31 22:47:09 log 11132 12516 "GET /api/alerts/notifications/unread-count/ HTTP/1.1" 401 183
+WARNING 2026-08-31 22:47:09 log 11132 12516 Unauthorized: /api/alerts/notifications/unread-count/
+WARNING 2026-08-31 22:47:09 log 11132 17400 Unauthorized: /api/reports/sales/
+WARNING 2026-08-31 22:47:09 log 11132 7492 Unauthorized: /api/reports/dashboard/
+WARNING 2026-08-31 22:47:09 log 11132 12516 "GET /api/alerts/notifications/unread-count/ HTTP/1.1" 401 183
+WARNING 2026-08-31 22:47:09 log 11132 17400 "GET /api/reports/sales/ HTTP/1.1" 401 183
+WARNING 2026-08-31 22:47:09 log 11132 7492 "GET /api/reports/dashboard/ HTTP/1.1" 401 183
+WARNING 2026-08-31 22:47:09 log 11132 7492 Unauthorized: /api/alerts/notifications/unread-count/
+WARNING 2026-08-31 22:47:09 log 11132 7492 "GET /api/alerts/notifications/unread-count/ HTTP/1.1" 401 183
+WARNING 2026-08-31 22:47:09 log 11132 7492 Unauthorized: /api/alerts/notifications/unread-count/
+WARNING 2026-08-31 22:47:09 log 11132 7492 "GET /api/alerts/notifications/unread-count/ HTTP/1.1" 401 183
+INFO 2026-08-31 22:47:21 log 11132 7492 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+WARNING 2026-08-31 22:47:23 log 11132 7492 Unauthorized: /api/auth/login/
+WARNING 2026-08-31 22:47:23 log 11132 7492 "POST /api/auth/login/ HTTP/1.1" 401 63
+INFO 2026-08-31 22:48:25 log 11132 16828 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+WARNING 2026-08-31 22:48:27 log 11132 16828 Unauthorized: /api/auth/login/
+WARNING 2026-08-31 22:48:27 log 11132 16828 "POST /api/auth/login/ HTTP/1.1" 401 63
+WARNING 2026-08-31 22:49:18 log 11132 6196 Not Found: /admin
+WARNING 2026-08-31 22:49:18 log 11132 6196 "GET /admin HTTP/1.1" 404 2974
+WARNING 2026-08-31 22:49:18 log 11132 6196 Not Found: /favicon.ico
+WARNING 2026-08-31 22:49:18 log 11132 6196 "GET /favicon.ico HTTP/1.1" 404 2992
+INFO 2026-08-31 22:49:28 log 11132 6196 "GET /system-admin HTTP/1.1" 301 0
+INFO 2026-08-31 22:49:28 log 11132 6196 "GET /system-admin/ HTTP/1.1" 302 0
+INFO 2026-08-31 22:49:29 log 11132 6196 "GET /system-admin/login/?next=/system-admin/ HTTP/1.1" 200 7181
+INFO 2026-08-31 22:49:30 log 11132 6196 "GET /static/unfold/fonts/inter/styles.css HTTP/1.1" 200 608
+INFO 2026-08-31 22:49:30 log 11132 2672 "GET /static/unfold/fonts/material-symbols/styles.css HTTP/1.1" 200 164
+INFO 2026-08-31 22:49:30 log 11132 15072 "GET /static/unfold/css/simplebar/simplebar.css HTTP/1.1" 200 4647
+INFO 2026-08-31 22:49:30 log 11132 16524 "GET /static/unfold/css/styles.css HTTP/1.1" 200 307916
+INFO 2026-08-31 22:49:30 log 11132 6196 "GET /static/unfold/js/app.js HTTP/1.1" 200 29021
+INFO 2026-08-31 22:49:30 log 11132 7344 "GET /static/unfold/js/htmx/htmx.js HTTP/1.1" 200 50918
+INFO 2026-08-31 22:49:30 log 11132 2672 "GET /static/unfold/js/simplebar/simplebar.js HTTP/1.1" 200 27176
+INFO 2026-08-31 22:49:30 log 11132 9436 "GET /static/unfold/js/chart/chart.js HTTP/1.1" 200 200633
+INFO 2026-08-31 22:49:30 log 11132 2672 "GET /static/unfold/js/alpine/alpine.anchor.js HTTP/1.1" 200 15524
+INFO 2026-08-31 22:49:30 log 11132 6196 "GET /static/unfold/js/alpine/alpine.resize.js HTTP/1.1" 200 703
+INFO 2026-08-31 22:49:30 log 11132 9436 "GET /static/unfold/js/alpine/alpine.persist.js HTTP/1.1" 200 837
+INFO 2026-08-31 22:49:30 log 11132 7344 "GET /static/unfold/js/alpine/alpine.sort.js HTTP/1.1" 200 38101
+INFO 2026-08-31 22:49:30 log 11132 16524 "GET /static/unfold/js/alpine/alpine.js HTTP/1.1" 200 44758
+INFO 2026-08-31 22:49:30 log 11132 9436 "GET /static/unfold/fonts/material-symbols/Material-Symbols-Outlined.woff2 HTTP/1.1" 200 291696
+INFO 2026-08-31 22:49:30 log 11132 16524 "GET /static/unfold/fonts/inter/Inter-SemiBold.woff2 HTTP/1.1" 200 114812
+INFO 2026-08-31 22:49:30 log 11132 7344 "GET /static/unfold/fonts/inter/Inter-Medium.woff2 HTTP/1.1" 200 114348
+INFO 2026-08-31 22:49:30 log 11132 6196 "GET /static/unfold/fonts/inter/Inter-Regular.woff2 HTTP/1.1" 200 111268
+INFO 2026-08-31 22:49:39 log 11132 6196 "POST /system-admin/login/?next=/system-admin/ HTTP/1.1" 200 8019
+INFO 2026-08-31 22:49:47 log 11132 6196 "POST /system-admin/login/?next=/system-admin/ HTTP/1.1" 200 8022
+INFO 2026-08-31 22:49:52 log 11132 6196 "POST /system-admin/login/?next=/system-admin/ HTTP/1.1" 200 8019
+INFO 2026-08-31 22:50:41 log 11132 16828 "OPTIONS /api/auth/register/ HTTP/1.1" 200 0
+WARNING 2026-08-31 22:50:41 log 11132 16828 Bad Request: /api/auth/register/
+WARNING 2026-08-31 22:50:41 log 11132 16828 "POST /api/auth/register/ HTTP/1.1" 400 46
+INFO 2026-08-31 22:50:52 log 11132 16828 "POST /api/auth/register/ HTTP/1.1" 201 62
+INFO 2026-08-31 22:51:04 log 11132 16828 "POST /api/auth/login/ HTTP/1.1" 200 1023
+INFO 2026-08-31 22:51:04 log 11132 16828 "OPTIONS /api/billing/subscription/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:04 log 11132 16828 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 22:51:04 log 11132 8200 "OPTIONS /api/alerts/notifications/unread-count/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:04 log 11132 12284 "OPTIONS /api/shops/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:04 log 11132 16828 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 22:51:04 log 11132 12284 "GET /api/shops/ HTTP/1.1" 200 205
+INFO 2026-08-31 22:51:04 log 11132 8200 "GET /api/alerts/notifications/unread-count/ HTTP/1.1" 200 18
+INFO 2026-08-31 22:51:05 log 11132 8200 "OPTIONS /api/reports/overview/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:05 log 11132 12284 "GET /api/alerts/notifications/unread-count/ HTTP/1.1" 200 18
+INFO 2026-08-31 22:51:05 log 11132 8200 "GET /api/reports/overview/ HTTP/1.1" 200 277
+INFO 2026-08-31 22:51:05 log 11132 12284 "GET /api/alerts/notifications/unread-count/ HTTP/1.1" 200 18
+INFO 2026-08-31 22:51:05 log 11132 8200 "GET /api/reports/overview/ HTTP/1.1" 200 277
+INFO 2026-08-31 22:51:05 log 11132 8200 "OPTIONS /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:05 log 11132 16828 "OPTIONS /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:05 log 11132 12284 "OPTIONS /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:05 log 11132 8200 "OPTIONS /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:05 log 11132 12284 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:05 log 11132 17180 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:51:05 log 11132 17180 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:51:09 log 11132 8200 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 117
+INFO 2026-08-31 22:51:09 log 11132 17180 "OPTIONS /api/billing/history/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:09 log 11132 8200 "OPTIONS /api/billing/history/ HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:09 log 11132 17180 "GET /api/billing/history/ HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:09 log 11132 17180 "GET /api/billing/history/ HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:09 log 11132 17180 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 22:51:09 log 11132 17180 "GET /api/billing/subscription/ HTTP/1.1" 200 203
+INFO 2026-08-31 22:51:26 log 11132 8200 "OPTIONS /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:26 log 11132 17180 "OPTIONS /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:26 log 11132 12284 "OPTIONS /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:26 log 11132 16828 "OPTIONS /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 22:51:26 log 11132 8200 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:26 log 11132 8200 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:30 log 11132 12284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:34 log 11132 12284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:38 log 11132 12284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:42 log 11132 12284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:51:56 log 11132 12284 "POST /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 201 329
+INFO 2026-08-31 22:52:00 log 11132 8200 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:52:00 log 11132 8200 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:52:01 log 11132 12284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 331
+INFO 2026-08-31 22:52:04 log 11132 16828 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:52:04 log 11132 16828 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:52:05 log 11132 12284 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 331
+INFO 2026-08-31 22:52:05 log 11132 12284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:52:05 log 11132 12284 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:52:08 log 11132 8200 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 252
+INFO 2026-08-31 22:52:09 log 11132 16828 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 331
+INFO 2026-08-31 22:52:12 log 11132 8200 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 252
+INFO 2026-08-31 22:52:13 log 11132 16828 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 331
+INFO 2026-08-31 22:52:17 log 11132 16828 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 331
+INFO 2026-08-31 22:52:18 log 11132 8200 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:52:18 log 11132 8200 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 2
+INFO 2026-08-31 22:52:22 log 11132 16828 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 331
+INFO 2026-08-31 22:52:26 log 11132 16828 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 331
+INFO 2026-08-31 22:53:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:53:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:53:50 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-08-31 22:53:57 log 11132 6196 Forbidden (CSRF token missing.): /system-admin/login/
+WARNING 2026-08-31 22:53:57 log 11132 6196 "POST /system-admin/login/?next=/system-admin/ HTTP/1.1" 403 2491
+WARNING 2026-08-31 22:54:02 log 11132 6196 Forbidden (CSRF token missing.): /system-admin/login/
+WARNING 2026-08-31 22:54:02 log 11132 6196 "POST /system-admin/login/?next=/system-admin/ HTTP/1.1" 403 2491
+INFO 2026-08-31 22:54:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:54:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:54:05 log 11132 6196 "GET /system-admin/login/?next=/system-admin/ HTTP/1.1" 200 7181
+INFO 2026-08-31 22:55:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:55:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:56:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:56:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:57:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:57:05 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:57:33 log 11132 7440 "GET /system-admin/ HTTP/1.1" 302 0
+INFO 2026-08-31 22:57:33 log 11132 7440 "GET /system-admin/login/?next=/system-admin/ HTTP/1.1" 200 7181
+WARNING 2026-08-31 22:58:17 log 11132 8668 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-08-31 22:58:17 log 11132 8668 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3103
+INFO 2026-08-31 22:58:33 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:58:33 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:59:33 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 22:59:33 log 11132 16828 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:00:21 autoreload 11132 15824 C:\Users\PC\Desktop\InventoryTrackingSystem\config\settings.py changed, reloading.
+INFO 2026-08-31 23:00:27 autoreload 5820 8592 Watching for file changes with StatReloader
+INFO 2026-08-31 23:00:33 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:00:33 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+WARNING 2026-08-31 23:00:54 log 5820 17196 Forbidden (CSRF token missing.): /system-admin/login/
+WARNING 2026-08-31 23:00:54 log 5820 17196 "POST /system-admin/login/?next=/system-admin/ HTTP/1.1" 403 2491
+WARNING 2026-08-31 23:00:55 log 5820 17196 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-08-31 23:00:55 log 5820 17196 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3103
+WARNING 2026-08-31 23:00:55 log 5820 7848 Not Found: /favicon.ico
+WARNING 2026-08-31 23:00:55 log 5820 7848 "GET /favicon.ico HTTP/1.1" 404 2992
+WARNING 2026-08-31 23:00:58 log 5820 7848 Forbidden (CSRF token missing.): /system-admin/login/
+WARNING 2026-08-31 23:00:58 log 5820 7848 "POST /system-admin/login/?next=/system-admin/ HTTP/1.1" 403 2491
+WARNING 2026-08-31 23:00:58 log 5820 7848 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-08-31 23:00:58 log 5820 7848 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3103
+INFO 2026-08-31 23:01:03 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:01:05 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:01:05 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:01:25 log 5820 3564 "GET /system-admin HTTP/1.1" 301 0
+INFO 2026-08-31 23:01:25 log 5820 3564 "GET /system-admin/ HTTP/1.1" 302 0
+INFO 2026-08-31 23:01:25 log 5820 3564 "GET /system-admin/login/?next=/system-admin/ HTTP/1.1" 200 7181
+INFO 2026-08-31 23:01:26 log 5820 3564 "GET /static/unfold/fonts/inter/styles.css HTTP/1.1" 200 608
+INFO 2026-08-31 23:01:26 log 5820 3564 "GET /static/unfold/js/app.js HTTP/1.1" 200 29021
+INFO 2026-08-31 23:01:26 log 5820 3564 "GET /static/unfold/js/simplebar/simplebar.js HTTP/1.1" 200 27176
+INFO 2026-08-31 23:01:26 log 5820 10540 "GET /static/unfold/fonts/material-symbols/styles.css HTTP/1.1" 200 164
+INFO 2026-08-31 23:01:26 log 5820 16796 "GET /static/unfold/js/chart/chart.js HTTP/1.1" 200 200633
+INFO 2026-08-31 23:01:26 log 5820 1804 "GET /static/unfold/css/simplebar/simplebar.css HTTP/1.1" 200 4647
+INFO 2026-08-31 23:01:26 log 5820 1536 "GET /static/unfold/css/styles.css HTTP/1.1" 200 307916
+INFO 2026-08-31 23:01:26 log 5820 4384 "GET /static/unfold/js/htmx/htmx.js HTTP/1.1" 200 50918
+INFO 2026-08-31 23:01:26 log 5820 4384 "GET /static/unfold/js/alpine/alpine.anchor.js HTTP/1.1" 200 15524
+INFO 2026-08-31 23:01:26 log 5820 1536 "GET /static/unfold/js/alpine/alpine.persist.js HTTP/1.1" 200 837
+INFO 2026-08-31 23:01:26 log 5820 4384 "GET /static/unfold/js/alpine/alpine.resize.js HTTP/1.1" 200 703
+INFO 2026-08-31 23:01:26 log 5820 1536 "GET /static/unfold/js/alpine/alpine.sort.js HTTP/1.1" 200 38101
+INFO 2026-08-31 23:01:26 log 5820 1536 "GET /static/unfold/js/alpine/alpine.js HTTP/1.1" 200 44758
+INFO 2026-08-31 23:01:26 log 5820 1536 "GET /static/unfold/fonts/inter/Inter-SemiBold.woff2 HTTP/1.1" 200 114812
+INFO 2026-08-31 23:01:26 log 5820 4384 "GET /static/unfold/fonts/inter/Inter-Medium.woff2 HTTP/1.1" 200 114348
+INFO 2026-08-31 23:01:26 log 5820 1804 "GET /static/unfold/fonts/material-symbols/Material-Symbols-Outlined.woff2 HTTP/1.1" 200 291696
+INFO 2026-08-31 23:01:26 log 5820 16796 "GET /static/unfold/fonts/inter/Inter-Regular.woff2 HTTP/1.1" 200 111268
+WARNING 2026-08-31 23:01:26 log 5820 1804 Not Found: /favicon.ico
+WARNING 2026-08-31 23:01:26 log 5820 1804 "GET /favicon.ico HTTP/1.1" 404 2992
+INFO 2026-08-31 23:01:48 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:02:01 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:02:05 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:02:05 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:02:18 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:03:05 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:03:05 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:03:14 log 5820 4984 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:03:34 log 5820 4984 "POST /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 201 535
+INFO 2026-08-31 23:03:34 log 5820 4984 "GET /api/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 537
+INFO 2026-08-31 23:03:38 log 5820 16880 "GET /api/products/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 330
+INFO 2026-08-31 23:03:51 log 5820 4984 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:03:51 log 5820 4984 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:03:55 log 5820 16880 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 418
+INFO 2026-08-31 23:03:59 log 5820 16880 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 418
+INFO 2026-08-31 23:04:05 log 5820 16880 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:04:05 log 5820 16880 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:04:16 log 5820 16880 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:04:23 log 5820 4984 "OPTIONS /api/analytics/inventory/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 23:04:23 log 5820 16880 "OPTIONS /api/analytics/sales/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 23:04:23 log 5820 4984 "OPTIONS /api/analytics/products/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 23:04:23 log 5820 16880 "OPTIONS /api/analytics/profit/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 23:04:23 log 5820 16880 "OPTIONS /api/analytics/staff/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 23:04:23 log 5820 10296 "OPTIONS /api/analytics/staff/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 0
+INFO 2026-08-31 23:04:23 log 5820 16880 "GET /api/analytics/staff/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 172
+INFO 2026-08-31 23:04:23 log 5820 4984 "GET /api/analytics/inventory/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 210
+INFO 2026-08-31 23:04:23 log 5820 17020 "GET /api/analytics/profit/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 125
+INFO 2026-08-31 23:04:23 log 5820 16880 "GET /api/analytics/staff/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 172
+INFO 2026-08-31 23:04:23 log 5820 16080 "GET /api/analytics/products/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 264
+INFO 2026-08-31 23:04:23 log 5820 4984 "GET /api/analytics/inventory/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 210
+INFO 2026-08-31 23:04:23 log 5820 17232 "GET /api/analytics/sales/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 319
+INFO 2026-08-31 23:04:23 log 5820 17020 "GET /api/analytics/profit/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 125
+INFO 2026-08-31 23:04:23 log 5820 16080 "GET /api/analytics/products/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 264
+INFO 2026-08-31 23:04:23 log 5820 17232 "GET /api/analytics/sales/?days=30&shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 319
+INFO 2026-08-31 23:04:29 log 5820 16080 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:04:29 log 5820 16080 "GET /api/reports/sales/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 37
+INFO 2026-08-31 23:04:33 log 5820 17232 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 418
+INFO 2026-08-31 23:04:37 log 5820 17232 "GET /api/reports/dashboard/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 418
+INFO 2026-08-31 23:05:05 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:05:05 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:06:32 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:06:32 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:07:07 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:07:07 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:07:07 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:08:05 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:08:05 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:08:29 log 5820 17232 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:08:32 autoreload 5820 8592 C:\Users\PC\Desktop\InventoryTrackingSystem\inventory\views.py changed, reloading.
+INFO 2026-08-31 23:08:38 autoreload 15176 17224 Watching for file changes with StatReloader
+INFO 2026-08-31 23:09:05 log 15176 5416 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18
+INFO 2026-08-31 23:09:05 log 15176 5416 "GET /api/alerts/notifications/unread-count/?shop_id=3cec7da4-db75-4fc9-acd8-a6dff2d6c310 HTTP/1.1" 200 18

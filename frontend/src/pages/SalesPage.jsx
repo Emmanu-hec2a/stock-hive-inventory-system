@@ -124,6 +124,12 @@ export default function SalesPage() {
   const [receipt, setReceipt] = useState(null);
   const [showReceiptModal, setShowReceiptModal] = useState(false);
   const [loadingReceipt, setLoadingReceipt] = useState(false);
+  
+  // Discount fields (Pro+ feature)
+  const [discountType, setDiscountType] = useState(null);
+  const [discountValue, setDiscountValue] = useState("");
+  const [discountReason, setDiscountReason] = useState("");
+  
   const { user, scopedQuery, selectedShopId, subscription } = useAuth();
 
   const loadData = async () => {
@@ -298,6 +304,22 @@ export default function SalesPage() {
     }, 0);
   };
 
+  const calculateDiscountPreview = () => {
+    const subtotal = calculateTotal();
+    
+    if (!discountValue || !discountType) {
+      return { discount: 0, final: subtotal };
+    }
+    
+    if (discountType === 'percent') {
+      const discount = subtotal * (Number(discountValue) / 100);
+      return { discount, final: Math.max(0, subtotal - discount) };
+    } else {  // fixed
+      const discount = Number(discountValue);
+      return { discount, final: Math.max(0, subtotal - discount) };
+    }
+  };
+
   const isShopSelectionMissing = user?.role === "super_admin" && !selectedShopId;
   const isFormValid = form.items.length > 0 && form.items.every((item) => item.product_id);
 
@@ -329,6 +351,12 @@ export default function SalesPage() {
         quantity,
         payment_method,
       })),
+      // Add discount fields if discount is applied
+      ...(discountType && discountValue && {
+        discount_type: discountType,
+        discount_value: Number(discountValue),
+        discount_reason: discountReason || "Customer discount",
+      }),
     };
 
     const queueSaleOffline = async () => {
@@ -352,6 +380,9 @@ export default function SalesPage() {
     try {
       const response = await api.post(`/sales/${scopedQuery}`, payload);
       setForm(initialForm);
+      setDiscountType(null);
+      setDiscountValue("");
+      setDiscountReason("");
       setError("");
       setLastSaleId(response.data.id);
       setSuccess(`Sale recorded! Total: ${formatNumber(response.data.total_amount)}`);
@@ -557,6 +588,119 @@ export default function SalesPage() {
               </div>
             );
           })}
+        </div>
+
+        {/* DISCOUNT SECTION - Pro+ Feature Only */}
+        <FeatureGate feature="manual_discounts">
+          <div className="card discount-section" style={{ marginTop: "16px", padding: "16px", backgroundColor: "#1f1f1f", borderLeft: "4px solid #ffa500" }}>
+            <h3 style={{ margin: "0 0 12px 0", fontSize: "14px", fontWeight: "600", color: "#ffa500" }}>Apply Discount (Optional)</h3>
+            <p style={{ fontSize: "12px", color: "#888", margin: "0 0 16px 0" }}>
+              Give customer a discount based on your agreement
+            </p>
+            
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
+              {/* Discount Type */}
+              <div>
+                <label style={{ fontSize: "11px", color: "#888", textTransform: "uppercase" }}>Discount Type</label>
+                <select
+                  value={discountType || ""}
+                  onChange={(e) => {
+                    setDiscountType(e.target.value || null);
+                    setDiscountValue("");
+                  }}
+                  disabled={isShopSelectionMissing}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    marginTop: "4px",
+                    borderRadius: "4px",
+                    border: "1px solid #555",
+                    backgroundColor: "#1a1a1a",
+                    color: "#fff",
+                    fontSize: "12px",
+                  }}
+                >
+                  <option value="">No Discount</option>
+                  <option value="fixed">Fixed Amount (KES)</option>
+                  <option value="percent">Percentage (%)</option>
+                </select>
+              </div>
+              
+              {/* Discount Value */}
+              {discountType && (
+                <div>
+                  <label style={{ fontSize: "11px", color: "#888", textTransform: "uppercase" }}>Discount {discountType === 'percent' ? '(%)' : '(KES)'}</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max={discountType === 'percent' ? "100" : calculateTotal()}
+                    step={discountType === 'percent' ? "1" : "1"}
+                    value={discountValue}
+                    onChange={(e) => setDiscountValue(e.target.value)}
+                    placeholder={discountType === 'percent' ? "e.g. 10" : "e.g. 200"}
+                    disabled={isShopSelectionMissing}
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      marginTop: "4px",
+                      borderRadius: "4px",
+                      border: "1px solid #555",
+                      backgroundColor: "#1a1a1a",
+                      color: "#fff",
+                      fontSize: "12px",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+            
+            {/* Reason for Discount */}
+            {discountType && (
+              <div style={{ marginBottom: "16px" }}>
+                <label style={{ fontSize: "11px", color: "#888", textTransform: "uppercase" }}>Reason (for audit)</label>
+                <input
+                  type="text"
+                  value={discountReason}
+                  onChange={(e) => setDiscountReason(e.target.value)}
+                  placeholder="e.g. 'Customer loyalty', 'Bulk order', 'Owner approval'"
+                  disabled={isShopSelectionMissing}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    marginTop: "4px",
+                    borderRadius: "4px",
+                    border: "1px solid #555",
+                    backgroundColor: "#1a1a1a",
+                    color: "#fff",
+                    fontSize: "12px",
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </FeatureGate>
+
+        {/* TOTALS WITH DISCOUNT PREVIEW */}
+        <div className="card" style={{ marginTop: "16px", padding: "16px", backgroundColor: "#0f0f0f" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "12px", color: "#888" }}>
+            <span>Subtotal</span>
+            <span>{calculateTotal().toLocaleString("en-US", { minimumFractionDigits: 2 })} KES</span>
+          </div>
+          
+          {discountType && discountValue && (
+            <>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "12px", color: "#4ade80", fontWeight: "600" }}>
+                <span>Discount ({discountType === 'percent' ? discountValue + '%' : 'Fixed'})</span>
+                <span>-{calculateDiscountPreview().discount.toLocaleString("en-US", { minimumFractionDigits: 2 })} KES</span>
+              </div>
+              <div style={{ borderTop: "1px solid #333", margin: "12px 0" }}></div>
+            </>
+          )}
+          
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "18px", fontWeight: "700", color: "#ffa500" }}>
+            <span>Total</span>
+            <span>{calculateDiscountPreview().final.toLocaleString("en-US", { minimumFractionDigits: 2 })} KES</span>
+          </div>
         </div>
 
         {/* Action Buttons */}

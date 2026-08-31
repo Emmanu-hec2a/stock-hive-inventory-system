@@ -183,6 +183,12 @@ class StockAdjustmentSerializer(serializers.ModelSerializer):
 class SaleItemInputSerializer(serializers.Serializer):
     product_id = serializers.UUIDField()
     quantity = serializers.IntegerField(min_value=1)
+    payment_method = serializers.ChoiceField(
+        choices=["cash", "mpesa", "credit"],
+        required=False,
+        default="cash",
+        help_text="Payment method for this item (supports split billing)"
+    )
 
     def validate_product_id(self, value):
         if not value:
@@ -192,10 +198,11 @@ class SaleItemInputSerializer(serializers.Serializer):
 
 class SaleItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source="product.name", read_only=True)
+    payment_method_display = serializers.CharField(source="get_payment_method_display", read_only=True)
 
     class Meta:
         model = SaleItem
-        fields = ["id", "product", "product_name", "quantity", "unit_price", "subtotal"]
+        fields = ["id", "product", "product_name", "quantity", "unit_price", "subtotal", "payment_method", "payment_method_display"]
 
 
 class StockTransferSerializer(serializers.ModelSerializer):
@@ -247,12 +254,13 @@ class SaleExportSerializer(serializers.ModelSerializer):
         fields = ["created_at", "shop_name", "total_amount", "payment_method", "served_by_name", "items_data"]
 
     def get_items_data(self, obj):
-        return [{"name": item.product.name, "sku": item.product.sku, "qty": item.quantity, "price": item.unit_price, "subtotal": item.subtotal} for item in obj.items.all()]
+        return [{"name": item.product.name, "sku": item.product.sku, "qty": item.quantity, "price": item.unit_price, "subtotal": item.subtotal, "payment": item.payment_method} for item in obj.items.all()]
 
 
 class SaleSerializer(serializers.ModelSerializer):
     items = SaleItemInputSerializer(many=True, write_only=True)
     line_items = SaleItemSerializer(many=True, source="items", read_only=True)
+    discount_display = serializers.SerializerMethodField()
 
     class Meta:
         model = Sale
@@ -265,13 +273,40 @@ class SaleSerializer(serializers.ModelSerializer):
             "created_at",
             "items",
             "line_items",
+            "discount_type",
+            "discount_value",
+            "discount_reason",
+            "discount_display",
         ]
-        read_only_fields = ["id", "shop", "served_by", "total_amount", "created_at", "line_items"] 
+        read_only_fields = ["id", "shop", "served_by", "total_amount", "created_at", "line_items", "discount_given_by"]
 
-    def validate_items(self, items):
-        if not items:
-            raise serializers.ValidationError("At least one sale item is required.")
-        return items
+    def get_discount_display(self, obj):
+        """Format discount for display"""
+        if not obj.discount_value:
+            return None
+        
+        if obj.discount_type == 'percent':
+            return f"{obj.discount_value}% off"
+        else:
+            return f"KES {obj.discount_value:.2f} off"
+
+    def validate_discount(self, data):
+        """Validate discount values"""
+        discount_type = data.get("discount_type")
+        discount_value = data.get("discount_value")
+        
+        # Both must be provided or both must be None
+        if (discount_type and not discount_value) or (discount_value and not discount_type):
+            raise serializers.ValidationError("Both discount_type and discount_value must be provided together.")
+        
+        if discount_value is not None:
+            if discount_value < 0:
+                raise serializers.ValidationError("Discount value cannot be negative.")
+            
+            if discount_type == 'percent' and discount_value > 100:
+                raise serializers.ValidationError("Discount percentage cannot exceed 100%.")
+        
+        return data
 
     @transaction.atomic
     def create(self, validated_data):
@@ -282,16 +317,22 @@ class SaleSerializer(serializers.ModelSerializer):
         shop = self.context["shop"]
         items_data = validated_data.pop("items")
         
-        logger.info(f"Creating sale with {len(items_data)} items, payment: {validated_data['payment_method']}")
+        # Extract discount fields
+        discount_type = validated_data.pop("discount_type", None)
+        discount_value = validated_data.pop("discount_value", None)
+        discount_reason = validated_data.pop("discount_reason", None)
+        
+        logger.info(f"Creating sale with {len(items_data)} items, payment: {validated_data['payment_method']}, discount: {discount_type}/{discount_value}")
 
         # VALIDATE ALL ITEMS FIRST before creating any records
         validated_items = []
-        total = Decimal("0.00")
+        subtotal = Decimal("0.00")
         
         for item in items_data:
             logger.info(f"Validating item: product_id={item['product_id']}, qty={item['quantity']}")
             product = Product.objects.select_for_update().get(id=item["product_id"], shop=shop, is_active=True)
             qty = item["quantity"]
+            payment_method = item.get("payment_method", "cash")
             
             current = get_current_stock(product)
             if qty > current:
@@ -305,35 +346,54 @@ class SaleSerializer(serializers.ModelSerializer):
                 )
             
             unit_price = product.selling_price
-            subtotal = unit_price * qty
+            item_subtotal = unit_price * qty
             
             validated_items.append({
                 'product': product,
                 'quantity': qty,
                 'unit_price': unit_price,
-                'subtotal': subtotal,
+                'subtotal': item_subtotal,
+                'payment_method': payment_method,
             })
-            total += subtotal
+            subtotal += item_subtotal
         
-        # All validation passed, now create the sale and items
+        # Calculate final total with discount
+        final_total = subtotal
+        if discount_type and discount_value:
+            if discount_type == 'percent':
+                discount_amount = subtotal * (Decimal(discount_value) / Decimal(100))
+            else:  # fixed
+                discount_amount = Decimal(discount_value)
+            
+            final_total = subtotal - discount_amount
+            if final_total < 0:
+                final_total = Decimal("0.00")
+        
+        # Create the sale
         sale = Sale.objects.create(
             shop=shop, 
             served_by=request.user, 
             payment_method=validated_data["payment_method"],
-            total_amount=total
+            total_amount=final_total,
+            discount_type=discount_type,
+            discount_value=discount_value,
+            discount_reason=discount_reason,
+            discount_given_by=request.user if discount_type else None,
         )
         
+        # Create sale items
         for item in validated_items:
-            logger.info(f"Adding item: {item['product'].name}, qty={item['quantity']}, unit_price={item['unit_price']}, subtotal={item['subtotal']}")
+            logger.info(f"Adding item: {item['product'].name}, qty={item['quantity']}, unit_price={item['unit_price']}, subtotal={item['subtotal']}, payment={item['payment_method']}")
             SaleItem.objects.create(
                 sale=sale,
                 product=item['product'],
                 quantity=item['quantity'],
                 unit_price=item['unit_price'],
                 subtotal=item['subtotal'],
+                payment_method=item['payment_method'],
             )
         
-        logger.info(f"Sale created: id={sale.id}, total_amount={total}")
+        logger.info(f"Sale created: id={sale.id}, subtotal={subtotal}, discount={discount_type}/{discount_value}, final={final_total}")
         return sale
 
     def update(self, instance, validated_data):

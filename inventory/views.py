@@ -530,16 +530,37 @@ class DashboardReportView(APIView, ShopScopedMixin):
             )
 
         stock_levels.sort(key=lambda item: (-item["current_stock"], item["name"].lower()))
-        recent_sales = [
-            {
+        recent_sales = []
+        for sale in Sale.objects.filter(shop=shop).select_related("served_by").order_by("-created_at")[:5]:
+            # Calculate discount amount if discount was applied
+            discount_amount = Decimal("0.00")
+            if sale.discount_type and sale.discount_value:
+                if sale.discount_type == "percent":
+                    # Subtotal = total_amount + discount_amount
+                    # discount_amount = subtotal * (discount_value / 100)
+                    # So: subtotal = total_amount / (1 - discount_value/100)
+                    # But simpler: if we have discount_value as percentage, calculate from total
+                    # Actually: subtotal - discount = total, so subtotal = total + discount
+                    # For percent: discount = subtotal * (percent / 100)
+                    # We need to reverse: total_amount = subtotal - (subtotal * percent / 100) = subtotal * (1 - percent/100)
+                    # So: subtotal = total_amount / (1 - percent/100)
+                    percent = Decimal(str(sale.discount_value))
+                    subtotal = sale.total_amount / (Decimal("1") - (percent / Decimal("100")))
+                    discount_amount = subtotal - sale.total_amount
+                else:  # fixed
+                    discount_amount = Decimal(str(sale.discount_value))
+            
+            recent_sales.append({
                 "id": str(sale.id),
                 "created_at": sale.created_at,
                 "cashier_name": sale.served_by.full_name if sale.served_by and sale.served_by.full_name else "Unknown staff",
                 "total_amount": sale.total_amount,
                 "payment_method": sale.payment_method,
-            }
-            for sale in Sale.objects.filter(shop=shop).select_related("served_by").order_by("-created_at")[:5]
-        ]
+                "discount_type": sale.discount_type,
+                "discount_value": sale.discount_value,
+                "discount_amount": discount_amount,
+            })
+        
         
         report_data = {
             "total_sales_today": total_sales_today,

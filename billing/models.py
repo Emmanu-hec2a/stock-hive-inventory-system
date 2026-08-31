@@ -36,6 +36,13 @@ class Subscription(models.Model):
     start_date = models.DateField(default=date.today)
     end_date = models.DateField(null=True, blank=True)
     auto_renew = models.BooleanField(default=True)
+    custom_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Custom negotiated price for Enterprise plan. If set, this overrides the default plan price.",
+    )
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -45,11 +52,20 @@ class Subscription(models.Model):
             return self.status == self.STATUS_ACTIVE
         return self.status == self.STATUS_ACTIVE and bool(self.end_date and self.end_date >= date.today())
 
-    def activate(self, plan):
+    def activate(self, plan, custom_price=None):
+        """
+        Activate subscription with a given plan.
+        For Enterprise plans, custom_price should be provided.
+        """
         self.plan = plan
         self.status = self.STATUS_ACTIVE
         self.start_date = date.today()
         self.end_date = None if plan == self.PLAN_FREE else date.today() + timedelta(days=30)
+        
+        # Store custom price for Enterprise plan
+        if plan == self.PLAN_ENTERPRISE and custom_price:
+            self.custom_price = custom_price
+        
         self.save()
 
 

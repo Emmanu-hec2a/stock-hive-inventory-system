@@ -23,6 +23,7 @@ export const PLAN_FEATURES = {
     'audit_logs',
     'analytics',
     'priority_support',
+    'manual_discounts',
   ],
   enterprise: ['*'],
 };
@@ -30,5 +31,5 @@ export const PLAN_FEATURES = {
 export const PLAN_PRICES = {
   basic: 1999,
   pro: 2499,
-  enterprise: 3499,
+  // Enterprise pricing is custom per business (negotiated with sales team)
 };

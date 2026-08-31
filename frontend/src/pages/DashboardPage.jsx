@@ -359,6 +359,7 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
                     <th>Time</th>
                     <th>Cashier</th>
                     <th>Total</th>
+                    <th>Discount</th>
                     <th>Method</th>
                   </tr>
                 </thead>
@@ -369,6 +370,15 @@ export default function DashboardPage({ forceBusinessOverview = false }) {
                       <td className="dashboard-sales-time">{formatSaleTime(sale.created_at)}</td>
                       <td className="dashboard-sales-cashier">{sale.cashier_name}</td>
                       <td className="dashboard-sales-total">{formatCurrency(sale.total_amount)}</td>
+                      <td className="dashboard-sales-discount">
+                        {sale.discount_amount && sale.discount_amount > 0 ? (
+                          <span style={{ color: '#4ade80', fontWeight: '600' }}>
+                            -{formatCurrency(sale.discount_amount)}
+                          </span>
+                        ) : (
+                          <span style={{ color: '#666' }}>—</span>
+                        )}
+                      </td>
                       <td>
                         <span className={`pill ${getPaymentPillClass(sale.payment_method)}`}>
                           {sale.payment_method}

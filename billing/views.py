@@ -44,16 +44,33 @@ class InitiateSubscriptionView(APIView):
     def post(self, request):
         plan = request.data.get("plan")
         phone = request.data.get("phone")
+        custom_price = request.data.get("custom_price")  # For Enterprise plan only
         
-        if plan not in PLAN_PRICES:
+        # Validate plan
+        valid_plans = list(PLAN_PRICES.keys()) + ["enterprise"]
+        if plan not in valid_plans:
             logger.warning(f"Invalid plan requested: {plan}")
             return Response({"error": "Invalid plan."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Enterprise requires custom_price from sales negotiation
+        if plan == "enterprise" and not custom_price:
+            logger.warning(f"Enterprise plan without custom_price negotiated")
+            return Response(
+                {"error": "Enterprise plan requires a custom negotiated price. Contact our sales team."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         if not phone:
             logger.warning(f"Payment initiation without phone number")
             return Response({"error": "phone is required."}, status=status.HTTP_400_BAD_REQUEST)
 
         business = _require_business(request.user)
-        amount = PLAN_PRICES[plan]
+        
+        # Determine amount: use custom_price for Enterprise, otherwise use PLAN_PRICES
+        if plan == "enterprise":
+            amount = float(custom_price)
+        else:
+            amount = PLAN_PRICES[plan]
         
         log_mpesa_request("payment_initiation", {"plan": plan, "amount": amount, "phone": phone})
         PaymentMetrics.record_payment_initiated(plan, amount)
@@ -195,10 +212,12 @@ class MpesaCallbackView(APIView):
                     if payment.business.subscription:
                         subscription = payment.business.subscription
                         if subscription.status != Subscription.STATUS_ACTIVE:
-                            subscription.activate(payment.plan)
+                            # For Enterprise plans, pass the custom negotiated price
+                            custom_price = payment.amount if payment.plan == "enterprise" else None
+                            subscription.activate(payment.plan, custom_price=custom_price)
                             logger.info(
                                 f"Subscription activated via callback",
-                                extra={"subscription_id": subscription.id, "plan": payment.plan}
+                                extra={"subscription_id": subscription.id, "plan": payment.plan, "custom_price": custom_price}
                             )
                     
                     log_webhook_processed(checkout_request_id, result_code, "activated_subscription")
@@ -293,8 +312,10 @@ class MpesaForceReconcileView(APIView):
                     if payment.business.subscription:
                         subscription = payment.business.subscription
                         if subscription.status != Subscription.STATUS_ACTIVE:
-                            subscription.activate(payment.plan)
-                            logger.info(f"Subscription activated via manual reconcile {checkout_request_id}")
+                            # For Enterprise plans, pass the custom negotiated price
+                            custom_price = payment.amount if payment.plan == "enterprise" else None
+                            subscription.activate(payment.plan, custom_price=custom_price)
+                            logger.info(f"Subscription activated via manual reconcile {checkout_request_id} with custom_price={custom_price}")
                     
                     PaymentMetrics.record_reconciliation_success(checkout_request_id, payment.plan)
                     

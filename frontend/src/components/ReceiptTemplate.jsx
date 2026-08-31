@@ -129,12 +129,35 @@ export default function ReceiptTemplate({ receipt, onClose, onPrint }) {
 
               <div className="receipt-divider"></div>
 
-              {/* Total */}
+              {/* Total with Discount */}
               <div className="receipt-total">
                 <div className="receipt-row">
                   <span className="label">Total Items:</span>
                   <span className="value">{receipt.total_items}</span>
                 </div>
+                
+                {/* Show subtotal if discount applied */}
+                {receipt.discount_value && (
+                  <>
+                    <div className="receipt-row">
+                      <span className="label">Subtotal:</span>
+                      <span className="value">KES {(Number(receipt.total_amount) + Number(receipt.discount_value)).toLocaleString()}</span>
+                    </div>
+                    
+                    <div className="receipt-row" style={{ color: "#4ade80", fontWeight: "600" }}>
+                      <span className="label">Discount {receipt.discount_type === 'percent' ? `(${receipt.discount_value}%)` : ''}:</span>
+                      <span className="value">-KES {Number(receipt.discount_value).toLocaleString()}</span>
+                    </div>
+                    
+                    {receipt.discount_reason && (
+                      <div className="receipt-row" style={{ fontSize: "11px", color: "#888" }}>
+                        <span className="label">Reason:</span>
+                        <span className="value">{receipt.discount_reason}</span>
+                      </div>
+                    )}
+                  </>
+                )}
+                
                 <div className="receipt-row total-amount">
                   <span className="label">Total Amount:</span>
                   <span className="value">KES {Number(receipt.total_amount).toLocaleString()}</span>
