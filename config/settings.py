@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-&700j52@&)24eljk)@i9u%(7juxur0fm2=59pv2lc-e8@ts8+5')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -164,14 +164,12 @@ CSRF_TRUSTED_ORIGINS = [
     "https://stockhive-backend.up.railway.app",
     "https://stockhive.up.railway.app",
     "https://stockhive.pourexpress.co.ke",
-    "http://127.0.0.1:8000",
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "https://stockhive.up.railway.app",
     "http://localhost:5173", # If you do local development
     "https://stockhive.pourexpress.co.ke",
-    "http://127.0.0.1:8000",
 ]
 
 
