@@ -144,57 +144,41 @@
   margin: 12px 0;
 }
 
-.receipt-items {
-  width: 100%;
-  margin-bottom: 8px;
-  border-collapse: collapse;
+.receipt-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.receipt-items td {
-  padding: 4px 0;
-  border: none;
+.receipt-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dotted #ccc;
+}
+
+.receipt-item-name,
+.receipt-item-meta,
+.receipt-item-total {
+  margin: 0;
+}
+
+.receipt-item-name,
+.receipt-item-total {
+  font-weight: 600;
   font-size: 12px;
 }
 
-.item-name {
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.item-sku {
-  font-size: 10px;
-  color: #999;
+.receipt-item-meta {
   margin-top: 2px;
+  color: #777;
+  font-size: 10px;
 }
 
-.receipt-details {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 8px;
-  font-size: 12px;
-}
-
-.receipt-details td {
-  padding: 4px 0;
-  border: none;
-}
-
-.detail-qty {
-  width: 25%;
-  text-align: left;
-  font-weight: 600;
-}
-
-.detail-price {
-  width: 35%;
+.receipt-item-total {
+  flex: 0 0 auto;
   text-align: right;
-  padding: 0 8px;
-}
-
-.detail-subtotal {
-  width: 40%;
-  text-align: right;
-  font-weight: 600;
 }
 
 .receipt-total {

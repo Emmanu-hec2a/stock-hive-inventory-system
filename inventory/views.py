@@ -465,6 +465,9 @@ class SaleViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.ModelVie
             return Response({"detail": "Permission denied."}, status=403)
         
         # Format receipt data
+        sale_items = list(sale.items.all())
+        subtotal = sum((item.subtotal for item in sale_items), Decimal("0.00"))
+        discount_amount = max(Decimal("0.00"), subtotal - sale.total_amount)
         receipt_data = {
             'id': str(sale.id)[:8],  # Short ID for receipt
             'shop_name': sale.shop.name,
@@ -479,10 +482,16 @@ class SaleViewSet(ExportMixin, ShopScopedMixin, AuditLogMixin, viewsets.ModelVie
                     'quantity': item.quantity,
                     'unit_price': str(item.unit_price),
                     'subtotal': str(item.subtotal),
+                    'payment_method': item.get_payment_method_display(),
                 }
-                for item in sale.items.all()
+                for item in sale_items
             ],
-            'total_items': sum(item.quantity for item in sale.items.all()),
+            'total_items': sum(item.quantity for item in sale_items),
+            'subtotal': str(subtotal),
+            'discount_type': sale.discount_type,
+            'discount_value': str(sale.discount_value) if sale.discount_value is not None else None,
+            'discount_amount': str(discount_amount),
+            'discount_reason': sale.discount_reason,
             'total_amount': str(sale.total_amount),
         }
         

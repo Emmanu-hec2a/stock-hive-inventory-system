@@ -4,6 +4,12 @@ import "../Receipt.css";
 
 export default function ReceiptTemplate({ receipt, onClose, onPrint }) {
   const receiptRef = useRef(null);
+  const subtotal = Number(receipt.subtotal ?? receipt.items.reduce(
+    (total, item) => total + Number(item.subtotal || 0),
+    0,
+  ));
+  const discountAmount = Number(receipt.discount_amount || 0);
+  const hasDiscount = discountAmount > 0;
 
   const handlePrint = () => {
     if (onPrint) {
@@ -91,41 +97,19 @@ export default function ReceiptTemplate({ receipt, onClose, onPrint }) {
               <div className="receipt-divider"></div>
 
               {/* Items */}
-              <table className="receipt-items">
-                <tbody>
-                  {receipt.items.map((item, idx) => (
-                    <tr key={idx}>
-                      <td className="item-name">
-                        <div>{item.product_name}</div>
-                        <div className="item-sku">SKU: {item.sku}</div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              <table className="receipt-details">
-                <thead style={{ fontSize: "11px", borderBottom: "1px solid #444", marginBottom: "8px" }}>
-                  <tr>
-                    <th style={{ textAlign: "left", paddingBottom: "8px" }}>QTY</th>
-                    <th style={{ textAlign: "right", paddingBottom: "8px" }}>PRICE</th>
-                    <th style={{ textAlign: "right", paddingBottom: "8px" }}>SUBTOTAL</th>
-                    <th style={{ textAlign: "center", paddingBottom: "8px" }}>PAYMENT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {receipt.items.map((item, idx) => (
-                    <tr key={idx} style={{ fontSize: "12px" }}>
-                      <td className="detail-qty">{item.quantity}x</td>
-                      <td className="detail-price">KES {Number(item.unit_price).toLocaleString()}</td>
-                      <td className="detail-subtotal">KES {Number(item.subtotal).toLocaleString()}</td>
-                      <td style={{ textAlign: "center", fontSize: "11px", textTransform: "capitalize", color: "#ffa500", fontWeight: "600" }}>
-                        {item.payment_method || item.payment_method_display || "Cash"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="receipt-item-list">
+                {receipt.items.map((item, idx) => (
+                  <div className="receipt-item" key={idx}>
+                    <div>
+                      <p className="receipt-item-name">{item.product_name}</p>
+                      <p className="receipt-item-meta">
+                        {item.quantity} x KES {Number(item.unit_price).toLocaleString()} · {item.payment_method || "Cash"}
+                      </p>
+                    </div>
+                    <p className="receipt-item-total">KES {Number(item.subtotal).toLocaleString()}</p>
+                  </div>
+                ))}
+              </div>
 
               <div className="receipt-divider"></div>
 
@@ -136,17 +120,16 @@ export default function ReceiptTemplate({ receipt, onClose, onPrint }) {
                   <span className="value">{receipt.total_items}</span>
                 </div>
                 
-                {/* Show subtotal if discount applied */}
-                {receipt.discount_value && (
+                {hasDiscount && (
                   <>
                     <div className="receipt-row">
                       <span className="label">Subtotal:</span>
-                      <span className="value">KES {(Number(receipt.total_amount) + Number(receipt.discount_value)).toLocaleString()}</span>
+                      <span className="value">KES {subtotal.toLocaleString()}</span>
                     </div>
                     
                     <div className="receipt-row" style={{ color: "#4ade80", fontWeight: "600" }}>
                       <span className="label">Discount {receipt.discount_type === 'percent' ? `(${receipt.discount_value}%)` : ''}:</span>
-                      <span className="value">-KES {Number(receipt.discount_value).toLocaleString()}</span>
+                      <span className="value">-KES {discountAmount.toLocaleString()}</span>
                     </div>
                     
                     {receipt.discount_reason && (
@@ -259,6 +242,12 @@ function generateESCPOSReceipt(receipt) {
   // Totals (right align)
   receipt_text += esc + "a" + String.fromCharCode(2); // Right align
   receipt_text += "Total Items: " + receipt.total_items + "\n";
+  const subtotal = Number(receipt.subtotal ?? receipt.items.reduce((total, item) => total + Number(item.subtotal || 0), 0));
+  const discountAmount = Number(receipt.discount_amount || 0);
+  if (discountAmount > 0) {
+    receipt_text += "Subtotal: KES " + subtotal.toLocaleString() + "\n";
+    receipt_text += "Discount: -KES " + discountAmount.toLocaleString() + "\n";
+  }
   receipt_text += esc + "!" + String.fromCharCode(48); // Double-width
   receipt_text += "KES " + Number(receipt.total_amount).toLocaleString() + "\n";
   receipt_text += esc + "!" + String.fromCharCode(0); // Normal
