@@ -1067,3 +1067,5 @@ WARNING 2026-09-01 00:16:42 log 12632 10348 "GET /positions/live HTTP/1.1" 404 3
 WARNING 2026-09-01 00:16:44 log 12632 10348 Not Found: /positions/live
 WARNING 2026-09-01 00:16:44 log 12632 10348 "GET /positions/live HTTP/1.1" 404 3001
 INFO 2026-09-01 00:16:44 autoreload 12632 5864 C:\Users\PC\Desktop\InventoryTrackingSystem\config\settings.py changed, reloading.
+INFO 2026-09-01 00:16:50 autoreload 17624 17808 Watching for file changes with StatReloader
+WARNING 2026-09-01 00:39:28 log 10340 17140 Bad Request: /api/sales/
