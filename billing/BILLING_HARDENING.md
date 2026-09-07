@@ -15,8 +15,8 @@ This document details the comprehensive hardening of the M-Pesa payment processi
 #### IP Whitelist Verification
 - Validates all incoming webhooks against M-Pesa IP whitelist
 - Configuration: `MPESA_ALLOWED_IPS` in settings.py
-- Production IPs: `196.201.214.0/24` and `196.201.215.0/24`
-- Sandbox IPs: `196.201.214.0/24`
+- Supported Safaricom ranges: `196.201.212.0/24` through `196.201.216.0/24`
+- Supports CIDR range matching for flexibility
 
 ```python
 # In settings.py:
@@ -354,7 +354,7 @@ Expected in production (tested with sandbox):
 ## Troubleshooting Guide
 
 ### Issue: Webhooks not being processed
-1. Check `MPESA_ALLOWED_IPS` - verify IP is whitelisted
+1. Check `MPESA_ALLOWED_IPS` - verify IP or CIDR range is whitelisted
 2. Check `logs/billing_webhook.log` for validation errors
 3. Verify payment record exists in DB (`MpesaPayment.objects.all()`)
 4. Run manual reconciliation to check Safaricom status

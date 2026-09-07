@@ -1069,3 +1069,56 @@ WARNING 2026-09-01 00:16:44 log 12632 10348 "GET /positions/live HTTP/1.1" 404 3
 INFO 2026-09-01 00:16:44 autoreload 12632 5864 C:\Users\PC\Desktop\InventoryTrackingSystem\config\settings.py changed, reloading.
 INFO 2026-09-01 00:16:50 autoreload 17624 17808 Watching for file changes with StatReloader
 WARNING 2026-09-01 00:39:28 log 10340 17140 Bad Request: /api/sales/
+WARNING 2026-09-07 16:16:28 log 6944 12356 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:16:30 log 6944 12356 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:16:33 log 6944 12356 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:16:35 log 6944 12356 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:18:05 log 11800 15196 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:18:06 log 11800 15196 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:18:07 log 11800 15196 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:18:08 log 11800 15196 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:18:16 log 11800 15196 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:20:04 log 17292 17164 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:20:05 log 17292 17164 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:20:06 log 17292 17164 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:20:07 log 17292 17164 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:20:14 log 17292 17164 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:21:01 log 14388 9268 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:21:02 log 14388 9268 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:21:03 log 14388 9268 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:21:05 log 14388 9268 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:21:12 log 14388 9268 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:23:46 log 13912 12448 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:23:47 log 13912 12448 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:23:48 log 13912 12448 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:23:50 log 13912 12448 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:23:56 log 13912 12448 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:25:06 log 11028 5784 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:25:07 log 11028 5784 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:25:08 log 11028 5784 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:25:09 log 11028 5784 Forbidden: /api/billing/subscribe/
+WARNING 2026-09-07 16:25:15 log 11028 5784 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:26:15 log 7184 6560 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:26:18 log 7184 6560 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:26:20 log 7184 6560 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:26:30 log 7184 6560 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:27:27 log 16920 3180 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:27:28 log 16920 3180 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:27:29 log 16920 3180 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:27:36 log 16920 3180 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:29:28 log 12656 12352 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:29:30 log 12656 12352 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:29:31 log 12656 12352 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:29:39 log 12656 12352 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:31:14 log 13748 3500 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:31:15 log 13748 3500 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:31:16 log 13748 3500 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:31:24 log 13748 3500 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:35:15 log 2804 6640 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:35:16 log 2804 6640 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:35:17 log 2804 6640 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:35:24 log 2804 6640 Forbidden: /api/billing/mpesa/callback/
+WARNING 2026-09-07 16:36:36 log 284 9328 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:36:37 log 284 9328 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:36:38 log 284 9328 Bad Request: /api/billing/subscribe/
+WARNING 2026-09-07 16:36:45 log 284 9328 Forbidden: /api/billing/mpesa/callback/

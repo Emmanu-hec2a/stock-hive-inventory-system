@@ -335,10 +335,12 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # ─────── BILLING & PAYMENT CONFIGURATION ──────────────────────
 
 # M-Pesa Webhook IP Whitelist (Safaricom IPs)
-# Production: 196.201.214.0/24 and 196.201.215.0/24
-# Sandbox: 196.201.214.0/24
+# Documentation: 196.201.212.0/24 through 196.201.216.0/24
 # For development, add your test server IP
-MPESA_ALLOWED_IPS = os.getenv("MPESA_ALLOWED_IPS", "127.0.0.1,::1").split(",")
+MPESA_ALLOWED_IPS = os.getenv(
+    "MPESA_ALLOWED_IPS", 
+    "127.0.0.1,::1,196.201.212.0/24,196.201.213.0/24,196.201.214.0/24,196.201.215.0/24,196.201.216.0/24"
+).split(",")
 MPESA_ALLOWED_IPS = [ip.strip() for ip in MPESA_ALLOWED_IPS]
 
 # M-Pesa webhook signature verification (optional, advanced security)

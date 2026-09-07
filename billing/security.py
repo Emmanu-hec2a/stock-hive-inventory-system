@@ -2,6 +2,7 @@
 Webhook security and validation utilities for M-Pesa payments.
 """
 import hashlib
+import ipaddress
 import logging
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
@@ -13,17 +14,31 @@ def verify_mpesa_webhook_ip(client_ip):
     """
     Verify incoming webhook is from Safaricom M-Pesa IP addresses.
     
-    M-Pesa production IPs: 196.201.214.0/24 and 196.201.215.0/24
-    M-Pesa sandbox IPs: 196.201.214.0/24
+    M-Pesa production IPs: 196.201.212.0/24 through 196.201.216.0/24
     """
     # For now, allow localhost for testing; in production, enable IP whitelist
     mpesa_ips = getattr(settings, "MPESA_ALLOWED_IPS", ["127.0.0.1", "::1"])
     
-    if client_ip not in mpesa_ips:
-        logger.warning(f"Webhook received from unauthorized IP: {client_ip}")
+    try:
+        client_addr = ipaddress.ip_address(client_ip)
+    except ValueError:
+        logger.error(f"Invalid client IP: {client_ip}")
         return False
-    
-    return True
+
+    for allowed_pattern in mpesa_ips:
+        try:
+            if "/" in allowed_pattern:
+                if client_addr in ipaddress.ip_network(allowed_pattern, strict=False):
+                    return True
+            else:
+                if client_addr == ipaddress.ip_address(allowed_pattern):
+                    return True
+        except ValueError:
+            logger.warning(f"Invalid IP/network in MPESA_ALLOWED_IPS: {allowed_pattern}")
+            continue
+            
+    logger.warning(f"Webhook received from unauthorized IP: {client_ip}")
+    return False
 
 
 def verify_mpesa_signature(payload, signature):
