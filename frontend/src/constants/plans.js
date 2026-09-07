@@ -30,6 +30,6 @@ export const PLAN_FEATURES = {
 
 export const PLAN_PRICES = {
   basic: 1999,
-  pro: 100,
+  pro: 2499,
   // Enterprise pricing is custom per business (negotiated with sales team)
 };
