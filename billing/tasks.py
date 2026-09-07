@@ -73,14 +73,15 @@ def reconcile_pending_payments():
                     payment.result_desc = status_data.get("ResultDesc", "Success (Reconciled)")
                     payment.save()
                     
-                    # Activate subscription if not already active
+                    # Activate or Extend subscription
                     if payment.business.subscription:
                         subscription = payment.business.subscription
-                        if subscription.status != Subscription.STATUS_ACTIVE:
-                            subscription.activate(payment.plan)
-                            logger.info(f"Reconciled and activated payment {payment.checkout_request_id}")
-                            PaymentMetrics.record_reconciliation_success(payment.checkout_request_id, payment.plan)
-                            success_count += 1
+                        # For Enterprise plans, pass the custom negotiated price
+                        custom_price = payment.amount if payment.plan == "enterprise" else None
+                        subscription.activate(payment.plan, custom_price=custom_price)
+                        logger.info(f"Reconciled and activated/extended payment {payment.checkout_request_id} (plan: {payment.plan}, price: {custom_price})")
+                        PaymentMetrics.record_reconciliation_success(payment.checkout_request_id, payment.plan)
+                        success_count += 1
                 
                 elif result_code in ["1032", "1037", "2001", "1"]: 
                     # 1032: Cancelled by user

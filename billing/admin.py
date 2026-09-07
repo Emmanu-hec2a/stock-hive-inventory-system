@@ -12,7 +12,7 @@ from billing.models import MpesaPayment, Subscription
 
 class SubscriptionAdmin(ModelAdmin):
     list_display = [
-        "business_name", "display_plan", "display_status",
+        "business_name", "display_plan", "display_price", "display_status",
         "start_date", "end_date", "days_remaining", "auto_renew"
     ]
     list_filter = ["plan", "status", "auto_renew"]
@@ -22,7 +22,7 @@ class SubscriptionAdmin(ModelAdmin):
 
     fieldsets = (
         ("Subscription", {
-            "fields": ("business", "plan", "status", "auto_renew")
+            "fields": ("business", "plan", "custom_price", "status", "auto_renew")
         }),
         ("Dates", {
             "fields": ("start_date", "end_date", "created_at", "updated_at")
@@ -42,6 +42,17 @@ class SubscriptionAdmin(ModelAdmin):
             "enterprise": "green"
         }
         return obj.plan.upper(), colors.get(obj.plan, "gray")
+
+    @display(description="Price")
+    def display_price(self, obj):
+        from billing.constants import PLAN_PRICES
+        if obj.plan == "enterprise":
+            if obj.custom_price:
+                return f"KES {int(obj.custom_price):,} (Custom)"
+            return "Negotiating..."
+        
+        price = PLAN_PRICES.get(obj.plan, 0)
+        return f"KES {price:,}" if price > 0 else "Free"
 
     @display(description="Status", label=True)
     def display_status(self, obj):

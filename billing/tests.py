@@ -364,6 +364,72 @@ class MpesaCallbackViewTest(TransactionTestCase):
         payment.refresh_from_db()
         self.assertEqual(payment.status, MpesaPayment.STATUS_SUCCESS)
 
+    def test_upgrade_from_free(self):
+        """Test that successful payment for 'pro' correctly upgrades from 'free'."""
+        # Ensure starting state is 'free' and 'active'
+        sub = self.subscription
+        sub.plan = 'free'
+        sub.status = 'active'
+        sub.end_date = None
+        sub.save()
+        
+        payment = self.create_pending_payment("ws_upgrade")
+        payload = self.get_success_callback_payload("ws_upgrade")
+        
+        response = self.client.post(
+            "/api/billing/mpesa/callback/",
+            data=payload,
+            format="json",
+            REMOTE_ADDR="127.0.0.1"
+        )
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        sub.refresh_from_db()
+        self.assertEqual(sub.plan, "pro")
+        self.assertEqual(sub.status, "active")
+        self.assertIsNotNone(sub.end_date)
+
+    def test_subscription_extension(self):
+        """Test that early renewal adds 30 days to existing end date."""
+        from datetime import date, timedelta
+        
+        # Set up active 'pro' subscription ending in 5 days
+        future_date = date.today() + timedelta(days=5)
+        sub = self.subscription
+        sub.plan = 'pro'
+        sub.status = 'active'
+        sub.end_date = future_date
+        sub.save()
+        
+        # Payment for 'pro' (renewal)
+        payment = MpesaPayment.objects.create(
+            business=self.business,
+            subscription=sub,
+            plan="pro",
+            amount=Decimal("2499.00"),
+            phone_number="0712345678",
+            merchant_request_id="m_renew",
+            checkout_request_id="c_renew",
+            status=MpesaPayment.STATUS_PENDING,
+        )
+        payload = self.get_success_callback_payload("c_renew")
+        
+        response = self.client.post(
+            "/api/billing/mpesa/callback/",
+            data=payload,
+            format="json",
+            REMOTE_ADDR="127.0.0.1"
+        )
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        sub.refresh_from_db()
+        # Should be existing 5 days + 30 new days = 35 days from today
+        expected_date = future_date + timedelta(days=30)
+        self.assertEqual(sub.end_date, expected_date)
+        self.assertEqual(sub.plan, "pro")
+
 
 class InitiateSubscriptionViewTest(TestCase):
     """Test payment initiation endpoint."""
@@ -387,7 +453,78 @@ class InitiateSubscriptionViewTest(TestCase):
         # Super admin should be allowed by IsSuperAdmin permission
         # Authenticate AFTER saving business to user
         self.client.force_authenticate(user=self.user)
-    
+
+    @patch("billing.views.stk_push")
+    def test_payment_initiation_enterprise_success(self, mock_stk_push):
+        """Test successful Enterprise payment initiation with custom price."""
+        mock_stk_push.return_value = {
+            "ResponseCode": "0",
+            "MerchantRequestID": "merchant_ent",
+            "CheckoutRequestID": "ws_CO_ent"
+        }
+        
+        response = self.client.post(
+            "/api/billing/subscribe/",
+            {
+                "plan": "enterprise",
+                "phone": "0712345678",
+                "custom_price": "5000"
+            },
+            format="json"
+        )
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        payment = MpesaPayment.objects.get(checkout_request_id="ws_CO_ent")
+        self.assertEqual(payment.amount, Decimal("5000.00"))
+
+    def test_payment_initiation_enterprise_invalid_price(self):
+        """Test rejection of Enterprise initiation with invalid price."""
+        response = self.client.post(
+            "/api/billing/subscribe/",
+            {
+                "plan": "enterprise",
+                "phone": "0712345678",
+                "custom_price": "invalid"
+            },
+            format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("Invalid custom price", response.data["error"])
+
+    @patch("billing.tasks.query_stk_status")
+    def test_reconciliation_enterprise_custom_price(self, mock_query):
+        """Test that reconciliation preserves custom price for Enterprise."""
+        from billing.tasks import reconcile_pending_payments
+        
+        # Create pending enterprise payment
+        payment = MpesaPayment.objects.create(
+            business=self.business,
+            subscription=self.business.subscription,
+            plan="enterprise",
+            amount=Decimal("7500.00"),
+            phone_number="0712345678",
+            merchant_request_id="m1",
+            checkout_request_id="c1",
+            status=MpesaPayment.STATUS_PENDING
+        )
+        
+        # Mock successful status query
+        mock_query.return_value = {
+            "ResultCode": "0",
+            "ResultDesc": "Success"
+        }
+        
+        # Manually ensure sub is not active
+        sub = self.business.subscription
+        sub.status = 'expired'
+        sub.save()
+        
+        reconcile_pending_payments()
+        
+        sub.refresh_from_db()
+        self.assertEqual(sub.plan, "enterprise")
+        self.assertEqual(sub.custom_price, Decimal("7500.00"))
+
     @patch("billing.views.stk_push")
     def test_payment_initiation_success(self, mock_stk_push):
         """Test successful payment initiation."""

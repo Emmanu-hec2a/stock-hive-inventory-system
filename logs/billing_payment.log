@@ -127,3 +127,130 @@ WARNING 2026-09-07 16:36:46 views 284 9328 Callback received for already-process
 ERROR 2026-09-07 16:36:48 utils 284 9328 Payment failed
 INFO 2026-09-07 16:36:49 views 284 9328 Subscription activated via callback
 INFO 2026-09-07 16:36:49 utils 284 9328 Payment successful
+INFO 2026-09-07 17:43:30 utils 12180 14728 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:43:30 utils 12180 14728 Payment initiated
+ERROR 2026-09-07 17:43:30 views 12180 14728 STK push failed for 0712345678: API connection failed
+WARNING 2026-09-07 17:43:34 views 12180 14728 Invalid plan requested: invalid_plan
+WARNING 2026-09-07 17:43:36 views 12180 14728 Payment initiation without phone number
+INFO 2026-09-07 17:43:38 utils 12180 14728 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:43:38 utils 12180 14728 Payment initiated
+INFO 2026-09-07 17:43:38 views 12180 14728 Payment record created
+ERROR 2026-09-07 17:43:49 views 12180 14728 Callback received for unknown payment: ws_CO_UNKNOWN
+INFO 2026-09-07 17:43:57 utils 12180 14728 Payment successful
+ERROR 2026-09-07 17:44:03 views 12180 14728 Unauthorized webhook from IP: 10.0.0.1
+INFO 2026-09-07 17:44:09 views 12180 14728 Subscription activated via callback
+INFO 2026-09-07 17:44:09 utils 12180 14728 Payment successful
+WARNING 2026-09-07 17:44:09 views 12180 14728 Callback received for already-processed payment: ws_CO_125
+ERROR 2026-09-07 17:44:15 utils 12180 14728 Payment failed
+INFO 2026-09-07 17:44:20 views 12180 14728 Subscription activated via callback
+INFO 2026-09-07 17:44:21 utils 12180 14728 Payment successful
+INFO 2026-09-07 17:46:19 utils 17008 13276 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:46:19 utils 17008 13276 Payment initiated
+ERROR 2026-09-07 17:46:19 views 17008 13276 STK push failed for 0712345678: API connection failed
+INFO 2026-09-07 17:46:22 utils 17008 13276 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:46:22 utils 17008 13276 Payment initiated
+INFO 2026-09-07 17:46:22 views 17008 13276 Payment record created
+WARNING 2026-09-07 17:46:24 views 17008 13276 Invalid plan requested: invalid_plan
+WARNING 2026-09-07 17:46:27 views 17008 13276 Payment initiation without phone number
+INFO 2026-09-07 17:46:29 utils 17008 13276 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:46:29 utils 17008 13276 Payment initiated
+INFO 2026-09-07 17:46:29 views 17008 13276 Payment record created
+ERROR 2026-09-07 17:46:39 views 17008 13276 Callback received for unknown payment: ws_CO_UNKNOWN
+INFO 2026-09-07 17:46:46 utils 17008 13276 Payment successful
+ERROR 2026-09-07 17:46:51 views 17008 13276 Unauthorized webhook from IP: 10.0.0.1
+INFO 2026-09-07 17:46:56 views 17008 13276 Subscription activated via callback
+INFO 2026-09-07 17:46:56 utils 17008 13276 Payment successful
+WARNING 2026-09-07 17:46:56 views 17008 13276 Callback received for already-processed payment: ws_CO_125
+ERROR 2026-09-07 17:47:00 utils 17008 13276 Payment failed
+INFO 2026-09-07 17:47:04 views 17008 13276 Subscription activated via callback
+INFO 2026-09-07 17:47:04 utils 17008 13276 Payment successful
+INFO 2026-09-07 17:48:35 utils 7944 11056 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:48:35 utils 7944 11056 Payment initiated
+ERROR 2026-09-07 17:48:35 views 7944 11056 STK push failed for 0712345678: API connection failed
+INFO 2026-09-07 17:48:41 utils 7944 11056 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:48:41 utils 7944 11056 Payment initiated
+INFO 2026-09-07 17:48:41 views 7944 11056 Payment record created
+WARNING 2026-09-07 17:48:44 views 7944 11056 Invalid plan requested: invalid_plan
+WARNING 2026-09-07 17:48:48 views 7944 11056 Payment initiation without phone number
+INFO 2026-09-07 17:48:53 utils 7944 11056 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:48:53 utils 7944 11056 Payment initiated
+INFO 2026-09-07 17:48:53 views 7944 11056 Payment record created
+ERROR 2026-09-07 17:49:12 views 7944 11056 Callback received for unknown payment: ws_CO_UNKNOWN
+INFO 2026-09-07 17:49:17 utils 7944 11056 Payment successful
+ERROR 2026-09-07 17:49:23 views 7944 11056 Unauthorized webhook from IP: 10.0.0.1
+INFO 2026-09-07 17:49:28 views 7944 11056 Subscription activated via callback
+INFO 2026-09-07 17:49:29 utils 7944 11056 Payment successful
+WARNING 2026-09-07 17:49:29 views 7944 11056 Callback received for already-processed payment: ws_CO_125
+ERROR 2026-09-07 17:49:35 utils 7944 11056 Payment failed
+INFO 2026-09-07 17:49:40 views 7944 11056 Subscription activated via callback
+INFO 2026-09-07 17:49:40 utils 7944 11056 Payment successful
+INFO 2026-09-07 17:52:12 utils 15200 15652 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:52:12 utils 15200 15652 Payment initiated
+ERROR 2026-09-07 17:52:12 views 15200 15652 STK push failed for 0712345678: API connection failed
+INFO 2026-09-07 17:52:22 utils 15200 15652 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:52:22 utils 15200 15652 Payment initiated
+INFO 2026-09-07 17:52:22 views 15200 15652 Payment record created
+WARNING 2026-09-07 17:52:26 views 15200 15652 Invalid plan requested: invalid_plan
+WARNING 2026-09-07 17:52:29 views 15200 15652 Payment initiation without phone number
+INFO 2026-09-07 17:52:31 utils 15200 15652 M-Pesa POST payment_initiation
+INFO 2026-09-07 17:52:31 utils 15200 15652 Payment initiated
+INFO 2026-09-07 17:52:31 views 15200 15652 Payment record created
+ERROR 2026-09-07 17:52:43 views 15200 15652 Callback received for unknown payment: ws_CO_UNKNOWN
+INFO 2026-09-07 17:52:45 utils 15200 15652 Payment successful
+ERROR 2026-09-07 17:52:47 views 15200 15652 Unauthorized webhook from IP: 10.0.0.1
+INFO 2026-09-07 17:52:49 views 15200 15652 Subscription activated via callback
+INFO 2026-09-07 17:52:49 utils 15200 15652 Payment successful
+WARNING 2026-09-07 17:52:49 views 15200 15652 Callback received for already-processed payment: ws_CO_125
+ERROR 2026-09-07 17:52:52 utils 15200 15652 Payment failed
+INFO 2026-09-07 17:52:56 views 15200 15652 Subscription activated via callback
+INFO 2026-09-07 17:52:57 utils 15200 15652 Payment successful
+INFO 2026-09-07 18:12:35 utils 16872 6960 M-Pesa POST payment_initiation
+INFO 2026-09-07 18:12:35 utils 16872 6960 Payment initiated
+ERROR 2026-09-07 18:12:35 views 16872 6960 STK push failed for 0712345678: API connection failed
+INFO 2026-09-07 18:12:38 utils 16872 6960 M-Pesa POST payment_initiation
+INFO 2026-09-07 18:12:38 utils 16872 6960 Payment initiated
+INFO 2026-09-07 18:12:38 views 16872 6960 Payment record created
+WARNING 2026-09-07 18:12:39 views 16872 6960 Invalid plan requested: invalid_plan
+WARNING 2026-09-07 18:12:40 views 16872 6960 Payment initiation without phone number
+INFO 2026-09-07 18:12:42 utils 16872 6960 M-Pesa POST payment_initiation
+INFO 2026-09-07 18:12:42 utils 16872 6960 Payment initiated
+INFO 2026-09-07 18:12:42 views 16872 6960 Payment record created
+ERROR 2026-09-07 18:12:48 views 16872 6960 Callback received for unknown payment: ws_CO_UNKNOWN
+INFO 2026-09-07 18:12:50 views 16872 6960 Subscription activated/extended via callback
+INFO 2026-09-07 18:12:50 utils 16872 6960 Payment successful
+ERROR 2026-09-07 18:12:52 views 16872 6960 Unauthorized webhook from IP: 10.0.0.1
+INFO 2026-09-07 18:12:53 views 16872 6960 Subscription activated/extended via callback
+INFO 2026-09-07 18:12:53 utils 16872 6960 Payment successful
+WARNING 2026-09-07 18:12:53 views 16872 6960 Callback received for already-processed payment: ws_CO_125
+ERROR 2026-09-07 18:12:55 utils 16872 6960 Payment failed
+INFO 2026-09-07 18:12:57 views 16872 6960 Subscription activated/extended via callback
+INFO 2026-09-07 18:12:57 utils 16872 6960 Payment successful
+INFO 2026-09-07 18:12:58 views 16872 6960 Subscription activated/extended via callback
+INFO 2026-09-07 18:12:58 utils 16872 6960 Payment successful
+INFO 2026-09-07 18:12:59 views 16872 6960 Subscription activated/extended via callback
+INFO 2026-09-07 18:12:59 utils 16872 6960 Payment successful
+INFO 2026-09-07 18:13:45 utils 14060 9692 M-Pesa POST payment_initiation
+INFO 2026-09-07 18:13:45 utils 14060 9692 Payment initiated
+ERROR 2026-09-07 18:13:45 views 14060 9692 STK push failed for 0712345678: API connection failed
+INFO 2026-09-07 18:13:47 utils 14060 9692 M-Pesa POST payment_initiation
+INFO 2026-09-07 18:13:47 utils 14060 9692 Payment initiated
+INFO 2026-09-07 18:13:47 views 14060 9692 Payment record created
+WARNING 2026-09-07 18:13:49 views 14060 9692 Invalid plan requested: invalid_plan
+WARNING 2026-09-07 18:13:50 views 14060 9692 Payment initiation without phone number
+INFO 2026-09-07 18:13:52 utils 14060 9692 M-Pesa POST payment_initiation
+INFO 2026-09-07 18:13:52 utils 14060 9692 Payment initiated
+INFO 2026-09-07 18:13:52 views 14060 9692 Payment record created
+ERROR 2026-09-07 18:14:00 views 14060 9692 Callback received for unknown payment: ws_CO_UNKNOWN
+INFO 2026-09-07 18:14:01 views 14060 9692 Subscription activated/extended via callback
+INFO 2026-09-07 18:14:01 utils 14060 9692 Payment successful
+ERROR 2026-09-07 18:14:03 views 14060 9692 Unauthorized webhook from IP: 10.0.0.1
+INFO 2026-09-07 18:14:04 views 14060 9692 Subscription activated/extended via callback
+INFO 2026-09-07 18:14:04 utils 14060 9692 Payment successful
+WARNING 2026-09-07 18:14:04 views 14060 9692 Callback received for already-processed payment: ws_CO_125
+ERROR 2026-09-07 18:14:05 utils 14060 9692 Payment failed
+INFO 2026-09-07 18:14:07 views 14060 9692 Subscription activated/extended via callback
+INFO 2026-09-07 18:14:07 utils 14060 9692 Payment successful
+INFO 2026-09-07 18:14:08 views 14060 9692 Subscription activated/extended via callback
+INFO 2026-09-07 18:14:08 utils 14060 9692 Payment successful
+INFO 2026-09-07 18:14:09 views 14060 9692 Subscription activated/extended via callback
+INFO 2026-09-07 18:14:09 utils 14060 9692 Payment successful

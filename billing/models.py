@@ -55,12 +55,18 @@ class Subscription(models.Model):
     def activate(self, plan, custom_price=None):
         """
         Activate subscription with a given plan.
-        For Enterprise plans, custom_price should be provided.
+        Handles both new activations, upgrades, and renewals/extensions.
         """
-        self.plan = plan
+        if self.plan == plan and self.status == self.STATUS_ACTIVE and self.end_date:
+            # RENEWAL/EXTENSION: Extend from current end_date
+            self.end_date += timedelta(days=30)
+        else:
+            # NEW ACTIVATION OR UPGRADE: Start from today
+            self.plan = plan
+            self.start_date = date.today()
+            self.end_date = None if plan == self.PLAN_FREE else date.today() + timedelta(days=30)
+        
         self.status = self.STATUS_ACTIVE
-        self.start_date = date.today()
-        self.end_date = None if plan == self.PLAN_FREE else date.today() + timedelta(days=30)
         
         # Store custom price for Enterprise plan
         if plan == self.PLAN_ENTERPRISE and custom_price:
