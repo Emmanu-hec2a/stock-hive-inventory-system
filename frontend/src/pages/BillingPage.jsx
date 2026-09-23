@@ -75,6 +75,10 @@ export default function BillingPage() {
 
   const expiryText = useMemo(() => {
     if (!subscription?.end_date || subscription.plan === "free") return "";
+    const isExpired = subscription && !subscription.is_active;
+    if (isExpired) {
+      return `Your subscription has EXPIRED (ended on ${subscription.end_date}). Please renew below to restore full access.`;
+    }
     const days = Math.ceil((new Date(subscription.end_date) - new Date()) / (1000 * 60 * 60 * 24));
     return days <= 5 ? `Your plan expires in ${Math.max(days, 0)} days. Renew to avoid interruption.` : "";
   }, [subscription]);
@@ -151,27 +155,35 @@ export default function BillingPage() {
                   </li>
                 ))}
               </ul>
-              {plan.key === "enterprise" && subscription?.plan !== plan.key && (
-                <a
-                    href="mailto:sales@stockhive.com?subject=Enterprise%20Plan%20Inquiry"
-                    className="primary-btn checkout-btn"
-                    style={{ textDecoration: 'none', display: 'block', textAlign: 'center' }}
-                >
-                  Contact Sales
-                </a>
-              )}
-              {plan.key !== "free" && plan.key !== "enterprise" && subscription?.plan !== plan.key && (
-                <button
+              {subscription?.plan === plan.key ? (
+                subscription?.is_active ? (
+                  <div className="pill pill-green" style={{ width: '100%', textAlign: 'center', padding: '8px' }}>Your Current Plan</div>
+                ) : (
+                  <button
                     className="primary-btn checkout-btn"
                     type="button"
                     onClick={() => setCheckoutConfig({ plan: plan.key, price: plan.price })}
+                  >
+                    Renew Plan
+                  </button>
+                )
+              ) : plan.key === "enterprise" ? (
+                <a
+                  href="mailto:sales@stockhive.com?subject=Enterprise%20Plan%20Inquiry"
+                  className="primary-btn checkout-btn"
+                  style={{ textDecoration: 'none', display: 'block', textAlign: 'center' }}
+                >
+                  Contact Sales
+                </a>
+              ) : plan.key !== "free" ? (
+                <button
+                  className="primary-btn checkout-btn"
+                  type="button"
+                  onClick={() => setCheckoutConfig({ plan: plan.key, price: plan.price })}
                 >
                   {subscription?.plan === 'free' ? 'Upgrade Now' : 'Switch Plan'}
                 </button>
-              )}
-              {subscription?.plan === plan.key && (
-                  <div className="pill pill-green" style={{ width: '100%', textAlign: 'center', padding: '8px' }}>Your Current Plan</div>
-              )}
+              ) : null}
             </article>
           ))}
         </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Building2, CreditCard, LayoutDashboard, LogOut, Package, Settings, ShoppingCart, Store, Menu, X, Sliders, Truck, History, BarChart3, AlertCircle } from "lucide-react";
 import { useAuth } from "../state/AuthContext";
 import NotificationBell from "./NotificationBell";
@@ -8,6 +8,7 @@ export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout, subscription, shops, selectedShopId, selectShop } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
@@ -24,6 +25,7 @@ export default function Layout() {
     ? Math.ceil((new Date(subscription.end_date) - new Date()) / (1000 * 60 * 60 * 24))
     : null;
   const isExpired = subscription && !subscription.is_active;
+  const isBillingPage = location.pathname === "/billing";
 
   return (
     <div className="app-shell">
@@ -123,14 +125,27 @@ export default function Layout() {
             Your plan expires in {Math.max(expiryDays, 0)} days. Renew to avoid interruption.
           </div>
         )}
-        {isExpired && (
+        {!isBillingPage && isExpired && (
           <div className="expired-overlay">
             <div className="card expired-modal">
               <h2 className="section-title">Your plan has expired</h2>
-              <p className="muted">Renew now to continue using premium features.</p>
-              <button className="primary-btn" onClick={() => navigate("/billing")}>
-                Renew Subscription
-              </button>
+              {user?.role === "super_admin" ? (
+                <>
+                  <p className="muted">Renew now to continue using premium features and restore access.</p>
+                  <button className="primary-btn" onClick={() => navigate("/billing")}>
+                    Renew Subscription
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="muted">
+                    Your business subscription has expired. Please contact your Super Admin to renew the plan.
+                  </p>
+                  <button className="ghost-btn" onClick={onLogout} style={{ marginTop: "12px", width: "100%" }}>
+                    Log Out
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}

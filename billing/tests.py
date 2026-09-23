@@ -2,6 +2,7 @@
 Comprehensive test suite for billing payment architecture.
 Tests cover: idempotency, race conditions, webhook security, error handling.
 """
+from datetime import timedelta
 from django.test import TestCase, TransactionTestCase, override_settings
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -496,7 +497,7 @@ class InitiateSubscriptionViewTest(TestCase):
         """Test that reconciliation preserves custom price for Enterprise."""
         from billing.tasks import reconcile_pending_payments
         
-        # Create pending enterprise payment
+        # Create pending enterprise payment (>5 mins old for reconciliation)
         payment = MpesaPayment.objects.create(
             business=self.business,
             subscription=self.business.subscription,
@@ -507,6 +508,8 @@ class InitiateSubscriptionViewTest(TestCase):
             checkout_request_id="c1",
             status=MpesaPayment.STATUS_PENDING
         )
+        payment.created_at = timezone.now() - timedelta(minutes=10)
+        payment.save()
         
         # Mock successful status query
         mock_query.return_value = {
