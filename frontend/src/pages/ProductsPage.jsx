@@ -355,89 +355,93 @@ export default function ProductsPage() {
           </div>
       </div>
 
-      <div className="card" style={{ position: "relative" }}>
-        <div style={{ position: "absolute", top: "8px", right: "16px" }}>
+      <div className="card">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", flexWrap: "wrap", gap: "8px" }}>
+          <h3 className="section-title" style={{ margin: 0 }}>Product Catalog</h3>
           <button
             type="button"
-            className="btn btn-small"
+            className="ghost-btn"
             onClick={exportProducts}
             disabled={exportDisabled || isExporting}
+            style={{ width: "auto", fontSize: "11px", padding: "6px 12px" }}
           >
             {isExporting ? "Exporting..." : "Export CSV"}
           </button>
         </div>
         {isLoading ? (
-          <SkeletonTable rows={6} columns={5} />
+          <SkeletonTable rows={6} columns={6} />
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>SKU / Barcode</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product.id}>
-                  <td>{product.name}</td>
-                  <td>
-                      <div>{product.sku}</div>
-                      <div style={{ fontSize: '0.75rem', color: '#666' }}>{product.barcode || '-'}</div>
-                  </td>
-                  <td>{product.selling_price}</td>
-                  <td>
-                    <div className="stock-cell">
-                      <div className="stock-track">
-                        <div
-                          className={`stock-fill ${
-                            product.current_stock <= product.low_stock_threshold
-                              ? "stock-red"
-                              : product.current_stock <= product.low_stock_threshold * 2
-                                ? "stock-amber"
-                                : "stock-green"
-                          }`}
-                          style={{ width: `${Math.min(100, product.current_stock * 5)}%` }}
-                        />
-                      </div>
-                      <span>{product.current_stock}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span
-                      className={`pill ${
-                        product.current_stock <= product.low_stock_threshold
-                          ? "pill-red"
-                          : product.current_stock <= product.low_stock_threshold * 2
-                            ? "pill-amber"
-                            : "pill-green"
-                      }`}
-                    >
-                      {product.current_stock <= product.low_stock_threshold
-                        ? "LOW"
-                        : product.current_stock <= product.low_stock_threshold * 2
-                          ? "MEDIUM"
-                          : "HEALTHY"}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() => handleOpenEdit(product)}
-                      className="btn btn-small btn-ghost"
-                      style={{ display: "flex", alignItems: "center", gap: "4px", padding: "4px 8px" }}
-                    >
-                      <Pencil size={14} />
-                      Edit
-                    </button>
-                  </td>
+          <div className="table-responsive">
+            <table style={{ minWidth: "560px" }}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>SKU / Barcode</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th style={{ textAlign: "right" }}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {products.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.name}</td>
+                    <td>
+                        <div>{product.sku}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#666' }}>{product.barcode || '-'}</div>
+                    </td>
+                    <td>{product.selling_price}</td>
+                    <td>
+                      <div className="stock-cell">
+                        <div className="stock-track">
+                          <div
+                            className={`stock-fill ${
+                              product.current_stock <= product.low_stock_threshold
+                                ? "stock-red"
+                                : product.current_stock <= product.low_stock_threshold * 2
+                                  ? "stock-amber"
+                                  : "stock-green"
+                            }`}
+                            style={{ width: `${Math.min(100, product.current_stock * 5)}%` }}
+                          />
+                        </div>
+                        <span>{product.current_stock}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span
+                        className={`pill ${
+                          product.current_stock <= product.low_stock_threshold
+                            ? "pill-red"
+                            : product.current_stock <= product.low_stock_threshold * 2
+                              ? "pill-amber"
+                              : "pill-green"
+                        }`}
+                      >
+                        {product.current_stock <= product.low_stock_threshold
+                          ? "LOW"
+                          : product.current_stock <= product.low_stock_threshold * 2
+                            ? "MEDIUM"
+                            : "HEALTHY"}
+                      </span>
+                    </td>
+                    <td style={{ textAlign: "right", whiteSpace: "nowrap" }}>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(product)}
+                        className="ghost-btn"
+                        style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "4px 10px", fontSize: "11px", width: "auto" }}
+                      >
+                        <Pencil size={12} />
+                        Edit
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
       {showBulkImport && (

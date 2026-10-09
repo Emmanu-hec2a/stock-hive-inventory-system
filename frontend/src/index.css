@@ -944,6 +944,12 @@ table {
   font-size: 11px;
 }
 
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 thead th {
   background: var(--surface-2);
   color: var(--muted);
