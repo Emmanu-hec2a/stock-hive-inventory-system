@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Check, X, Search, Upload, AlertCircle } from "lucide-react";
+import { Check, X, Search, Upload, AlertCircle, Pencil } from "lucide-react";
 import api from "../api/client";
 import FeatureGate from "../components/FeatureGate";
 import CsvBulkImportModal from "../components/CsvBulkImportModal";
@@ -31,6 +31,18 @@ export default function ProductsPage() {
   const [isCloning, setIsCloning] = useState(false);
   const [showBulkImport, setShowBulkImport] = useState(false);
   const [barcodeLookupMessage, setBarcodeLookupMessage] = useState("");
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    sku: "",
+    barcode: "",
+    buying_price: "",
+    selling_price: "",
+    unit: "pieces",
+    low_stock_threshold: 10,
+  });
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [editError, setEditError] = useState("");
   const { user, scopedQuery, selectedShopId, subscription, shops: allShops } = useAuth();
 
   // Hook for barcode lookup with auto-fill
@@ -139,6 +151,50 @@ export default function ProductsPage() {
       setError("Catalog sync failed: " + (err.response?.data?.error || err.message));
     } finally {
       setIsCloning(false);
+    }
+  };
+
+  const handleOpenEdit = (product) => {
+    setEditingProduct(product);
+    setEditForm({
+      name: product.name || "",
+      sku: product.sku || "",
+      barcode: product.barcode || "",
+      buying_price: product.buying_price || "",
+      selling_price: product.selling_price || "",
+      unit: product.unit || "pieces",
+      low_stock_threshold: product.low_stock_threshold || 10,
+    });
+    setEditError("");
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingProduct) return;
+    setIsUpdating(true);
+    setEditError("");
+
+    try {
+      await api.patch(`/products/${editingProduct.id}/${scopedQuery}`, {
+        name: editForm.name,
+        barcode: editForm.barcode,
+        buying_price: editForm.buying_price,
+        selling_price: editForm.selling_price,
+        unit: editForm.unit,
+        low_stock_threshold: editForm.low_stock_threshold,
+      });
+      setEditingProduct(null);
+      loadProducts();
+    } catch (err) {
+      const msg = err.response?.data?.detail || err.response?.data?.sku?.[0] || "Failed to update product.";
+      setEditError(msg);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -321,6 +377,7 @@ export default function ProductsPage() {
                 <th>Price</th>
                 <th>Stock</th>
                 <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -366,6 +423,17 @@ export default function ProductsPage() {
                           : "HEALTHY"}
                     </span>
                   </td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenEdit(product)}
+                      className="btn btn-small btn-ghost"
+                      style={{ display: "flex", alignItems: "center", gap: "4px", padding: "4px 8px" }}
+                    >
+                      <Pencil size={14} />
+                      Edit
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -377,6 +445,134 @@ export default function ProductsPage() {
           onClose={() => setShowBulkImport(false)}
           onSuccess={() => loadProducts()}
         />
+      )}
+      {editingProduct && (
+        <div className="modal-overlay">
+          <div className="modal-card" style={{ maxWidth: "550px" }}>
+            <div className="modal-header">
+              <h2 className="modal-title">Edit Product</h2>
+              <button className="close-btn" onClick={() => setEditingProduct(null)}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleUpdateSubmit} className="form-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <label style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "4px", display: "block" }}>
+                    Product Name
+                  </label>
+                  <input
+                    name="name"
+                    value={editForm.name}
+                    onChange={handleEditChange}
+                    placeholder="Name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "4px", display: "block" }}>
+                    SKU (Read-Only)
+                  </label>
+                  <input
+                    name="sku"
+                    value={editForm.sku}
+                    disabled
+                    style={{ backgroundColor: "#2a2a2a", cursor: "not-allowed", opacity: 0.7 }}
+                  />
+                  <span style={{ fontSize: "10px", color: "#888", marginTop: "2px", display: "block" }}>
+                    SKU cannot be modified
+                  </span>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "4px", display: "block" }}>
+                    Barcode
+                  </label>
+                  <input
+                    name="barcode"
+                    value={editForm.barcode}
+                    onChange={handleEditChange}
+                    placeholder="Barcode"
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "4px", display: "block" }}>
+                    Buying Price (KES)
+                  </label>
+                  <input
+                    name="buying_price"
+                    type="number"
+                    step="0.01"
+                    value={editForm.buying_price}
+                    onChange={handleEditChange}
+                    placeholder="Buying Price"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "4px", display: "block" }}>
+                    Selling Price (KES)
+                  </label>
+                  <input
+                    name="selling_price"
+                    type="number"
+                    step="0.01"
+                    value={editForm.selling_price}
+                    onChange={handleEditChange}
+                    placeholder="Selling Price"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "4px", display: "block" }}>
+                    Unit
+                  </label>
+                  <input
+                    name="unit"
+                    value={editForm.unit}
+                    onChange={handleEditChange}
+                    placeholder="Unit"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: "12px", color: "var(--muted)", marginBottom: "4px", display: "block" }}>
+                    Low Stock Threshold
+                  </label>
+                  <input
+                    name="low_stock_threshold"
+                    type="number"
+                    value={editForm.low_stock_threshold}
+                    onChange={handleEditChange}
+                    placeholder="Low Stock Threshold"
+                    required
+                  />
+                </div>
+
+                {editError && (
+                  <div className="alert-bar" style={{ gridColumn: "1 / -1", display: "flex", alignItems: "center", gap: "8px" }}>
+                    <AlertCircle size={18} />
+                    {editError}
+                  </div>
+                )}
+
+                <div style={{ gridColumn: "1 / -1", display: "flex", gap: "12px", marginTop: "12px" }}>
+                  <button type="button" onClick={() => setEditingProduct(null)} className="btn btn-ghost" style={{ flex: 1 }}>
+                    Cancel
+                  </button>
+                  <button type="submit" disabled={isUpdating} className="btn btn-primary" style={{ flex: 1 }}>
+                    {isUpdating ? "Saving..." : "Save Changes"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       )}
     </section>
   );

@@ -151,6 +151,15 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_current_stock(self, obj):
         return get_current_stock(obj)
 
+    def validate_sku(self, value):
+        if self.instance and self.instance.sku != value:
+            raise serializers.ValidationError("SKU cannot be modified after product creation.")
+        return value
+
+    def update(self, instance, validated_data):
+        validated_data.pop("sku", None)
+        return super().update(instance, validated_data)
+
 
 class StockEntrySerializer(serializers.ModelSerializer):
     supplier_display_name = serializers.CharField(source="supplier.name", read_only=True)

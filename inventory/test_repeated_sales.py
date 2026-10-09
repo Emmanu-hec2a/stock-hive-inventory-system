@@ -168,3 +168,45 @@ class RepeatedSalesTestCase(APITestCase):
         # Should fail with 400 Bad Request
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("Insufficient stock", str(response.data))
+
+    def test_edit_product_success_and_sku_readonly(self):
+        """Test editing a product's name, buying price, selling price, and verifying SKU cannot be modified."""
+        self.user.role = "shop_admin"
+        self.user.save()
+
+        product_url = f"/api/products/{self.product.id}/?shop_id={self.shop.id}"
+
+        # 1. Edit product details (buying price, selling price, name)
+        update_payload = {
+            "name": "Updated Product Name",
+            "sku": self.product.sku,  # Keep same SKU
+            "buying_price": "120.00",
+            "selling_price": "180.00",
+            "unit": "units",
+            "low_stock_threshold": 10,
+        }
+
+        response = self.client.patch(product_url, update_payload, format="json")
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            f"Product patch failed: {response.data}",
+        )
+        self.assertEqual(response.data["name"], "Updated Product Name")
+        self.assertEqual(str(response.data["buying_price"]), "120.00")
+        self.assertEqual(str(response.data["selling_price"]), "180.00")
+        self.assertEqual(response.data["sku"], "TEST-SKU-001")
+
+        # 2. Attempting to change SKU on update should fail
+        invalid_sku_payload = {
+            "name": "Updated Product Name",
+            "sku": "NEW-DIFFERENT-SKU",
+            "buying_price": "120.00",
+            "selling_price": "180.00",
+            "unit": "units",
+            "low_stock_threshold": 10,
+        }
+
+        response_invalid = self.client.patch(product_url, invalid_sku_payload, format="json")
+        self.assertEqual(response_invalid.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("SKU cannot be modified", str(response_invalid.data))
